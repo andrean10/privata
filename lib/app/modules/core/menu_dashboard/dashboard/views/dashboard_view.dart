@@ -58,7 +58,7 @@ class DashboardView extends GetView<DashboardController> {
                 ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 4,
+                  crossAxisSpacing: 12,
                   childAspectRatio: 3 / 2,
                 ),
               ),
@@ -126,7 +126,7 @@ class DashboardView extends GetView<DashboardController> {
                 ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  crossAxisSpacing: 2,
+                  crossAxisSpacing: 12,
                   childAspectRatio: 2 / 2,
                 ),
               ),
@@ -183,7 +183,7 @@ class DashboardView extends GetView<DashboardController> {
                 ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 4,
+                  crossAxisSpacing: 12,
                   childAspectRatio: 3 / 2,
                 ),
               ),
@@ -235,7 +235,7 @@ class DashboardView extends GetView<DashboardController> {
                               ),
                             ),
                           )
-                        : Container(),
+                        : const SizedBox.shrink(),
                   ),
                 );
 

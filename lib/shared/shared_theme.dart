@@ -128,13 +128,16 @@ class SharedTheme {
   );
 
   static final lightThemeCupertino = CupertinoThemeData(
+    brightness: Brightness.light,
     primaryColor: _lightColorScheme.primary,
-    scaffoldBackgroundColor: _lightColorScheme.surface,
+    scaffoldBackgroundColor: _lightColorScheme.onSurface,
+    applyThemeToAll: true,
   );
 
   static final darkThemeCupertino = CupertinoThemeData(
     brightness: Brightness.dark,
     primaryColor: _darkColorScheme.primary,
     scaffoldBackgroundColor: _darkColorScheme.surface,
+    applyThemeToAll: true,
   );
 }

@@ -38,14 +38,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // defaultTargetPlatform == TargetPlatform.android
 
     if (true) {
       return GetMaterialApp(
         title: ConstantsKeys.appName,
         theme: SharedTheme.lightThemeMaterial,
         darkTheme: SharedTheme.darkThemeMaterial,
-        // themeMode: ThemeMode.dark,
+        // themeMode: ThemeMode.light,
         initialBinding: InitBinding(),
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,
@@ -68,7 +67,6 @@ class MyApp extends StatelessWidget {
         theme: (Get.isDarkMode)
             ? SharedTheme.darkThemeCupertino
             : SharedTheme.lightThemeCupertino,
-        // darkTheme: SharedTheme.darkTheme,
         initialBinding: InitBinding(),
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,

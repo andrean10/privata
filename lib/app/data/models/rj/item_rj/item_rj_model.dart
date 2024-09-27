@@ -11,7 +11,7 @@ class ItemRJModel with _$ItemRJModel {
     String? bpjsTreatment,
     String? poli,
     String? pasienFkId,
-    String? praktekFkId,
+    // String? praktekFkId,
     String? day,
     String? appDate,
     String? date,

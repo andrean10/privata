@@ -123,7 +123,7 @@ class RegisterController extends GetxController {
         errEmail.value = ConstantsStrings.errEmail;
       }
 
-      if (resCheckUsername.body['status'] != NewRegistrationStatus.exist.name) {
+      if (resCheckUsername.body['status'] == NewRegistrationStatus.exist.name) {
         errUsername.value = ConstantsStrings.errUsername;
       }
 
@@ -138,6 +138,9 @@ class RegisterController extends GetxController {
       ).toJson();
 
       final res = await _initC.authCn.register(registerModel);
+
+      _initC.logger.d('debug: res is OK = ${res.isOk}');
+      _initC.logger.d('debug: res body = ${res.body}');
 
       if (res.isOk) {
         final bodyRes = res.body;

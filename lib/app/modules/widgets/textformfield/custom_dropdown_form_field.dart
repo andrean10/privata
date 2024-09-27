@@ -66,7 +66,7 @@ class CustomDropdownFormField<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (title != '')
-          AutoSizeText(
+          Text(
             title,
             style: theme.textTheme.titleMedium,
           ),
@@ -75,9 +75,11 @@ class CustomDropdownFormField<T> extends StatelessWidget {
             ? CupertinoTextField(
                 controller: controller,
                 // focusNode: focusNode,
+                padding: const EdgeInsets.all(12),
                 placeholder: hintText,
                 readOnly: true,
                 showCursor: false,
+                enabled: isEnabled,
                 decoration: BoxDecoration(
                   border: Border.fromBorderSide(
                     BorderSide(
@@ -92,11 +94,11 @@ class CustomDropdownFormField<T> extends StatelessWidget {
                   showCupertinoModalPopup(
                     context: context,
                     builder: (context) => Container(
-                      height: 150,
+                      height: 250,
                       padding: const EdgeInsets.only(top: 4),
-                      // margin: EdgeInsets.only(
-                      //   bottom: MediaQuery.of(context).viewInsets.bottom,
-                      // ),
+                      margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ),
                       color:
                           CupertinoColors.systemBackground.resolveFrom(context),
                       child: SafeArea(

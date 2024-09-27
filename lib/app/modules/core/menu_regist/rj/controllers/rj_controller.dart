@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
+import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:privata/app/data/models/doctor/item_doctor_model.dart';
 import 'package:privata/app/data/models/doctor/result_doctor_model.dart';
 import 'package:privata/app/data/models/result/result_model.dart';
@@ -35,6 +36,10 @@ class RJController extends GetxController with StateMixin<dynamic> {
   final doctorC = TextEditingController();
   final datePatientC = TextEditingController();
   final reasonCancellationC = TextEditingController();
+  final descReasonCancellationC = TextEditingController();
+
+  final datePatientRescheduleC = TextEditingController();
+  final descReasonRescheduleC = TextEditingController();
 
   final doctorF = FocusNode();
 
@@ -44,7 +49,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
   final selectedDoctor = RxnString();
   final selectedDate = Rx(DateTime.now());
 
-  final stateAction = RxnString();
+  var selectedDateReschedule = DateTime.now();
 
   final isFabVisible = true.obs;
   final isSubFabVisible = false.obs;
@@ -79,6 +84,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
 
     _patientRegistConn = RJConnect(_initC);
     _doctorConn = DoctorConnect(_initC);
+    _statusConn = StatusConnect(_initC);
 
     hospitalId = _initC.localStorage.read<String>(ConstantsKeys.hospitalId);
 
@@ -102,8 +108,13 @@ class RJController extends GetxController with StateMixin<dynamic> {
   }
 
   void _initDate() {
-    final now = selectedDate.value;
+    final now = DateTime.now();
     datePatientC.text = FormatDateTime.dateToString(
+      newPattern: 'dd MMMM yyyy',
+      value: now.toString(),
+    );
+
+    datePatientRescheduleC.text = FormatDateTime.dateToString(
       newPattern: 'dd MMMM yyyy',
       value: now.toString(),
     );
@@ -137,8 +148,6 @@ class RJController extends GetxController with StateMixin<dynamic> {
       } else if (totalItem == itemsData.length && !isLoadingMore.value) {
         isHasReachedMax.value = true;
       }
-
-      // _initC.logger.d('debug: after isLoadingMore = ${isLoadingMore.value}');
     }
 
     if (notification is ScrollStartNotification) {
@@ -152,8 +161,319 @@ class RJController extends GetxController with StateMixin<dynamic> {
 
   void changedVisibleSubFab() => isSubFabVisible.toggle();
 
-  void onChangedStatus(String? value) {
-    stateAction.value = value;
+  void onChangedStatus({
+    required String? value,
+    required String id,
+    required int index,
+  }) {
+    isLoadingChangeState.value = true;
+    idSelected.value = id;
+
+    switch (value) {
+      case 'succeed':
+        _setStatusSucceed(
+          index: index,
+          id: id,
+        );
+        break;
+      case 'pending':
+        _setStatusPending(
+          index: index,
+          id: id,
+        );
+        break;
+      case 'reschedule':
+        _setStatusReschedule(
+          index: index,
+          id: id,
+        );
+        break;
+      case 'engaged':
+        _setStatusEngaged(
+          index: index,
+          id: id,
+        );
+        break;
+      case 'confirmed':
+        _setStatusConfirmed(
+          index: index,
+          id: id,
+        );
+        break;
+      case 'waiting':
+        _setStatusWaiting(
+          index: index,
+          id: id,
+        );
+        break;
+      case 'delete':
+        _setStatusReject(
+          index: index,
+          id: id,
+        );
+        break;
+      default:
+    }
+  }
+
+  void _setStatusSucceed({required int index, required String id}) async {
+    try {
+      final query = {'id': id};
+
+      final res = await _statusConn.succeed(query);
+
+      if (res.isOk) {
+        final updateItem = itemsData[index].copyWith(status: 'succeed');
+        itemsData[index] = updateItem;
+
+        change(itemsData, status: RxStatus.success());
+
+        Snackbar.success(
+          context: Get.context!,
+          content: 'Berhasil mengubah status pasien ke succeed',
+        );
+      } else {
+        Snackbar.failed(
+          context: Get.context!,
+          content: 'Gagal mengubah status pasien',
+        );
+      }
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: $e');
+      Snackbar.failed(
+        context: Get.context!,
+        content: 'Terjadi kesalahan saat mengubah status pasien',
+      );
+    }
+
+    isLoadingChangeState.value = false;
+    idSelected.value = '';
+  }
+
+  void _setStatusPending({required int index, required String id}) async {
+    try {
+      final query = {'id': id};
+
+      final res = await _statusConn.pending(query);
+
+      if (res.isOk) {
+        final updateItem = itemsData[index].copyWith(
+          status: 'booked',
+          confirmed: false,
+        );
+        itemsData[index] = updateItem;
+
+        change(itemsData, status: RxStatus.success());
+
+        Snackbar.success(
+          context: Get.context!,
+          content: 'Berhasil mengubah status pasien ke pending',
+        );
+      } else {
+        Snackbar.failed(
+          context: Get.context!,
+          content: 'Gagal mengubah status pasien',
+        );
+      }
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: $e');
+      Snackbar.failed(
+        context: Get.context!,
+        content: 'Terjadi kesalahan saat mengubah status pasien',
+      );
+    }
+
+    isLoadingChangeState.value = false;
+    idSelected.value = '';
+  }
+
+  void _setStatusEngaged({required int index, required String id}) async {
+    try {
+      final query = {
+        'id': id,
+        'isGenerateMr': true,
+      };
+      final res = await _statusConn.engage(query);
+
+      if (res.isOk) {
+        final updateItem = itemsData[index].copyWith(status: 'engaged');
+        itemsData[index] = updateItem;
+
+        change(itemsData, status: RxStatus.success());
+
+        Snackbar.success(
+          context: Get.context!,
+          content: 'Berhasil mengubah status pasien ke engaged',
+        );
+      } else {
+        Snackbar.failed(
+          context: Get.context!,
+          content: 'Gagal mengubah status pasien',
+        );
+      }
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: $e');
+      Snackbar.failed(
+        context: Get.context!,
+        content: 'Terjadi kesalahan saat mengubah status pasien',
+      );
+    }
+
+    isLoadingChangeState.value = false;
+    idSelected.value = '';
+  }
+
+  void _setStatusConfirmed({required int index, required String id}) async {
+    try {
+      final query = {'id': id};
+
+      final res = await _statusConn.confirmedV2(query);
+      _initC.logger.d('debug: res body ${res.body}');
+      _initC.logger.d('debug: res isOK ? ${res.isOk}');
+
+      if (res.isOk) {
+        final updateItem = itemsData[index].copyWith(
+          status: 'booked',
+          confirmed: true,
+        );
+        itemsData[index] = updateItem;
+
+        change(itemsData, status: RxStatus.success());
+
+        Snackbar.success(
+          context: Get.context!,
+          content: 'Berhasil mengubah status pasien ke confirmed',
+        );
+      } else {
+        var errorMsg = '';
+
+        if (res.statusCode == HttpStatus.preconditionFailed) {
+          final message = res.body['error']['message'];
+          if (res.body != null && message != null) {
+            errorMsg = 'karena ${message.toLowerCase()}';
+          }
+        }
+
+        Snackbar.failed(
+          context: Get.context!,
+          content: 'Gagal mengubah status pasien $errorMsg',
+        );
+      }
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: $e');
+      Snackbar.failed(
+        context: Get.context!,
+        content: 'Terjadi kesalahan saat mengubah status pasien',
+      );
+    }
+
+    isLoadingChangeState.value = false;
+    idSelected.value = '';
+  }
+
+  void _setStatusWaiting({required int index, required String id}) async {
+    try {
+      final query = {'id': id};
+
+      final res = await _statusConn.waiting(query);
+
+      if (res.isOk) {
+        final updateItem = itemsData[index].copyWith(status: 'waiting');
+        itemsData[index] = updateItem;
+
+        change(itemsData, status: RxStatus.success());
+
+        Snackbar.success(
+          context: Get.context!,
+          content: 'Berhasil mengubah status pasien ke waiting',
+        );
+      } else {
+        Snackbar.failed(
+          context: Get.context!,
+          content: 'Gagal mengubah status pasien',
+        );
+      }
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: $e');
+      Snackbar.failed(
+        context: Get.context!,
+        content: 'Terjadi kesalahan saat mengubah status pasien',
+      );
+    }
+
+    isLoadingChangeState.value = false;
+    idSelected.value = '';
+  }
+
+  void _setStatusReschedule({required int index, required String id}) async {
+    try {
+      final query = {'id': id};
+
+      final res = await _statusConn.waiting(query);
+
+      if (res.isOk) {
+        final updateItem = itemsData[index].copyWith(status: 'waiting');
+        itemsData[index] = updateItem;
+
+        change(itemsData, status: RxStatus.success());
+
+        Snackbar.success(
+          context: Get.context!,
+          content: 'Berhasil mengubah status pasien ke waiting',
+        );
+      } else {
+        Snackbar.failed(
+          context: Get.context!,
+          content: 'Gagal mengubah status pasien',
+        );
+      }
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: $e');
+      Snackbar.failed(
+        context: Get.context!,
+        content: 'Terjadi kesalahan saat mengubah status pasien',
+      );
+    }
+
+    isLoadingChangeState.value = false;
+    idSelected.value = '';
+  }
+
+  void _setStatusReject({required int index, required String id}) async {
+    try {
+      final query = {
+        'id': id,
+        'failedReason': descReasonCancellationC.text,
+        'failedSubject': 'failed by patient mistake',
+        'message': 'Janji antara dokter dan pasien ini dibatalkan',
+      };
+
+      final res = await _statusConn.reject(query);
+
+      if (res.isOk) {
+        itemsData.removeAt(index);
+        change(itemsData, status: RxStatus.success());
+
+        Snackbar.success(
+          context: Get.context!,
+          content: 'Berhasil mengubah status pasien ke failed',
+        );
+      } else {
+        Snackbar.failed(
+          context: Get.context!,
+          content: 'Gagal mengubah status pasien',
+        );
+      }
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: $e');
+      Snackbar.failed(
+        context: Get.context!,
+        content: 'Terjadi kesalahan saat mengubah status pasien',
+      );
+    }
+
+    isLoadingChangeState.value = false;
+    idSelected.value = '';
   }
 
   void setFilter() => isFilter.toggle();
@@ -169,6 +489,14 @@ class RJController extends GetxController with StateMixin<dynamic> {
       value: value.toString(),
     );
     selectedDate.value = value;
+  }
+
+  void setDateReschedule(DateTime value) {
+    datePatientRescheduleC.text = FormatDateTime.dateToString(
+      newPattern: 'dd MMMM yyyy',
+      value: value.toString(),
+    );
+    selectedDateReschedule = value;
   }
 
   void fetchDoctor(int totalLimit) async {
@@ -418,9 +746,5 @@ class RJController extends GetxController with StateMixin<dynamic> {
     currentPage = 0;
     itemsData.clear();
     isHasReachedMax.value = false;
-  }
-
-  void changeDeletedStatus({required String? id, required int index}) {
-    idSelected.value = id ?? '';
   }
 }

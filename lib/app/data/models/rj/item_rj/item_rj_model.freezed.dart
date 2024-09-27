@@ -22,8 +22,8 @@ ItemRJModel _$ItemRJModelFromJson(Map<String, dynamic> json) {
 mixin _$ItemRJModel {
   String? get bpjsTreatment => throw _privateConstructorUsedError;
   String? get poli => throw _privateConstructorUsedError;
-  String? get pasienFkId => throw _privateConstructorUsedError;
-  String? get praktekFkId => throw _privateConstructorUsedError;
+  String? get pasienFkId =>
+      throw _privateConstructorUsedError; // String? praktekFkId,
   String? get day => throw _privateConstructorUsedError;
   String? get appDate => throw _privateConstructorUsedError;
   String? get date => throw _privateConstructorUsedError;
@@ -81,7 +81,6 @@ abstract class $ItemRJModelCopyWith<$Res> {
       {String? bpjsTreatment,
       String? poli,
       String? pasienFkId,
-      String? praktekFkId,
       String? day,
       String? appDate,
       String? date,
@@ -134,7 +133,6 @@ class _$ItemRJModelCopyWithImpl<$Res, $Val extends ItemRJModel>
     Object? bpjsTreatment = freezed,
     Object? poli = freezed,
     Object? pasienFkId = freezed,
-    Object? praktekFkId = freezed,
     Object? day = freezed,
     Object? appDate = freezed,
     Object? date = freezed,
@@ -180,10 +178,6 @@ class _$ItemRJModelCopyWithImpl<$Res, $Val extends ItemRJModel>
       pasienFkId: freezed == pasienFkId
           ? _value.pasienFkId
           : pasienFkId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      praktekFkId: freezed == praktekFkId
-          ? _value.praktekFkId
-          : praktekFkId // ignore: cast_nullable_to_non_nullable
               as String?,
       day: freezed == day
           ? _value.day
@@ -341,7 +335,6 @@ abstract class _$$ItemRJModelImplCopyWith<$Res>
       {String? bpjsTreatment,
       String? poli,
       String? pasienFkId,
-      String? praktekFkId,
       String? day,
       String? appDate,
       String? date,
@@ -393,7 +386,6 @@ class __$$ItemRJModelImplCopyWithImpl<$Res>
     Object? bpjsTreatment = freezed,
     Object? poli = freezed,
     Object? pasienFkId = freezed,
-    Object? praktekFkId = freezed,
     Object? day = freezed,
     Object? appDate = freezed,
     Object? date = freezed,
@@ -439,10 +431,6 @@ class __$$ItemRJModelImplCopyWithImpl<$Res>
       pasienFkId: freezed == pasienFkId
           ? _value.pasienFkId
           : pasienFkId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      praktekFkId: freezed == praktekFkId
-          ? _value.praktekFkId
-          : praktekFkId // ignore: cast_nullable_to_non_nullable
               as String?,
       day: freezed == day
           ? _value.day
@@ -583,7 +571,6 @@ class _$ItemRJModelImpl implements _ItemRJModel {
       {this.bpjsTreatment,
       this.poli,
       this.pasienFkId,
-      this.praktekFkId,
       this.day,
       this.appDate,
       this.date,
@@ -626,8 +613,7 @@ class _$ItemRJModelImpl implements _ItemRJModel {
   final String? poli;
   @override
   final String? pasienFkId;
-  @override
-  final String? praktekFkId;
+// String? praktekFkId,
   @override
   final String? day;
   @override
@@ -704,7 +690,7 @@ class _$ItemRJModelImpl implements _ItemRJModel {
 
   @override
   String toString() {
-    return 'ItemRJModel(bpjsTreatment: $bpjsTreatment, poli: $poli, pasienFkId: $pasienFkId, praktekFkId: $praktekFkId, day: $day, appDate: $appDate, date: $date, mulai: $mulai, selesai: $selesai, estimateTime: $estimateTime, consultPlanDuration: $consultPlanDuration, status: $status, isMedicaboo: $isMedicaboo, rumahSakitId: $rumahSakitId, hp: $hp, idExt: $idExt, paymentMethod: $paymentMethod, createdAt: $createdAt, confirmed: $confirmed, startWaitingTime: $startWaitingTime, startEngageTime: $startEngageTime, procedurePlan: $procedurePlan, complaint: $complaint, triase: $triase, isBpjs: $isBpjs, finishedDate: $finishedDate, finishedId: $finishedId, isPayFirst: $isPayFirst, uniqueCode: $uniqueCode, isAntrolFKTP: $isAntrolFKTP, isAntrolFKTPV2: $isAntrolFKTPV2, id: $id, doctorName: $doctorName, createdName: $createdName, pasiens: $pasiens, encounterId: $encounterId)';
+    return 'ItemRJModel(bpjsTreatment: $bpjsTreatment, poli: $poli, pasienFkId: $pasienFkId, day: $day, appDate: $appDate, date: $date, mulai: $mulai, selesai: $selesai, estimateTime: $estimateTime, consultPlanDuration: $consultPlanDuration, status: $status, isMedicaboo: $isMedicaboo, rumahSakitId: $rumahSakitId, hp: $hp, idExt: $idExt, paymentMethod: $paymentMethod, createdAt: $createdAt, confirmed: $confirmed, startWaitingTime: $startWaitingTime, startEngageTime: $startEngageTime, procedurePlan: $procedurePlan, complaint: $complaint, triase: $triase, isBpjs: $isBpjs, finishedDate: $finishedDate, finishedId: $finishedId, isPayFirst: $isPayFirst, uniqueCode: $uniqueCode, isAntrolFKTP: $isAntrolFKTP, isAntrolFKTPV2: $isAntrolFKTPV2, id: $id, doctorName: $doctorName, createdName: $createdName, pasiens: $pasiens, encounterId: $encounterId)';
   }
 
   @override
@@ -717,8 +703,6 @@ class _$ItemRJModelImpl implements _ItemRJModel {
             (identical(other.poli, poli) || other.poli == poli) &&
             (identical(other.pasienFkId, pasienFkId) ||
                 other.pasienFkId == pasienFkId) &&
-            (identical(other.praktekFkId, praktekFkId) ||
-                other.praktekFkId == praktekFkId) &&
             (identical(other.day, day) || other.day == day) &&
             (identical(other.appDate, appDate) || other.appDate == appDate) &&
             (identical(other.date, date) || other.date == date) &&
@@ -780,7 +764,6 @@ class _$ItemRJModelImpl implements _ItemRJModel {
         bpjsTreatment,
         poli,
         pasienFkId,
-        praktekFkId,
         day,
         appDate,
         date,
@@ -834,7 +817,6 @@ abstract class _ItemRJModel implements ItemRJModel {
       {final String? bpjsTreatment,
       final String? poli,
       final String? pasienFkId,
-      final String? praktekFkId,
       final String? day,
       final String? appDate,
       final String? date,
@@ -877,9 +859,7 @@ abstract class _ItemRJModel implements ItemRJModel {
   String? get poli;
   @override
   String? get pasienFkId;
-  @override
-  String? get praktekFkId;
-  @override
+  @override // String? praktekFkId,
   String? get day;
   @override
   String? get appDate;
