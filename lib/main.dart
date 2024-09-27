@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     if (true) {
       return GetMaterialApp(
         title: ConstantsKeys.appName,

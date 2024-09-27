@@ -106,7 +106,7 @@ class CustomTextFormField extends StatelessWidget {
           ),
           const SizedBox(height: 8),
         ],
-        (GetPlatform.isIOS || GetPlatform.isMacOS)
+        (false)
             ? CupertinoTextField(
                 controller: controller,
                 focusNode: focusNode,

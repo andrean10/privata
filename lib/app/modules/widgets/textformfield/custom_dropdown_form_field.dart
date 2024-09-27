@@ -71,7 +71,7 @@ class CustomDropdownFormField<T> extends StatelessWidget {
             style: theme.textTheme.titleMedium,
           ),
         const SizedBox(height: 8),
-        (GetPlatform.isIOS || GetPlatform.isMacOS)
+        (false)
             ? CupertinoTextField(
                 controller: controller,
                 // focusNode: focusNode,

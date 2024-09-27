@@ -6,7 +6,7 @@ import '../buttons/buttons.dart';
 
 abstract class Dialogs {
   static Widget builderAction(String textButton, bool result) {
-    return (GetPlatform.isIOS || GetPlatform.isMacOS)
+    return (false)
         ? CupertinoDialogAction(
             child: Text(textButton),
             onPressed: () => Get.back(result: result),
@@ -31,10 +31,10 @@ abstract class Dialogs {
     String? textNo,
     String? textYes,
   }) {
-    return showAdaptiveDialog<bool>(
+    return showDialog<bool>(
       context: context,
       barrierDismissible: barrierDismissible,
-      builder: (context) => AlertDialog.adaptive(
+      builder: (context) => AlertDialog(
         icon: icon,
         title: Text(title),
         titleTextStyle: titleTextStyle,

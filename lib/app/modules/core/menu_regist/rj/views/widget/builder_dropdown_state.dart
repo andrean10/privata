@@ -172,7 +172,7 @@ class BuilderDropdownState extends GetView<RJController> {
                       TextFormFields.outlined(
                         controller: controller.datePatientRescheduleC,
                         isReadOnly: true,
-                        title: 'Tanggal',
+                        title: 'Tanggal*',
                         hintText: 'Pilih Tanggal',
                         keyboardType: TextInputType.datetime,
                         textInputAction: TextInputAction.done,
@@ -200,8 +200,8 @@ class BuilderDropdownState extends GetView<RJController> {
                           return TextFormFields.dropdown(
                             controller: controller.doctorC,
                             // focusNode: controller.doctorF,
-                            title: 'Dokter',
-                            hintText: 'Semua Dokter',
+                            title: 'Dokter*',
+                            hintText: 'Pilih Dokter',
                             isExpanded: true,
                             isFilled: false,
                             isEnableSearch: true,
@@ -264,6 +264,7 @@ class BuilderDropdownState extends GetView<RJController> {
                           );
                         },
                       ),
+                      const SizedBox(height: 8),
                       TextFormFields.outlined(
                         controller: controller.descReasonRescheduleC,
                         title: 'Alasan Reschedule*',
@@ -302,6 +303,12 @@ class BuilderDropdownState extends GetView<RJController> {
                     children: [
                       TextFormFields.dropdown(
                         controller: controller.reasonCancellationC,
+                        title: 'Penyebab',
+                        isExpanded: true,
+                        isFilled: false,
+                        isEnableSearch: true,
+                        isLabel: true,
+                        isDense: true,
                         items: ['pasien', 'klink']
                             .map(
                               (e) => DropdownMenuEntry(
@@ -318,7 +325,6 @@ class BuilderDropdownState extends GetView<RJController> {
                         title: 'Keterangan',
                         hintText: 'Alasan Batal',
                         keyboardType: TextInputType.multiline,
-                        // maxLines: 8,
                       ),
                     ],
                   ),
