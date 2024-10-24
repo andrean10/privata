@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
@@ -17,13 +17,13 @@ class InitController extends GetxController {
   late final GetStorage _localStorage;
   late final AuthConnect authCn;
   // late final FlutterSecureStorage sfStorage;
-  late final FirebaseAuth _auth;
+  // late final FirebaseAuth _auth;
   late final StreamSubscription<List<ConnectivityResult>>
       _subscriptionConnectivity;
 
   GetStorage get localStorage => _localStorage;
 
-  FirebaseAuth get auth => _auth;
+  // FirebaseAuth get auth => _auth;
 
   final isConnectedInternet = true.obs;
   final isRedirectLogout = false.obs;
@@ -44,7 +44,7 @@ class InitController extends GetxController {
     _localStorage = GetStorage();
     _localStorage.writeIfNull(ConstantsKeys.isFirstUsingApp, true);
     authCn = AuthConnect();
-    _auth = FirebaseAuth.instance;
+    // _auth = FirebaseAuth.instance;
 
     _listenRedirectLogout();
     _listenConnectivity();

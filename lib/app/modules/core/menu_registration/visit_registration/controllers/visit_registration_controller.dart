@@ -328,11 +328,6 @@ class VisitRegistrationController extends GetxController
     }
   }
 
-
-
-
-  
-  
   void selectedJenisKunjungan(
     int indexSelected,
     List<Map<String, Object?>> widgets,
@@ -455,7 +450,7 @@ class VisitRegistrationController extends GetxController
 
   Future<List<LocationModel>> fetchLocation(
     String filter,
-    LoadProps? props,
+    // LoadProps? props,
   ) async {
     if (hospitalId != null) {
       try {
@@ -481,7 +476,10 @@ class VisitRegistrationController extends GetxController
     return [];
   }
 
-  Future<List<DoctorModel>> fetchDoctor(String filter, LoadProps? props) async {
+  Future<List<DoctorModel>> fetchDoctor(
+    String filter,
+    // LoadProps? props,
+  ) async {
     // final skip = props?.skip ?? skipItemTenagaMedis;
     // final take = props?.take ?? 10;
     // skipItemTenagaMedis += take;
@@ -529,7 +527,10 @@ class VisitRegistrationController extends GetxController
     return dataDoctor;
   }
 
-  Future<List<SlotModel>> fetchSlot(String filter, LoadProps? props) async {
+  Future<List<SlotModel>> fetchSlot(
+    String filter,
+    // LoadProps? props,
+  ) async {
     final practiceId = tenagaMedis.value?.id;
 
     if (practiceId != null) {

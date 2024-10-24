@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
@@ -35,7 +35,7 @@ class VerifyOtpController extends GetxController {
   final isButonEnabled = false.obs;
   String? _verifId;
   int? _resToken;
-  UserCredential? _userCredential;
+  // UserCredential? _userCredential;
 
   final errMsg = RxnString();
 
@@ -81,49 +81,49 @@ class VerifyOtpController extends GetxController {
 
     final formatedNumber = TextHelper.formatNumberPhone(phone);
 
-    await _initC.auth.verifyPhoneNumber(
-      // ignore: invalid_use_of_visible_for_testing_member
-      autoRetrievedSmsCodeForTesting: '123456',
-      phoneNumber: formatedNumber,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        // _initC.logger.d('debug: verificationCompleted');
-        // _initC.logger.d('debug: credential = ${credential.toString()}');
-        final splitOTP = credential.smsCode?.split('');
-        for (var i = 0; i < listOtpC.length; i++) {
-          listOtpC[i].text = splitOTP?[i] ?? '';
-        }
+    // await _initC.auth.verifyPhoneNumber(
+    //   // ignore: invalid_use_of_visible_for_testing_member
+    //   autoRetrievedSmsCodeForTesting: '123456',
+    //   phoneNumber: formatedNumber,
+    //   verificationCompleted: (PhoneAuthCredential credential) async {
+    //     // _initC.logger.d('debug: verificationCompleted');
+    //     // _initC.logger.d('debug: credential = ${credential.toString()}');
+    //     final splitOTP = credential.smsCode?.split('');
+    //     for (var i = 0; i < listOtpC.length; i++) {
+    //       listOtpC[i].text = splitOTP?[i] ?? '';
+    //     }
 
-        _userCredential = await _initC.auth.signInWithCredential(credential);
+    //     _userCredential = await _initC.auth.signInWithCredential(credential);
 
-        _initC.logger.d('debug: splitOTP = $splitOTP');
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        _verifId = verificationId;
-        _resToken = resendToken;
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        var message = e.message;
+    //     _initC.logger.d('debug: splitOTP = $splitOTP');
+    //   },
+    //   codeSent: (String verificationId, int? resendToken) {
+    //     _verifId = verificationId;
+    //     _resToken = resendToken;
+    //   },
+    //   verificationFailed: (FirebaseAuthException e) {
+    //     var message = e.message;
 
-        if (e.code == 'too-many-requests') {
-          message =
-              'Maaf kamu terlalu banyak request OTP, silahkan coba lagi nanti';
-        }
+    //     if (e.code == 'too-many-requests') {
+    //       message =
+    //           'Maaf kamu terlalu banyak request OTP, silahkan coba lagi nanti';
+    //     }
 
-        Snackbar.failed(
-          context: Get.context!,
-          content: '$message',
-        );
-        // errMsg.value = ConstantsStrings.verifyOTPFailed;
-        _initC.logger.e('Error: verificationFailed = ${e.toString()}');
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        _initC.logger.d('debug: codeAutoRetrievalTimeout');
-        _initC.logger.d('debug: verifId = $verificationId');
-        _verifId = verificationId;
-      },
-      timeout: const Duration(minutes: 1),
-      forceResendingToken: _resToken,
-    );
+    //     Snackbar.failed(
+    //       context: Get.context!,
+    //       content: '$message',
+    //     );
+    //     // errMsg.value = ConstantsStrings.verifyOTPFailed;
+    //     _initC.logger.e('Error: verificationFailed = ${e.toString()}');
+    //   },
+    //   codeAutoRetrievalTimeout: (String verificationId) {
+    //     _initC.logger.d('debug: codeAutoRetrievalTimeout');
+    //     _initC.logger.d('debug: verifId = $verificationId');
+    //     _verifId = verificationId;
+    //   },
+    //   timeout: const Duration(minutes: 1),
+    //   forceResendingToken: _resToken,
+    // );
 
     if (isRetryOTP) {
       isLoadingRetry.value = false;
@@ -141,38 +141,36 @@ class VerifyOtpController extends GetxController {
   }
 
   Future<void> _validateOTP() async {
-    isLoading.value = true;
-    _clearError();
+    // isLoading.value = true;
+    // _clearError();
 
-    _initC.logger.d('debug: _verifId = $_verifId');
+    // // if validate automatically in mobile
+    // if (_userCredential != null) {
+    //   // await _sendVerifySMSToken(_userCredential!);
+    //   await _saveVerifyOTPPreferences();
+    //   Get.offAllNamed(Routes.PREFERENCES);
+    // } else if (_verifId != null) {
+    //   final otp = listOtpC.map((e) => e.text).join();
 
-    // if validate automatically in mobile
-    if (_userCredential != null) {
-      // await _sendVerifySMSToken(_userCredential!);
-      await _saveVerifyOTPPreferences();
-      Get.offAllNamed(Routes.PREFERENCES);
-    } else if (_verifId != null) {
-      final otp = listOtpC.map((e) => e.text).join();
+    //   // final credential = PhoneAuthProvider.credential(
+    //   //   verificationId: _verifId!,
+    //   //   smsCode: otp,
+    //   // );
 
-      final credential = PhoneAuthProvider.credential(
-        verificationId: _verifId!,
-        smsCode: otp,
-      );
+    //   await _initC.auth.signInWithCredential(credential);
+    //   await _saveVerifyOTPPreferences();
 
-      await _initC.auth.signInWithCredential(credential);
-      await _saveVerifyOTPPreferences();
+    //   Get.offAllNamed(Routes.PREFERENCES);
 
-      Get.offAllNamed(Routes.PREFERENCES);
-
-      // final userCredential = await _initC.auth.signInWithCredential(credential);
-      // await _sendVerifySMSToken(userCredential);
-    } else {
-      Snackbar.failed(
-        context: Get.context!,
-        content:
-            'Maaf sepertinya ada kesalahan sistem saat memvalidasi OTP anda, coba lagi atau kirim ulang SMS',
-      );
-    }
+    //   // final userCredential = await _initC.auth.signInWithCredential(credential);
+    //   // await _sendVerifySMSToken(userCredential);
+    // } else {
+    //   Snackbar.failed(
+    //     context: Get.context!,
+    //     content:
+    //         'Maaf sepertinya ada kesalahan sistem saat memvalidasi OTP anda, coba lagi atau kirim ulang SMS',
+    //   );
+    // }
 
     // if (otp == '123456') {
     //   // set verifiedphone
@@ -185,31 +183,31 @@ class VerifyOtpController extends GetxController {
     isLoading.value = false;
   }
 
-  Future<void> _sendVerifySMSToken(UserCredential userCredential) async {
-    try {
-      final token = _initC.localStorage.read<String>(ConstantsKeys.authToken);
-      final idTokenResult = await userCredential.user?.getIdTokenResult(true);
+  // Future<void> _sendVerifySMSToken(UserCredential userCredential) async {
+  //   try {
+  //     final token = _initC.localStorage.read<String>(ConstantsKeys.authToken);
+  //     final idTokenResult = await userCredential.user?.getIdTokenResult(true);
 
-      if (idTokenResult != null &&
-          idTokenResult.token != null &&
-          token != null) {
-        final res = await _authCn.verifyOTP(
-          token: token,
-          tokenUser: idTokenResult.token!,
-        );
+  //     if (idTokenResult != null &&
+  //         idTokenResult.token != null &&
+  //         token != null) {
+  //       final res = await _authCn.verifyOTP(
+  //         token: token,
+  //         tokenUser: idTokenResult.token!,
+  //       );
 
-        _initC.logger.d('debug: isOK = ${res.isOk}');
-        _initC.logger.d('debug: res body = ${res.body}');
+  //       _initC.logger.d('debug: isOK = ${res.isOk}');
+  //       _initC.logger.d('debug: res body = ${res.body}');
 
-        if (res.isOk) {
-          await _initC.localStorage.write(ConstantsKeys.isVerifiedPhone, true);
-          _moveToPreferences();
-        }
-      }
-    } catch (e) {
-      _initC.logger.e('Error: validateOTP = $e');
-    }
-  }
+  //       if (res.isOk) {
+  //         await _initC.localStorage.write(ConstantsKeys.isVerifiedPhone, true);
+  //         _moveToPreferences();
+  //       }
+  //     }
+  //   } catch (e) {
+  //     _initC.logger.e('Error: validateOTP = $e');
+  //   }
+  // }
 
   void retryOTP() {
     timerC.startTimer();

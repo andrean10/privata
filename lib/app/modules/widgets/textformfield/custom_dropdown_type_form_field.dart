@@ -18,15 +18,16 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
   final FocusNode? focusNode;
   final BoxConstraints? constraints;
   final bool isRequired;
-  final Mode mode;
+  // final Mode mode;
   final String title;
   final String? hintText;
   final String? hintTextSearch;
   final String? helperText;
   final String? errorText;
   final T? selectedItem;
-  final FutureOr<List<T>> Function(String filter, LoadProps? props)? items;
-  // final Future<List<T>> Function(String)? asyncItems;
+  // final FutureOr<List<T>> Function(String filter, LoadProps? props)? items;
+  final List<T>? items;
+  final Future<List<T>> Function(String filter)? asyncItems;
   final String Function(T value)? itemAsString;
   final Function(T? value)? onChanged;
   final BeforeChange<T?>? onBeforeChange;
@@ -52,7 +53,7 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
   final bool isLabel;
   final bool isFilled;
   final bool isDense;
-  final bool isItemsCached;
+  // final bool isItemsCached;
   // final bool isEnableFilter;
   // final bool? isShowKeyboard;
   // final bool isExpanded;
@@ -65,7 +66,7 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
   final TextStyle? textStyle;
   // final ValueChanged<dynamic>? onSelected;
   // final int? Function(List<DropdownMenuEntry<dynamic>>, String)? searchCallback;
-  final InfiniteScrollProps? infiniteScrollProps;
+  // final InfiniteScrollProps? infiniteScrollProps;
   final Function(List<T> items)? onItemsLoaded;
   final TypeDropDown? type;
 
@@ -75,14 +76,14 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
     this.focusNode,
     this.constraints,
     this.isRequired = false,
-    this.mode = Mode.form,
+    // this.mode = Mode.form,
     required this.title,
     this.hintText,
     this.hintTextSearch,
     this.helperText,
     this.isLabel = false,
     this.items,
-    // this.asyncItems,
+    this.asyncItems,
     this.itemAsString,
     this.selectedItem,
     this.onChanged,
@@ -103,7 +104,7 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
     this.isEnabled = true,
     this.isFilled = false,
     this.isDense = false,
-    this.isItemsCached = false,
+    // this.isItemsCached = false,
     // this.isEnableFilter = false,
     // this.isEnableSearch = true,
     // this.isShowKeyboard,
@@ -118,9 +119,10 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
     this.textStyle,
     // this.onSelected,
     // this.searchCallback,
-    this.infiniteScrollProps,
+    // this.infiniteScrollProps,
     this.onItemsLoaded,
     this.type = TypeDropDown.menu,
+    // this.mode,
   });
 
   @override
@@ -169,10 +171,10 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
     return DropdownSearch<T>(
       autoValidateMode: AutovalidateMode.onUserInteraction,
       selectedItem: selectedItem,
-      mode: mode,
-      items: items,
-      // items: items ?? [],
-      // asyncItems: asyncItems,
+      // mode: mode,
+      // items: items,
+      items: items ?? [],
+      asyncItems: asyncItems,
       itemAsString: itemAsString,
       enabled: isEnabled,
       filterFn: (compareFn == null) ? filterFn : null,
@@ -180,9 +182,9 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
       onChanged: onChanged,
       onBeforeChange: onBeforeChange,
       popupProps: builderPopupProps(theme),
-      decoratorProps: DropDownDecoratorProps(
+      dropdownDecoratorProps: DropDownDecoratorProps(
         baseStyle: textStyle,
-        decoration: InputDecoration(
+        dropdownSearchDecoration: InputDecoration(
           labelText: (isLabel) ? title : null,
           hintText: hintText ?? 'Pilih $title',
           helperText: helperText,
@@ -203,16 +205,12 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
           filled: isFilled,
           isDense: isDense,
         ),
-        isHovering: true,
+        // isHovering: true,
       ),
-      suffixProps: DropdownSuffixProps(
-        dropdownButtonProps: DropdownButtonProps(
-          focusNode: focusNode,
-          visualDensity: VisualDensity.compact,
-          iconOpened: const Icon(Icons.keyboard_arrow_up_rounded),
-          iconClosed: selectedTrailingIcon ??
-              const Icon(Icons.keyboard_arrow_down_rounded),
-        ),
+      dropdownButtonProps: DropdownButtonProps(
+        focusNode: focusNode,
+        icon: const Icon(Icons.keyboard_arrow_down_rounded),
+        selectedIcon: const Icon(Icons.keyboard_arrow_up_rounded),
       ),
       validator: validator,
     );
@@ -222,27 +220,6 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
     final textTheme = theme.textTheme;
 
     switch (type) {
-      //! Kemungkinan udah gak digunakan lagi kedepannya
-      // case TypeDropDown.menu:
-      //   return PopupProps.menu(
-      //     showSearchBox: isShowSearchBox,
-      //     fit: FlexFit.loose,
-      //     // constraints: constraints ?? const BoxConstraints(maxHeight: 350),
-      //     showSelectedItems: true,
-      //     isFilterOnline: isFilterOnline,
-      //     searchFieldProps: TextFieldProps(
-      //       decoration: InputDecoration(
-      //         hintText: 'Masukkan Pencarian',
-      //         border: OutlineInputBorder(
-      //           borderSide: BorderSide(
-      //             width: 1,
-      //             color: theme.colorScheme.outline,
-      //           ),
-      //           borderRadius: BorderRadius.circular(12),
-      //         ),
-      //       ),
-      //     ),
-      //   );
       case TypeDropDown.dialog:
         return PopupProps.dialog(
           title: Padding(
@@ -266,8 +243,8 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
             ),
           ),
           showSelectedItems: true,
-          disableFilter: isFilterOnline,
-          itemBuilder: itemBuilder,
+          isFilterOnline: isFilterOnline,
+          // itemBuilder: itemBuilder,
           loadingBuilder: loadingBuilder,
           emptyBuilder: emptyBuilder,
           errorBuilder: errorBuilder,
@@ -296,8 +273,8 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
             ),
           ),
           showSelectedItems: true,
-          disableFilter: isFilterOnline,
-          itemBuilder: itemBuilder,
+          isFilterOnline: isFilterOnline,
+          // itemBuilder: itemBuilder,
           loadingBuilder: loadingBuilder,
           emptyBuilder: emptyBuilder,
           errorBuilder: errorBuilder,
@@ -328,8 +305,8 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
             ),
           ),
           showSelectedItems: true,
-          disableFilter: isFilterOnline,
-          itemBuilder: itemBuilder,
+          isFilterOnline: isFilterOnline,
+          // itemBuilder: itemBuilder,
           loadingBuilder: loadingBuilder,
           emptyBuilder: emptyBuilder,
           errorBuilder: errorBuilder,
@@ -340,7 +317,8 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
           // constraints: const BoxConstraints(maxHeight: 200),
           showSearchBox: isShowSearchBox,
           showSelectedItems: true,
-          disableFilter: isFilterOnline,
+          // disableFilter: isFilterOnline,
+          isFilterOnline: isFilterOnline,
           disabledItemFn: disabledItemFn,
           searchFieldProps: TextFieldProps(
             decoration: InputDecoration(
@@ -355,10 +333,10 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
               ),
             ),
           ),
-          cacheItems: isItemsCached,
-          infiniteScrollProps: infiniteScrollProps,
-          onItemsLoaded: onItemsLoaded,
-          itemBuilder: itemBuilder,
+          // cacheItems: isItemsCached,
+          // infiniteScrollProps: infiniteScrollProps,
+          // onItemsLoaded: onItemsLoaded,
+          // itemBuilder: itemBuilder,
           loadingBuilder: loadingBuilder ??
               (context, searchEntry) => const Center(
                     child: CircularProgressIndicator.adaptive(),

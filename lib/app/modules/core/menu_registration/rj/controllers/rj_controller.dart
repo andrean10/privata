@@ -440,7 +440,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
 
   Future<List<DoctorModel>> fetchNewDoctor(
     String filter,
-    LoadProps? props,
+    // LoadProps? props,
   ) async {
     try {
       final filterData = {"rumahSakitId": hospitalId};

@@ -93,7 +93,7 @@ class ProfileController extends GetxController {
       try {
         final res = await _initC.authCn.logout(token);
 
-        await _initC.auth.signOut();
+        // await _initC.auth.signOut();
         await _initC.localStorage.erase();
 
         if (res.isOk) {

@@ -197,7 +197,7 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
 
   Future<List<ItemDiagnosesModel>> filterDiagnoses(
     String filter,
-    LoadProps? props,
+    // LoadProps? props,
   ) async {
     try {
       final res = await _emrConn.searchDiagnosesICD10s(filter);

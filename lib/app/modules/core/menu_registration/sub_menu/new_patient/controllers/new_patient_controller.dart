@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
@@ -8,7 +7,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:privata/app/data/models/patient/address/address_model.dart';
 import 'package:privata/app/data/models/rj/item_rj/patient/payment_method/payment_method_model.dart';
 import 'package:privata/app/data/models/rj/item_rj/patient/ph/ph_model.dart';
-import 'package:privata/app/helpers/helper.dart';
 import 'package:privata/app/helpers/text_helper.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 import 'package:privata/utils/constants_keys.dart';
@@ -31,8 +29,6 @@ class NewPatientController extends GetxController {
   late final RJConnect _rjCn;
 
   late final String? _hospitalId;
-
-  final cropC = CropController();
 
   final formKey = GlobalKey<FormState>();
   final fullNameC = TextEditingController();

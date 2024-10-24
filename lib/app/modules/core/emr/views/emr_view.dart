@@ -453,7 +453,7 @@ class EmrView extends GetView<EmrController> {
           hintTextSearch: 'Cari Diagnosa',
           isLabel: true,
           isShowSearchBox: true,
-          items: controller.filterDiagnoses,
+          asyncItems: controller.filterDiagnoses,
           itemAsString: (value) => value.description ?? '',
           onBeforeChange: controller.addDiagnosa,
         ),

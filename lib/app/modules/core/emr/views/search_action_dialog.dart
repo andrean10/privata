@@ -64,7 +64,7 @@ class SearchActionDialog extends GetView<SearchActionController> {
       hintText: 'Cari ${controller.title}',
       isLabel: true,
       isShowSearchBox: true,
-      items: (filter, props) => controller.searchProcedure(filter),
+      asyncItems: controller.searchProcedure,
       itemAsString: (value) => value.name ?? '-',
       onBeforeChange: (prevItem, nextItem) {
         if (nextItem != null) {

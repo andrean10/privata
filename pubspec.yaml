@@ -30,12 +30,12 @@ environment:
 dependencies:
   auto_size_text: ^3.0.0
   connectivity_plus: ^6.0.5
-  crop_your_image: ^1.1.0
+  # crop_your_image: ^1.1.0
   cupertino_icons: ^1.0.6
   device_info_plus: ^11.1.0
-  dropdown_search: ^6.0.0
-  firebase_app_check: ^0.3.0+4
-  firebase_auth: ^5.1.4
+  dropdown_search: ^5.0.6
+  # firebase_app_check: ^0.3.0+4
+  # firebase_auth: ^5.1.4
   firebase_core: ^3.3.0
   flutter:
     sdk: flutter

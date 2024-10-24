@@ -17,15 +17,16 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
   final FocusNode? focusNode;
   final BoxConstraints? constraints;
   final bool isRequired;
-  final Mode mode;
+  // final Mode mode;
   final String title;
   final String? hintText;
   final String? hintTextSearch;
   final String? helperText;
   final String? errorText;
   final List<T>? selectedItem;
-  final FutureOr<List<T>> Function(String filter, LoadProps? props)? items;
-  // final Future<List<T>> Function(String)? asyncItems;
+  // final FutureOr<List<T>> Function(String filter, LoadProps? props)? items;
+  final List<T>? items;
+  final Future<List<T>> Function(String filter)? asyncItems;
   final String Function(T value)? itemAsString;
   final Future<bool?> Function(List<T> prevItems, List<T> nextItems)?
       onBeforeChange;
@@ -46,9 +47,14 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
     bool isDisabled,
     bool isSelected,
   )? itemBuilder;
+  // final Widget Function(
+  //         BuildContext context, T item, bool isDisabled, bool isSelected)?
+  //     checkBoxBuilder;
   final Widget Function(
-          BuildContext context, T item, bool isDisabled, bool isSelected)?
-      checkBoxBuilder;
+    BuildContext context,
+    T item,
+    bool isSelected,
+  )? selectionWidget;
   final Widget Function(BuildContext context, String)? loadingBuilder;
   final Widget Function(BuildContext context, String)? emptyBuilder;
   final Widget Function(BuildContext context, String, dynamic)? errorBuilder;
@@ -57,11 +63,11 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
   final bool isLabel;
   final bool isFilled;
   final bool isDense;
-  final bool isItemsCached;
+  // final bool isItemsCached;
   final Widget? selectedTrailingIcon;
   final TextStyle? textStyle;
-  final InfiniteScrollProps? infiniteScrollProps;
-  final Function(List<T> items)? onItemsLoaded;
+  // final InfiniteScrollProps? infiniteScrollProps;
+  // final Function(List<T> items)? onItemsLoaded;
   final TypeDropDown? type;
 
   const CustomDropdownTypeFormFieldMultiSelection({
@@ -69,13 +75,14 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
     this.focusNode,
     this.constraints,
     this.isRequired = false,
-    this.mode = Mode.form,
+    // this.mode = Mode.form,
     required this.title,
     this.hintText,
     this.hintTextSearch,
     this.helperText,
     this.isLabel = false,
     this.items,
+    this.asyncItems,
     this.itemAsString,
     this.selectedItem,
     this.onChanged,
@@ -90,7 +97,8 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
     this.isFilterOnline = false,
     this.dropdownBuilder,
     this.itemBuilder,
-    this.checkBoxBuilder,
+    // this.checkBoxBuilder,
+    this.selectionWidget,
     this.emptyBuilder,
     this.errorBuilder,
     this.loadingBuilder,
@@ -98,13 +106,14 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
     this.isEnabled = true,
     this.isFilled = false,
     this.isDense = false,
-    this.isItemsCached = false,
+    // this.isItemsCached = false,
     this.selectedTrailingIcon,
     this.errorText,
     this.textStyle,
-    this.infiniteScrollProps,
-    this.onItemsLoaded,
+    // this.infiniteScrollProps,
+    // this.onItemsLoaded,
     this.type = TypeDropDown.menu,
+    // this.mode,
   });
 
   @override
@@ -153,8 +162,9 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
     return DropdownSearch<T>.multiSelection(
       autoValidateMode: AutovalidateMode.onUserInteraction,
       selectedItems: selectedItem ?? [],
-      mode: mode,
-      items: items,
+      // mode: mode,
+      items: items ?? [],
+      asyncItems: asyncItems,
       itemAsString: itemAsString,
       enabled: isEnabled,
       filterFn: (compareFn == null) ? filterFn : null,
@@ -163,14 +173,9 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
       popupProps: builderPopupProps(theme),
       dropdownBuilder: dropdownBuilder,
       onBeforeChange: onBeforeChange,
-      onBeforePopupOpening: (selectedItem) {
-        print('onBeforePopupOpening: ');
-        print('selectedItem = $selectedItem');
-        return Future.value(true);
-      },
-      decoratorProps: DropDownDecoratorProps(
+      dropdownDecoratorProps: DropDownDecoratorProps(
         baseStyle: textStyle,
-        decoration: InputDecoration(
+        dropdownSearchDecoration: InputDecoration(
           labelText: (isLabel) ? title : null,
           hintText: hintText ?? 'Pilih $title',
           helperText: helperText,
@@ -191,17 +196,22 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
           filled: isFilled,
           isDense: isDense,
         ),
-        isHovering: true,
+        // isHovering: true,
       ),
-      suffixProps: DropdownSuffixProps(
-        dropdownButtonProps: DropdownButtonProps(
-          focusNode: focusNode,
-          visualDensity: VisualDensity.compact,
-          iconOpened: const Icon(Icons.keyboard_arrow_up_rounded),
-          iconClosed: selectedTrailingIcon ??
-              const Icon(Icons.keyboard_arrow_down_rounded),
-        ),
+      dropdownButtonProps: DropdownButtonProps(
+        focusNode: focusNode,
+        icon: const Icon(Icons.keyboard_arrow_down_rounded),
+        selectedIcon: const Icon(Icons.keyboard_arrow_up_rounded),
       ),
+      // dropdownButtonProps: DropdownSuffixProps(
+      //   dropdownButtonProps: DropdownButtonProps(
+      //     focusNode: focusNode,
+      //     visualDensity: VisualDensity.compact,
+      //     iconOpened: const Icon(Icons.keyboard_arrow_up_rounded),
+      //     iconClosed: selectedTrailingIcon ??
+      //         const Icon(Icons.keyboard_arrow_down_rounded),
+      //   ),
+      // ),
       validator: validator,
     );
   }
@@ -233,8 +243,9 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
             ),
           ),
           showSelectedItems: true,
-          disableFilter: isFilterOnline,
-          itemBuilder: itemBuilder,
+          isFilterOnline: isFilterOnline,
+          // disableFilter: isFilterOnline,
+          // itemBuilder: itemBuilder,
           loadingBuilder: loadingBuilder,
           emptyBuilder: emptyBuilder,
           errorBuilder: errorBuilder,
@@ -263,8 +274,9 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
             ),
           ),
           showSelectedItems: true,
-          disableFilter: isFilterOnline,
-          itemBuilder: itemBuilder,
+          isFilterOnline: isFilterOnline,
+          // disableFilter: isFilterOnline,
+          // itemBuilder: itemBuilder,
           loadingBuilder: loadingBuilder,
           emptyBuilder: emptyBuilder,
           errorBuilder: errorBuilder,
@@ -295,8 +307,9 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
             ),
           ),
           showSelectedItems: true,
-          disableFilter: isFilterOnline,
-          itemBuilder: itemBuilder,
+          // disableFilter: isFilterOnline,
+          isFilterOnline: isFilterOnline,
+          // itemBuilder: itemBuilder,
           loadingBuilder: loadingBuilder,
           emptyBuilder: emptyBuilder,
           errorBuilder: errorBuilder,
@@ -307,9 +320,11 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
           constraints: constraints ?? const BoxConstraints(maxHeight: 350),
           showSearchBox: isShowSearchBox,
           showSelectedItems: true,
-          disableFilter: isFilterOnline,
+          // disableFilter: isFilterOnline,
+          isFilterOnline: isFilterOnline,
           disabledItemFn: disabledItemFn,
-          checkBoxBuilder: checkBoxBuilder,
+          // checkBoxBuilder: checkBoxBuilder,
+          selectionWidget: selectionWidget,
           searchFieldProps: TextFieldProps(
             decoration: InputDecoration(
               isDense: isDense,
@@ -323,20 +338,20 @@ class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
               ),
             ),
           ),
-          cacheItems: isItemsCached,
-          infiniteScrollProps: infiniteScrollProps,
-          onItemsLoaded: onItemsLoaded,
-          itemBuilder: itemBuilder,
-          onItemAdded: (selectedItems, addedItem) {
-            print('onItemAdded: ');
-            print('selectedItems = $selectedItems');
-            print('addedItem = $addedItem');
-          },
-          onItemRemoved: (selectedItems, removedItem) {
-            print('onItemRemoved: ');
-            print('selectedItems = $selectedItems');
-            print('removedItem = $removedItem');
-          },
+          // cacheItems: isItemsCached,
+          // infiniteScrollProps: infiniteScrollProps,
+          // onItemsLoaded: onItemsLoaded,
+          // itemBuilder: itemBuilder,
+          // onItemAdded: (selectedItems, addedItem) {
+          //   print('onItemAdded: ');
+          //   print('selectedItems = $selectedItems');
+          //   print('addedItem = $addedItem');
+          // },
+          // onItemRemoved: (selectedItems, removedItem) {
+          //   print('onItemRemoved: ');
+          //   print('selectedItems = $selectedItems');
+          //   print('removedItem = $removedItem');
+          // },
           loadingBuilder: loadingBuilder ??
               (context, searchEntry) => const Center(
                     child: CircularProgressIndicator.adaptive(),

@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
@@ -274,12 +273,12 @@ class RJView extends GetView<RJController> {
           // Obx(
           //   () { return
           CustomDropdownTypeFormField(
-            mode: Mode.form,
+            // mode: Mode.form,
             title: 'Dokter',
             hintText: 'Semua Dokter',
             hintTextSearch: 'Cari Nama Dokter',
             // selectedItem: controller.selectedDoctorFilter.value,
-            items: controller.fetchNewDoctor,
+            asyncItems: controller.fetchNewDoctor,
             itemAsString: (value) {
               final doctorName =
                   value.dokters?.gelar?.replaceFirst('*', value.nama ?? '') ??
@@ -287,7 +286,7 @@ class RJView extends GetView<RJController> {
               return doctorName;
             },
             isDense: true,
-            isItemsCached: true,
+            // isItemsCached: true,
             isShowSearchBox: true,
             // ),
 

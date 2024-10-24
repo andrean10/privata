@@ -128,29 +128,30 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
   }
 
   Widget builderPenjamin(RJPatientModel? data) {
+    final pribadi = '${controller.args.nama} (pribadi)';
+    List<String> penjamin = [pribadi];
+
+    if (data != null && data.family != null && data.family!.isNotEmpty) {
+      final map = data.family!
+          .where((element) => element.name != null)
+          .map(
+            (e) => e.name!,
+          )
+          .toList();
+
+      penjamin.addAll(map);
+    }
+
     return Obx(
       () => CustomDropdownTypeFormField(
         isRequired: true,
         title: 'Penjamin',
         isFilled: true,
         selectedItem: controller.penjamin.value,
-        items: (filter, props) {
-          final pribadi = '${controller.args.nama} (pribadi)';
-          List<String> penjamin = [pribadi];
-
-          if (data != null && data.family != null && data.family!.isNotEmpty) {
-            final map = data.family!
-                .where((element) => element.name != null)
-                .map(
-                  (e) => e.name!,
-                )
-                .toList();
-
-            penjamin.addAll(map);
-          }
-
-          return penjamin;
-        },
+        items: penjamin,
+        // asyncItems: (filter) {
+        //   return penjamin;
+        // },
         validator: (value) => Validation.formField(
           titleField: 'Penjamin',
           value: value,
@@ -167,7 +168,8 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         title: 'Metode Pembayaran',
         isFilled: true,
         selectedItem: controller.metodePembayaran.value,
-        items: (filter, props) => ConstantsStrings.dataMethodPayment,
+        // items: (filter, props) => ConstantsStrings.dataMethodPayment,
+        items: ConstantsStrings.dataMethodPayment,
         onChanged: controller.onChangedPaymentMethod,
         validator: (value) => Validation.formField(
           titleField: 'Metode pembayaran',
@@ -283,7 +285,8 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         title: 'Jenis Kunjungan',
         isFilled: true,
         selectedItem: controller.jenisKunjungan.value,
-        items: (filter, props) => ConstantsStrings.dataVisitType,
+        // items: (filter, props) => ConstantsStrings.dataVisitType,
+        items: ConstantsStrings.dataVisitType,
         itemAsString: (value) => value,
         validator: (value) => Validation.formField(
           titleField: 'jenis kunjungan',
@@ -301,7 +304,8 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         title: 'Jenis Perawatan',
         isFilled: true,
         selectedItem: controller.jenisPerawatan.value,
-        items: (filter, props) => ConstantsStrings.dataServiceType,
+        // items: (filter, props) => ConstantsStrings.dataServiceType,
+        items: ConstantsStrings.dataServiceType,
         itemAsString: (value) => value,
         validator: (value) => Validation.formField(
           titleField: 'jenis perawatan',
@@ -380,10 +384,10 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         isRequired: true,
         title: 'Lokasi',
         isFilled: true,
-        isItemsCached: true,
+        // isItemsCached: true,
         disabledItemFn: (item) => item == controller.lokasi.value,
         selectedItem: controller.lokasi.value,
-        items: controller.fetchLocation,
+        asyncItems: controller.fetchLocation,
         itemAsString: (value) => value.locationName ?? '',
         onChanged: controller.onChangedLocation,
         validator: (value) => Validation.formField(
@@ -401,10 +405,11 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         isRequired: true,
         title: 'Poli',
         isFilled: true,
-        isItemsCached: true,
+        // isItemsCached: true,
         isEnabled: controller.lokasi.value != null,
         selectedItem: controller.poli.value,
-        items: (filter, props) => ConstantsStrings.dataPoly,
+        // items: (filter, props) => ConstantsStrings.dataPoly,
+        items: ConstantsStrings.dataPoly,
         itemAsString: (value) => value,
         validator: (value) => Validation.formField(
           titleField: 'Poli',
@@ -421,9 +426,9 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         isRequired: true,
         title: 'Tenaga Medis',
         isFilled: true,
-        isItemsCached: true,
+        // isItemsCached: true,
         selectedItem: controller.tenagaMedis.value,
-        items: controller.fetchDoctor,
+        asyncItems: controller.fetchDoctor,
         itemAsString: (value) => TextHelper.replacePrefixText(
           prefix: '*',
           value: value.nama,
@@ -478,9 +483,9 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         title: 'Slot',
         helperText: 'Pilih slot jadwal dokter',
         isFilled: true,
-        isItemsCached: true,
+        // isItemsCached: true,
         selectedItem: controller.slot.value,
-        items: controller.fetchSlot,
+        asyncItems: controller.fetchSlot,
         itemAsString: controller.formatSlotTime,
         isEnabled: controller.tenagaMedis.value != null,
         onChanged: controller.onChangedSlot,
@@ -839,7 +844,6 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
     );
   }
 }
-
 
 // import 'package:flutter/material.dart';
 
