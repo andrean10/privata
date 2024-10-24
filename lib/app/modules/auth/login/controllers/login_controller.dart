@@ -1,21 +1,27 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/data/models/login/login_model.dart';
 import 'package:privata/app/data/models/login/response/response_login_model.dart';
 
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
+import 'package:privata/app/modules/widgets/snackbar/snackbar.dart';
 
 import '../../../../../utils/constants_keys.dart';
 import '../../../../../utils/constants_strings.dart';
+import '../../../../helpers/helper.dart';
 import '../../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
   late final InitController _initC;
 
+  // Position? position;
+
   final formKey = GlobalKey<FormState>();
-  final emailC = TextEditingController();
-  final passwordC = TextEditingController();
+  final emailC = TextEditingController(text: 'andrean.ramadhan@assist.id');
+  final passwordC = TextEditingController(text: '12345678');
 
   final emailF = FocusNode();
   final passwordF = FocusNode();
@@ -39,6 +45,32 @@ class LoginController extends GetxController {
     }
 
     _initTextC();
+    // _fetchLocation();
+    _fetchDeviceInfo();
+  }
+
+  // Future<void> _fetchLocation() async {
+  //   try {
+  //     position = await _initC.determinePosition();
+  //   } catch (e) {
+  //     Snackbar.failed(context: Get.context!, content: '$e');
+  //   }
+  // }
+
+  Future<void> _fetchDeviceInfo() async {
+    try {
+      final deviceInfoPlugin = DeviceInfoPlugin();
+      final deviceInfo = await deviceInfoPlugin.deviceInfo;
+      final allInfo = deviceInfo.data;
+      inspect(allInfo);
+      // Helper.printPrettyJson(allInfo);
+    } catch (e) {
+      _initC.logger.e('error: $e');
+      Snackbar.failed(
+        context: Get.context!,
+        content: 'Gagal mengambil info device',
+      );
+    }
   }
 
   void _initTextC() {
@@ -70,12 +102,23 @@ class LoginController extends GetxController {
     try {
       isLoading.value = true;
 
-      final login = LoginModel(
+      var login = LoginModel(
         username: email.value,
         password: password.value,
-      ).toJson();
+        isMobile: false,
+      );
 
-      final res = await _initC.authCn.login(login);
+      //todo: nanti ditambahkan untuk posisi
+      // if (position != null) {
+      //   login = login.copyWith.call(
+      //     location: PositionModel(
+      //       latitude: '${position!.latitude}',
+      //       longitude: '${position!.longitude}',
+      //     ),
+      //   );
+      // }
+
+      final res = await _initC.authCn.login(login.toJson());
 
       if (res.isOk) {
         final response = res.body;
@@ -95,7 +138,12 @@ class LoginController extends GetxController {
           errMsg.value = ConstantsStrings.errLogin;
         }
       } else {
-        errMsg.value = ConstantsStrings.errLogin;
+        if (res.status.isUnauthorized) {
+          _initC.isRedirectLogout.value = true;
+        } else {
+          _initC.handleError(status: res.status);
+          errMsg.value = ConstantsStrings.errLogin;
+        }
       }
     } catch (e) {
       _initC.logger.e('Error: checkAuth $e');
@@ -106,8 +154,12 @@ class LoginController extends GetxController {
   }
 
   Future<void> _saveLoginToPreferences(ResponseLoginModel res) async {
+    //todo disini untuk ganti klinik nanti ya
     _initC.localStorage
       ..write(ConstantsKeys.authToken, res.id)
+      ..write(ConstantsKeys.createdId, res.user?.id)
+      ..write(ConstantsKeys.createdName, res.user?.nama)
+      ..write(ConstantsKeys.email, res.user?.email)
       ..write(ConstantsKeys.configId, res.user?.links?.first.configId)
       ..write(ConstantsKeys.hospitalId, res.user?.links?.first.hospitalId)
       ..write(ConstantsKeys.linkId, res.user?.links?.first.id)
@@ -129,7 +181,5 @@ class LoginController extends GetxController {
 
   void moveToVerifyPhone() => Get.toNamed(Routes.VERIFY_OTP);
 
-  void clearError() {
-    errMsg.value = null;
-  }
+  void clearError() => errMsg.value = null;
 }

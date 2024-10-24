@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:privata/app/data/models/drugs/drugs_model.dart';
+import 'package:privata/app/data/db/drugs/drugs_model.dart';
 import 'package:privata/app/helpers/text_helper.dart';
 import 'package:privata/shared/shared_theme.dart';
 import 'package:privata/utils/constants_assets.dart';
@@ -368,7 +368,7 @@ class TransactionView extends GetView<TransactionController> {
               titleField: 'Unit',
               isNotZero: true,
               isNumericOnly: true,
-              maxLength: product.stock,
+              maxLengthChar: product.stock,
               messageMaxChar: 'Jumlah unit tidak boleh melebihi stok',
             ),
           ),

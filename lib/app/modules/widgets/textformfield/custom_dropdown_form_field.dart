@@ -1,12 +1,14 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:privata/app/helpers/text_helper.dart';
 
 class CustomDropdownFormField<T> extends StatelessWidget {
+  final T? initialSelection;
   final String title;
   final String? hintText;
-  final T? initialSelection;
+  final String? helperText;
+  final bool isRequired;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final double? width;
@@ -26,17 +28,19 @@ class CustomDropdownFormField<T> extends StatelessWidget {
   final Widget? selectedTrailignIcon;
   final String? errorText;
   final TextStyle? textStyle;
-  final ValueChanged<dynamic>? onSelected;
-  final int? Function(List<DropdownMenuEntry<dynamic>>, String)? searchCallback;
+  final ValueChanged<T?>? onSelected;
+  final int? Function(List<DropdownMenuEntry<T>>, String)? searchCallback;
 
   const CustomDropdownFormField({
     super.key,
     this.initialSelection,
     this.controller,
     this.focusNode,
+    this.isRequired = false,
     this.width,
     required this.title,
     this.hintText,
+    this.helperText,
     required this.items,
     this.isEnabled = true,
     this.isEnableFilter = false,
@@ -61,103 +65,77 @@ class CustomDropdownFormField<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaWidth = context.width;
     final theme = context.theme;
+    final textTheme = context.textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != '')
-          Text(
-            title,
-            style: theme.textTheme.titleMedium,
-          ),
+        builderTitle(theme, textTheme),
         const SizedBox(height: 8),
-        (false)
-            ? CupertinoTextField(
-                controller: controller,
-                // focusNode: focusNode,
-                padding: const EdgeInsets.all(12),
-                placeholder: hintText,
-                readOnly: true,
-                showCursor: false,
-                enabled: isEnabled,
-                decoration: BoxDecoration(
-                  border: Border.fromBorderSide(
-                    BorderSide(
-                      width: 1,
-                      color: theme.colorScheme.outline,
-                    ),
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                suffix: const Icon(Icons.keyboard_arrow_down_rounded),
-                onTap: () {
-                  showCupertinoModalPopup(
-                    context: context,
-                    builder: (context) => Container(
-                      height: 250,
-                      padding: const EdgeInsets.only(top: 4),
-                      margin: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom,
-                      ),
-                      color:
-                          CupertinoColors.systemBackground.resolveFrom(context),
-                      child: SafeArea(
-                        top: false,
-                        child: CupertinoPicker(
-                          itemExtent: 32,
-                          onSelectedItemChanged: (value) {
-                            controller?.text = items[value].label;
-                          },
-                          children: items
-                              .map(
-                                (e) => Text(e.label),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              )
-            : DropdownMenu<T>(
-                initialSelection: initialSelection,
-                controller: controller,
-                focusNode: focusNode,
-                width: width ?? mediaWidth / 1.1,
-                hintText: hintText ?? 'Pilih Item',
-                dropdownMenuEntries: items,
-                enabled: isEnabled,
-                enableSearch: isEnableSearch,
-                requestFocusOnTap: isShowKeyboard,
-                enableFilter: isEnableFilter,
-                expandedInsets: isExpanded ? EdgeInsets.zero : null,
-                menuHeight: menuHeight,
-                leadingIcon: leadingIcon,
-                trailingIcon: trailingIcon ??
-                    const Icon(Icons.keyboard_arrow_down_rounded),
-                selectedTrailingIcon: selectedTrailignIcon ??
-                    const Icon(Icons.keyboard_arrow_up_rounded),
-                errorText: errorText,
-                textStyle: textStyle,
-                label: (!isLabel) ? Text(title) : null,
-                inputDecorationTheme: InputDecorationTheme(
-                  isDense: isDense,
-                  errorMaxLines: 2,
-                  border: (!isFilled)
-                      ? OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: theme.colorScheme.outline,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        )
-                      : null,
-                  filled: isFilled,
-                ),
-                onSelected: onSelected,
-                searchCallback: searchCallback,
-              )
+        builderDropdown(mediaWidth, theme)
       ],
+    );
+  }
+
+  Widget builderTitle(ThemeData theme, TextTheme textTheme) {
+    if (title != '') {
+      if (isRequired) {
+        return TextHelper.buildRichText(
+          text: '$title *',
+          highlight: '*',
+          highlightStyle: textTheme.titleMedium!.copyWith(color: Colors.red),
+          defaultStyle: textTheme.titleMedium,
+        );
+      } else {
+        return Text(
+          title,
+          style: theme.textTheme.titleMedium,
+        );
+      }
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  Widget builderDropdown(double mediaWidth, ThemeData theme) {
+    return DropdownMenu<T>(
+      initialSelection: initialSelection,
+      controller: controller,
+      focusNode: focusNode,
+      width: width ?? mediaWidth / 1.1,
+      hintText: hintText ?? 'Pilih Item',
+      helperText: helperText,
+      dropdownMenuEntries: items,
+      enabled: isEnabled,
+      enableSearch: isEnableSearch,
+      requestFocusOnTap: isShowKeyboard,
+      enableFilter: isEnableFilter,
+      expandedInsets: isExpanded ? EdgeInsets.zero : null,
+      menuHeight: menuHeight,
+      leadingIcon: leadingIcon,
+      trailingIcon:
+          trailingIcon ?? const Icon(Icons.keyboard_arrow_down_rounded),
+      selectedTrailingIcon:
+          selectedTrailignIcon ?? const Icon(Icons.keyboard_arrow_up_rounded),
+      errorText: errorText,
+      textStyle: textStyle,
+      label: (!isLabel) ? Text(title) : null,
+      inputDecorationTheme: InputDecorationTheme(
+        isDense: isDense,
+        errorMaxLines: 2,
+        border: (!isFilled)
+            ? OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 1,
+                  color: theme.colorScheme.outline,
+                ),
+                borderRadius: BorderRadius.circular(12),
+              )
+            : null,
+        filled: isFilled,
+      ),
+      onSelected: onSelected,
+      searchCallback: searchCallback,
     );
   }
 }

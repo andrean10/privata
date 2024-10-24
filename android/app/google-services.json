@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "791781374835",
-    "project_id": "robust-caldron-428902-r5",
-    "storage_bucket": "robust-caldron-428902-r5.appspot.com"
+    "project_number": "242581042731",
+    "project_id": "jagaanugrahgiatasa-187e5",
+    "storage_bucket": "jagaanugrahgiatasa-187e5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:791781374835:android:3838362fc5727b1061e306",
+        "mobilesdk_app_id": "1:242581042731:android:4eac98347eac516e035c6e",
         "android_client_info": {
           "package_name": "com.assistid.privata"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB4d_Ph_kV4zyHlrnUEwwxWG-OR7Twebhw"
+          "current_key": "AIzaSyCVlLyuVDcXsaASR4ZJMmMgMngsP5EnidY"
         }
       ],
       "services": {

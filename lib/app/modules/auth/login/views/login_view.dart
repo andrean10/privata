@@ -22,16 +22,6 @@ class LoginView extends GetView<LoginController> {
     final textTheme = context.textTheme;
     final orientation = context.orientation;
 
-    // if (defaultTargetPlatform == TargetPlatform.macOS) {
-    //   return CupertinoPageScaffold(
-    //     child: builderBody(
-    //       orientation: orientation,
-    //       width: width,
-    //       textTheme: textTheme,
-    //     ),
-    //   );
-    // }
-
     return Scaffold(
       body: builderBody(
         orientation: orientation,
@@ -151,7 +141,7 @@ class LoginView extends GetView<LoginController> {
         validator: (value) => Validation.formField(
           value: value,
           titleField: ConstantsStrings.password,
-          minLength: 6,
+          minLengthChar: 6,
         ),
         errorText: controller.errMsg.value,
         onFieldSubmitted: (_) => controller.confirm(),

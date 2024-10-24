@@ -50,6 +50,7 @@ class DashboardController extends GetxController {
         _initC.localStorage.read<String>(ConstantsKeys.hospitalId) ?? '';
     _dateNow = DateTime.now();
 
+    // listen connection internet
     ever(
       _initC.isConnectedInternet,
       (value) {
@@ -62,7 +63,7 @@ class DashboardController extends GetxController {
     fetchAllData();
   }
 
-  Future<void> fetchAllData() async {
+  void fetchAllData() async {
     _fetchIncome();
     _fetchOutcome();
     _fetchAppointment(AppointmentStatus.all);
@@ -85,10 +86,7 @@ class DashboardController extends GetxController {
           income.value = response['income'] as int?;
         }
       } else {
-        if (res.statusCode == 401) {
-          // redirect page to login
-          _initC.isRedirectLogout.value = true;
-        }
+        _initC.handleError(status: res.status);
       }
     } on GetHttpException catch (e) {
       _initC.logger.e('Error: fetchIncome ${e.toString()}');
@@ -108,10 +106,7 @@ class DashboardController extends GetxController {
           outcome.value = response['outcome'] as int?;
         }
       } else {
-        if (res.statusCode == 401) {
-          // redirect page to login
-          _initC.isRedirectLogout.value = true;
-        }
+        _initC.handleError(status: res.status);
       }
     } on GetHttpException catch (e) {
       _initC.logger.e('Error: fetchOutcome ${e.toString()}');
@@ -181,10 +176,7 @@ class DashboardController extends GetxController {
           }
         }
       } else {
-        if (res.statusCode == 401) {
-          // redirect page to login
-          _initC.isRedirectLogout.value = true;
-        }
+        _initC.handleError(status: res.status);
       }
     } catch (e) {
       _initC.logger.e('Error: fetchAppointment = ${e.toString()}');
@@ -247,13 +239,10 @@ class DashboardController extends GetxController {
           notPaid.value = 0;
         }
       } else {
-        if (res.statusCode == 401) {
-          // redirect page to login
-          _initC.isRedirectLogout.value = true;
-        }
+        _initC.handleError(status: res.status);
       }
-    } catch (e) {
-      _initC.logger.e('Error: fetchAppointment = ${e.toString()}');
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: fetchCashierQueue = ${e.toString()}');
     }
   }
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:privata/app/data/models/user/users_model.dart';
 
-import '../../../../../data/models/drugs/drugs_model.dart';
+
+import '../../../../../data/db/drugs/drugs_model.dart';
+import '../../../../../data/db/user/users_model.dart';
 import '../../../../../routes/app_pages.dart';
 import '../../../../init/controllers/init_controller.dart';
 

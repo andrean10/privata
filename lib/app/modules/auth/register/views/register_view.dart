@@ -206,7 +206,7 @@ class RegisterView extends GetView<RegisterController> {
         validator: (value) => Validation.formField(
           value: value,
           titleField: ConstantsStrings.password,
-          minLength: 6,
+          minLengthChar: 6,
         ),
         errorText: controller.errMsg.value,
         onFieldSubmitted: (_) => controller.confirm(),

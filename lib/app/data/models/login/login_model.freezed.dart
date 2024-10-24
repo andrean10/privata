@@ -22,6 +22,10 @@ LoginModel _$LoginModelFromJson(Map<String, dynamic> json) {
 mixin _$LoginModel {
   String get username => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
+  PositionModel? get location => throw _privateConstructorUsedError;
+  bool get isMobile => throw _privateConstructorUsedError;
+  String? get deviceName => throw _privateConstructorUsedError;
+  String get browserName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +39,15 @@ abstract class $LoginModelCopyWith<$Res> {
           LoginModel value, $Res Function(LoginModel) then) =
       _$LoginModelCopyWithImpl<$Res, LoginModel>;
   @useResult
-  $Res call({String username, String password});
+  $Res call(
+      {String username,
+      String password,
+      PositionModel? location,
+      bool isMobile,
+      String? deviceName,
+      String browserName});
+
+  $PositionModelCopyWith<$Res>? get location;
 }
 
 /// @nodoc
@@ -53,6 +65,10 @@ class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
   $Res call({
     Object? username = null,
     Object? password = null,
+    Object? location = freezed,
+    Object? isMobile = null,
+    Object? deviceName = freezed,
+    Object? browserName = null,
   }) {
     return _then(_value.copyWith(
       username: null == username
@@ -63,7 +79,35 @@ class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as PositionModel?,
+      isMobile: null == isMobile
+          ? _value.isMobile
+          : isMobile // ignore: cast_nullable_to_non_nullable
+              as bool,
+      deviceName: freezed == deviceName
+          ? _value.deviceName
+          : deviceName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      browserName: null == browserName
+          ? _value.browserName
+          : browserName // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PositionModelCopyWith<$Res>? get location {
+    if (_value.location == null) {
+      return null;
+    }
+
+    return $PositionModelCopyWith<$Res>(_value.location!, (value) {
+      return _then(_value.copyWith(location: value) as $Val);
+    });
   }
 }
 
@@ -75,7 +119,16 @@ abstract class _$$LoginModelImplCopyWith<$Res>
       __$$LoginModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String username, String password});
+  $Res call(
+      {String username,
+      String password,
+      PositionModel? location,
+      bool isMobile,
+      String? deviceName,
+      String browserName});
+
+  @override
+  $PositionModelCopyWith<$Res>? get location;
 }
 
 /// @nodoc
@@ -91,6 +144,10 @@ class __$$LoginModelImplCopyWithImpl<$Res>
   $Res call({
     Object? username = null,
     Object? password = null,
+    Object? location = freezed,
+    Object? isMobile = null,
+    Object? deviceName = freezed,
+    Object? browserName = null,
   }) {
     return _then(_$LoginModelImpl(
       username: null == username
@@ -101,6 +158,22 @@ class __$$LoginModelImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as PositionModel?,
+      isMobile: null == isMobile
+          ? _value.isMobile
+          : isMobile // ignore: cast_nullable_to_non_nullable
+              as bool,
+      deviceName: freezed == deviceName
+          ? _value.deviceName
+          : deviceName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      browserName: null == browserName
+          ? _value.browserName
+          : browserName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -108,7 +181,13 @@ class __$$LoginModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LoginModelImpl implements _LoginModel {
-  const _$LoginModelImpl({required this.username, required this.password});
+  const _$LoginModelImpl(
+      {required this.username,
+      required this.password,
+      this.location,
+      this.isMobile = true,
+      this.deviceName,
+      this.browserName = '-'});
 
   factory _$LoginModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LoginModelImplFromJson(json);
@@ -117,10 +196,20 @@ class _$LoginModelImpl implements _LoginModel {
   final String username;
   @override
   final String password;
+  @override
+  final PositionModel? location;
+  @override
+  @JsonKey()
+  final bool isMobile;
+  @override
+  final String? deviceName;
+  @override
+  @JsonKey()
+  final String browserName;
 
   @override
   String toString() {
-    return 'LoginModel(username: $username, password: $password)';
+    return 'LoginModel(username: $username, password: $password, location: $location, isMobile: $isMobile, deviceName: $deviceName, browserName: $browserName)';
   }
 
   @override
@@ -131,12 +220,21 @@ class _$LoginModelImpl implements _LoginModel {
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.password, password) ||
-                other.password == password));
+                other.password == password) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            (identical(other.isMobile, isMobile) ||
+                other.isMobile == isMobile) &&
+            (identical(other.deviceName, deviceName) ||
+                other.deviceName == deviceName) &&
+            (identical(other.browserName, browserName) ||
+                other.browserName == browserName));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, username, password);
+  int get hashCode => Object.hash(runtimeType, username, password, location,
+      isMobile, deviceName, browserName);
 
   @JsonKey(ignore: true)
   @override
@@ -155,7 +253,11 @@ class _$LoginModelImpl implements _LoginModel {
 abstract class _LoginModel implements LoginModel {
   const factory _LoginModel(
       {required final String username,
-      required final String password}) = _$LoginModelImpl;
+      required final String password,
+      final PositionModel? location,
+      final bool isMobile,
+      final String? deviceName,
+      final String browserName}) = _$LoginModelImpl;
 
   factory _LoginModel.fromJson(Map<String, dynamic> json) =
       _$LoginModelImpl.fromJson;
@@ -164,6 +266,14 @@ abstract class _LoginModel implements LoginModel {
   String get username;
   @override
   String get password;
+  @override
+  PositionModel? get location;
+  @override
+  bool get isMobile;
+  @override
+  String? get deviceName;
+  @override
+  String get browserName;
   @override
   @JsonKey(ignore: true)
   _$$LoginModelImplCopyWith<_$LoginModelImpl> get copyWith =>

@@ -22,26 +22,53 @@ class RJConnect extends GetConnect {
   String? get baseUrl => ConstantsConnect.endPointBaseUrl;
 
   Future<Response> getList(Map<String, dynamic> query) => get(
-        '/Janjis/getJanjiListByHospital',
+        'Janjis/getJanjiListByHospital',
         headers: headers,
         query: query,
       );
 
-  // Future<Response> outcome(String strHospitalId) => get(
-  //       '$subRouteSuper/outcome',
-  //       headers: headers,
-  //       query: {'hospitalId': strHospitalId},
-  //     );
+  Future<Response> getPracticeAvailable(Map<String, dynamic> query) => get(
+        'Janjis/getPracticeAvailable',
+        headers: headers,
+        query: query,
+      );
 
-  // Future<Response> appointment(Map<String, dynamic> query) => get(
-  //       'Janjis/count',
-  //       query: query,
-  //       headers: headers,
-  //     );
+  Future<Response> searchPatient(Map<String, dynamic> query) => get(
+        'Pasiens/getPasienListByKeywordV2',
+        headers: headers,
+        query: query,
+      );
 
-  // Future<Response> cashierQueue(Map<String, dynamic> query) => get(
-  //       'KTxes/count',
-  //       query: query,
-  //       headers: headers,
-  //     );
+  Future<Response> getPatientDetail(Map<String, dynamic> query) => get(
+        'Pasiens/getPasienDetail',
+        headers: headers,
+        query: query,
+      );
+
+  Future<Response> getCodeNewMR(Map<String, dynamic> query) {
+    final configId = _initC.localStorage.read(ConstantsKeys.configId);
+    return get(
+      'KConfigs/$configId',
+      headers: headers,
+      query: query,
+    );
+  }
+  
+
+  Future<Response> createPatient(Map<String, dynamic> body) => post(
+        'Pasiens/postDetail',
+        body,
+        headers: headers,
+      );
+
+  Future<Response> createAppointment(Map<String, dynamic> body) => post(
+        'Janjis/postAppointment',
+        body,
+        headers: headers,
+      );
+
+  Future<Response> getLocation(String hospitalId) => get(
+        'SatuSehats/location/list/$hospitalId',
+        headers: headers,
+      );
 }

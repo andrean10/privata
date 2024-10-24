@@ -19,8 +19,8 @@ import '../modules/auth/walkthrough/bindings/walkthrough_binding.dart';
 import '../modules/auth/walkthrough/views/walkthrough_view.dart';
 import '../modules/auth/welcome/bindings/welcome_binding.dart';
 import '../modules/auth/welcome/views/welcome_view.dart';
-import '../modules/core/doctor/add_doctor/bindings/add_doctor_binding.dart';
-import '../modules/core/doctor/add_doctor/views/add_doctor_view.dart';
+import '../modules/core/menu_registration/doctor/add_doctor/bindings/add_doctor_binding.dart';
+import '../modules/core/menu_registration/doctor/add_doctor/views/add_doctor_view.dart';
 import '../modules/core/emr/bindings/emr_binding.dart';
 import '../modules/core/emr/bindings/search_action_binding.dart';
 import '../modules/core/emr/views/emr_view.dart';
@@ -31,29 +31,30 @@ import '../modules/core/medical_prescription/bindings/medical_prescription_bindi
 import '../modules/core/medical_prescription/views/medical_prescription_view.dart';
 import '../modules/core/menu_cashier/transaction/bindings/transaction_binding.dart';
 import '../modules/core/menu_cashier/transaction/views/transaction_view.dart';
-import '../modules/core/menu_profile/billing_landing/bindings/billing_landing_binding.dart';
-import '../modules/core/menu_profile/billing_landing/views/billing_landing_view.dart';
+import '../modules/core/menu_profile/billing_landing/main/bindings/billing_landing_binding.dart';
+import '../modules/core/menu_profile/billing_landing/main/views/billing_landing_view.dart';
 
-import '../modules/core/menu_regist/sub_menu/new_patient/bindings/new_patient_binding.dart';
-import '../modules/core/menu_regist/sub_menu/new_patient/views/new_patient_view.dart';
-import '../modules/core/search_patient/bindings/search_patient_binding.dart';
-import '../modules/core/search_patient/views/search_patient_dialog.dart';
-import '../modules/core/timeline_emr/bindings/timeline_emr_binding.dart';
-import '../modules/core/timeline_emr/views/timeline_emr_view.dart';
-import '../modules/core/visit_registration/bindings/visit_registration_binding.dart';
-import '../modules/core/visit_registration/views/visit_registration_view.dart';
-import '../modules/detail_billing_landing/bindings/detail_billing_landing_binding.dart';
-import '../modules/detail_billing_landing/views/detail_billing_landing_view.dart';
-import '../modules/invoice/bindings/invoice_binding.dart';
-import '../modules/invoice/views/invoice_view.dart';
-import '../modules/packages/bindings/packages_binding.dart';
-import '../modules/packages/views/packages_view.dart';
-import '../modules/payment/bindings/payment_binding.dart';
-import '../modules/payment/views/payment_view.dart';
-import '../modules/payment_s/status/bindings/payment_status_binding.dart';
-import '../modules/payment_s/status/views/payment_status_view.dart';
-import '../modules/printer_settings/bindings/printer_settings_binding.dart';
-import '../modules/printer_settings/views/printer_settings_view.dart';
+import '../modules/core/menu_registration/search_patient/views/search_patient_view.dart';
+import '../modules/core/menu_registration/sub_menu/new_patient/bindings/new_patient_binding.dart';
+import '../modules/core/menu_registration/sub_menu/new_patient/views/new_patient_view.dart';
+import '../modules/core/menu_registration/search_patient/bindings/search_patient_binding.dart';
+import '../modules/core/menu_registration/search_patient/views/search_patient_dialog.dart';
+import '../modules/core/menu_registration/timeline_emr/bindings/timeline_emr_binding.dart';
+import '../modules/core/menu_registration/timeline_emr/views/timeline_emr_view.dart';
+import '../modules/core/menu_registration/visit_registration/bindings/visit_registration_binding.dart';
+import '../modules/core/menu_profile/billing_landing/detail/bindings/detail_billing_landing_binding.dart';
+import '../modules/core/menu_profile/billing_landing/detail/views/detail_billing_landing_view.dart';
+import '../modules/core/menu_profile/invoice/bindings/invoice_binding.dart';
+import '../modules/core/menu_profile/invoice/views/invoice_view.dart';
+import '../modules/core/menu_profile/subscribe/bindings/subscribe_binding.dart';
+import '../modules/core/menu_profile/subscribe/views/subscribe_view.dart';
+import '../modules/core/menu_profile/payment/main/bindings/payment_binding.dart';
+import '../modules/core/menu_profile/payment/main/views/payment_view.dart';
+import '../modules/core/menu_profile/payment/status/bindings/payment_status_binding.dart';
+import '../modules/core/menu_profile/payment/status/views/payment_status_view.dart';
+import '../modules/core/menu_profile/printer_settings/bindings/printer_settings_binding.dart';
+import '../modules/core/menu_profile/printer_settings/views/printer_settings_view.dart';
+import '../modules/core/menu_registration/visit_registration/views/visit_registration_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 
@@ -163,6 +164,11 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SEARCH_PATIENT,
+      page: () => const SearchPatientView(),
+      binding: SearchPatientBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEARCH_PATIENT_DIALOG,
       page: () => const SearchPatientDialog(),
       binding: SearchPatientBinding(),
       fullscreenDialog: true,
@@ -189,9 +195,9 @@ class AppPages {
       binding: InvoiceBinding(),
     ),
     GetPage(
-      name: _Paths.PACKAGES,
-      page: () => const PackagesView(),
-      binding: PackagesBinding(),
+      name: _Paths.SUBSCRIBE,
+      page: () => const SubscribeView(),
+      binding: SubscribeBinding(),
     ),
     GetPage(
       name: _Paths.PAYMENT_STATUS,

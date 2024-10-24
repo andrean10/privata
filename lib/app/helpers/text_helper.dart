@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -103,5 +105,51 @@ abstract class TextHelper {
     if (number == null) return '-';
 
     return NumberFormat.compact(locale: 'id').format(number);
+  }
+
+  static String generateUniqueId(int length) {
+    const chars =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final random = Random();
+    return List.generate(length, (index) => chars[random.nextInt(chars.length)])
+        .join();
+  }
+
+  static String replacePrefixText({
+    required String prefix,
+    required String? value,
+    required String? replaceValue,
+  }) {
+    if (value == null) return '-';
+    if (replaceValue == null) return '-';
+    return replaceValue.replaceFirst(prefix, value);
+  }
+
+  static (String, String) extractCodeAndDescription({
+    bool isMethodRegex = false,
+    String? input,
+  }) {
+    const defaultReturn = ('-', '-');
+    if (input == null) return defaultReturn;
+
+    if (isMethodRegex) {
+      RegExp regExp = RegExp(r'^([A-Z]\d{2}\.\d)\s(.+)$');
+      Match? match = regExp.firstMatch(input);
+
+      if (match != null) {
+        final code = match.group(1) ?? '';
+        final description = match.group(2) ?? '';
+        return (code, description);
+      }
+    } else {
+      final splittedText = input.split(' ');
+
+      return (
+        splittedText.firstOrNull ?? '',
+        splittedText.lastOrNull ?? '',
+      );
+    }
+
+    return defaultReturn;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'item_doctor_model.dart';
+import 'item_doctor/item_doctor_model.dart';
 
 part 'doctor_model.freezed.dart';
 part 'doctor_model.g.dart';

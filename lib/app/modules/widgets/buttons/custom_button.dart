@@ -64,8 +64,8 @@ class CustomButton extends StatelessWidget {
                 ? SizedBox(
                     width: 20.0,
                     height: 20.0,
-                    child: CircularProgressIndicator(
-                      color: colors.primary,
+                    child: CircularProgressIndicator.adaptive(
+                      backgroundColor: colors.primary,
                     ),
                   )
                 : child,
@@ -88,7 +88,7 @@ class CustomButton extends StatelessWidget {
                 ? const SizedBox(
                     width: 20.0,
                     height: 20.0,
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator.adaptive(),
                   )
                 : child,
           );
@@ -110,8 +110,8 @@ class CustomButton extends StatelessWidget {
                 ? SizedBox(
                     width: 20.0,
                     height: 20.0,
-                    child: CircularProgressIndicator(
-                      color: colors.onSecondaryContainer,
+                    child: CircularProgressIndicator.adaptive(
+                      backgroundColor: colors.onSecondaryContainer,
                     ),
                   )
                 : child,
@@ -134,8 +134,8 @@ class CustomButton extends StatelessWidget {
                 ? SizedBox(
                     width: 20.0,
                     height: 20.0,
-                    child: CircularProgressIndicator(
-                      color: colors.primary,
+                    child: CircularProgressIndicator.adaptive(
+                      backgroundColor: colors.primary,
                     ),
                   )
                 : child,
@@ -149,6 +149,7 @@ class CustomButton extends StatelessWidget {
             icon: icon!,
             label: child,
             style: style,
+            iconAlignment: iconAlignment ?? IconAlignment.start,
           )
         : TextButton(
             onPressed: state ? null : onPressed,
@@ -157,8 +158,8 @@ class CustomButton extends StatelessWidget {
                 ? SizedBox(
                     width: 20.0,
                     height: 20.0,
-                    child: CircularProgressIndicator(
-                      color: colors.primary,
+                    child: CircularProgressIndicator.adaptive(
+                      backgroundColor: colors.primary,
                     ),
                   )
                 : child,

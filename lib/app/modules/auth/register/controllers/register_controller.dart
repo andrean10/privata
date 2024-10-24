@@ -137,10 +137,9 @@ class RegisterController extends GetxController {
         from: 'mobile',
       ).toJson();
 
-      final res = await _initC.authCn.register(registerModel);
+      // final body = {'dataLink': };
 
-      _initC.logger.d('debug: res is OK = ${res.isOk}');
-      _initC.logger.d('debug: res body = ${res.body}');
+      final res = await _initC.authCn.register(registerModel);
 
       if (res.isOk) {
         final bodyRes = res.body;

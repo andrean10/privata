@@ -21,9 +21,11 @@ PHModel _$PHModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PHModel {
   String? get code => throw _privateConstructorUsedError;
+  @JsonKey(name: 'id_rs')
   String? get idRs => throw _privateConstructorUsedError;
   String? get date => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
+  List<TagsModel>? get tags => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,12 @@ abstract class $PHModelCopyWith<$Res> {
   factory $PHModelCopyWith(PHModel value, $Res Function(PHModel) then) =
       _$PHModelCopyWithImpl<$Res, PHModel>;
   @useResult
-  $Res call({String? code, String? idRs, String? date, String? id});
+  $Res call(
+      {String? code,
+      @JsonKey(name: 'id_rs') String? idRs,
+      String? date,
+      String? id,
+      List<TagsModel>? tags});
 }
 
 /// @nodoc
@@ -55,6 +62,7 @@ class _$PHModelCopyWithImpl<$Res, $Val extends PHModel>
     Object? idRs = freezed,
     Object? date = freezed,
     Object? id = freezed,
+    Object? tags = freezed,
   }) {
     return _then(_value.copyWith(
       code: freezed == code
@@ -73,6 +81,10 @@ class _$PHModelCopyWithImpl<$Res, $Val extends PHModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      tags: freezed == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<TagsModel>?,
     ) as $Val);
   }
 }
@@ -84,7 +96,12 @@ abstract class _$$PHModelImplCopyWith<$Res> implements $PHModelCopyWith<$Res> {
       __$$PHModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? code, String? idRs, String? date, String? id});
+  $Res call(
+      {String? code,
+      @JsonKey(name: 'id_rs') String? idRs,
+      String? date,
+      String? id,
+      List<TagsModel>? tags});
 }
 
 /// @nodoc
@@ -102,6 +119,7 @@ class __$$PHModelImplCopyWithImpl<$Res>
     Object? idRs = freezed,
     Object? date = freezed,
     Object? id = freezed,
+    Object? tags = freezed,
   }) {
     return _then(_$PHModelImpl(
       code: freezed == code
@@ -120,6 +138,10 @@ class __$$PHModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      tags: freezed == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<TagsModel>?,
     ));
   }
 }
@@ -127,7 +149,13 @@ class __$$PHModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PHModelImpl implements _PHModel {
-  const _$PHModelImpl({this.code, this.idRs, this.date, this.id});
+  const _$PHModelImpl(
+      {this.code,
+      @JsonKey(name: 'id_rs') this.idRs,
+      this.date,
+      this.id,
+      final List<TagsModel>? tags})
+      : _tags = tags;
 
   factory _$PHModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PHModelImplFromJson(json);
@@ -135,15 +163,25 @@ class _$PHModelImpl implements _PHModel {
   @override
   final String? code;
   @override
+  @JsonKey(name: 'id_rs')
   final String? idRs;
   @override
   final String? date;
   @override
   final String? id;
+  final List<TagsModel>? _tags;
+  @override
+  List<TagsModel>? get tags {
+    final value = _tags;
+    if (value == null) return null;
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'PHModel(code: $code, idRs: $idRs, date: $date, id: $id)';
+    return 'PHModel(code: $code, idRs: $idRs, date: $date, id: $id, tags: $tags)';
   }
 
   @override
@@ -154,12 +192,14 @@ class _$PHModelImpl implements _PHModel {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.idRs, idRs) || other.idRs == idRs) &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, code, idRs, date, id);
+  int get hashCode => Object.hash(runtimeType, code, idRs, date, id,
+      const DeepCollectionEquality().hash(_tags));
 
   @JsonKey(ignore: true)
   @override
@@ -178,20 +218,24 @@ class _$PHModelImpl implements _PHModel {
 abstract class _PHModel implements PHModel {
   const factory _PHModel(
       {final String? code,
-      final String? idRs,
+      @JsonKey(name: 'id_rs') final String? idRs,
       final String? date,
-      final String? id}) = _$PHModelImpl;
+      final String? id,
+      final List<TagsModel>? tags}) = _$PHModelImpl;
 
   factory _PHModel.fromJson(Map<String, dynamic> json) = _$PHModelImpl.fromJson;
 
   @override
   String? get code;
   @override
+  @JsonKey(name: 'id_rs')
   String? get idRs;
   @override
   String? get date;
   @override
   String? get id;
+  @override
+  List<TagsModel>? get tags;
   @override
   @JsonKey(ignore: true)
   _$$PHModelImplCopyWith<_$PHModelImpl> get copyWith =>

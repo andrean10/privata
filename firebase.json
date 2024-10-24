@@ -1,1 +1,40 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"robust-caldron-428902-r5","appId":"1:791781374835:android:3838362fc5727b1061e306","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"robust-caldron-428902-r5","appId":"1:791781374835:ios:1c00ba77efdaae4061e306","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"robust-caldron-428902-r5","appId":"1:791781374835:ios:f1a819e5b6ea4a9861e306","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"robust-caldron-428902-r5","configurations":{"android":"1:791781374835:android:3838362fc5727b1061e306","ios":"1:791781374835:ios:1c00ba77efdaae4061e306","macos":"1:791781374835:ios:f1a819e5b6ea4a9861e306","web":"1:791781374835:web:0dae2bc93bbc693c61e306"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "robust-caldron-428902-r5",
+          "appId": "1:791781374835:android:3838362fc5727b1061e306",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "robust-caldron-428902-r5",
+          "appId": "1:791781374835:ios:1c00ba77efdaae4061e306",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "robust-caldron-428902-r5",
+          "appId": "1:791781374835:ios:f1a819e5b6ea4a9861e306",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "robust-caldron-428902-r5",
+          "configurations": {
+            "android": "1:791781374835:android:3838362fc5727b1061e306",
+            "ios": "1:791781374835:ios:1c00ba77efdaae4061e306",
+            "macos": "1:791781374835:ios:f1a819e5b6ea4a9861e306",
+            "web": "1:791781374835:web:0dae2bc93bbc693c61e306"
+          }
+        }
+      }
+    }
+  }
+}

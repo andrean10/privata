@@ -3,10 +3,10 @@ import 'package:intl/intl.dart';
 
 class FormatDateTime {
   static String dateToString({
-    bool isIndonesian = false,
+    bool isIndonesian = true,
     String? oldPattern,
     required String newPattern,
-    String? value,
+    required String? value,
   }) {
     if (value == null) return '-';
 
@@ -14,6 +14,7 @@ class FormatDateTime {
 
     if (oldPattern != null) {
       String? locale;
+
       if (isIndonesian) {
         locale = 'id_ID';
       }
@@ -22,6 +23,11 @@ class FormatDateTime {
       inputDate = inputFormat.parse(value);
     } else {
       inputDate = DateTime.parse(value);
+    }
+
+    // check is UTC format
+    if (inputDate.isUtc) {
+      inputDate = inputDate.add(const Duration(hours: 7));
     }
 
     final outputFormat = DateFormat(newPattern, 'id_ID');
@@ -83,11 +89,46 @@ class FormatDateTime {
     return outputFormat.format(outputTime);
   }
 
-  // static DateTime stringToTime({
-  //   required String pattern,
-  //   required String value,
-  // }) {
-  //   final outputFormat = TimeOfDay(pattern, 'id_ID');
-  //   return outputFormat.parse(value);
-  // }
+  static String time({
+    required int? value,
+    bool isOnlyHour = false,
+    bool isOnlyMinute = false,
+  }) {
+    if (value == null) return '-';
+
+    final padTime = switch (value.toString().length) {
+      1 => '000$value',
+      2 => '00$value',
+      3 => '0$value',
+      _ => '$value',
+    };
+
+    final hour = padTime.substring(0, 2);
+    final minute = padTime.substring(2, 4);
+
+    if (isOnlyHour) {
+      return hour;
+    }
+
+    if (isOnlyMinute) {
+      return minute;
+    }
+
+    return "$hour:$minute";
+  }
+
+  static int convertTimeToInt(String value) {
+    if (value.contains(':')) {
+      final time = value.replaceAll(':', '');
+      final result = int.parse(time);
+      return result;
+    }
+    return 0;
+  }
+
+  static TimeOfDay intToTime(int value) {
+    final hour = int.tryParse(time(value: value, isOnlyHour: true)) ?? 0;
+    final minute = int.tryParse(time(value: value, isOnlyMinute: true)) ?? 0;
+    return TimeOfDay(hour: hour, minute: minute);
+  }
 }

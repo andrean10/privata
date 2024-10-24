@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 
 import '../../menu_cashier/cashier/controllers/cashier_controller.dart';
 import '../../menu_dashboard/dashboard/controllers/dashboard_controller.dart';
-import '../../menu_profile/profile/controllers/profile_controller.dart';
-import '../../menu_regist/rj/controllers/rj_controller.dart';
+import '../../menu_profile/main/controllers/profile_controller.dart';
+import '../../menu_registration/rj/controllers/rj_controller.dart';
 import '../../rme/controllers/rme_controller.dart';
 import '../controllers/main_controller.dart';
 

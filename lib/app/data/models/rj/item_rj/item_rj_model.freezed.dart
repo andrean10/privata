@@ -20,10 +20,11 @@ ItemRJModel _$ItemRJModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ItemRJModel {
+  MrsModel? get mrs => throw _privateConstructorUsedError;
   String? get bpjsTreatment => throw _privateConstructorUsedError;
   String? get poli => throw _privateConstructorUsedError;
-  String? get pasienFkId =>
-      throw _privateConstructorUsedError; // String? praktekFkId,
+  String? get pasienFkId => throw _privateConstructorUsedError;
+  dynamic get praktekFkId => throw _privateConstructorUsedError;
   String? get day => throw _privateConstructorUsedError;
   String? get appDate => throw _privateConstructorUsedError;
   String? get date => throw _privateConstructorUsedError;
@@ -47,22 +48,24 @@ mixin _$ItemRJModel {
   int? get startEngageTime => throw _privateConstructorUsedError;
   String? get procedurePlan => throw _privateConstructorUsedError;
   String? get complaint => throw _privateConstructorUsedError;
-  String? get triase => throw _privateConstructorUsedError; // Null vitalSign,
+  String? get triase => throw _privateConstructorUsedError;
+  VitalSignsModel? get vitalSign => throw _privateConstructorUsedError;
   bool? get isBpjs => throw _privateConstructorUsedError;
   String? get finishedDate => throw _privateConstructorUsedError;
   String? get finishedId => throw _privateConstructorUsedError;
   bool? get isPayFirst =>
       throw _privateConstructorUsedError; // List<Null>? plannedPacketProcedures,
-  String? get uniqueCode => throw _privateConstructorUsedError;
-  bool? get isAntrolFKTP => throw _privateConstructorUsedError;
+  String? get uniqueCode =>
+      throw _privateConstructorUsedError; // bool? isAntrolFKTP,
   bool? get isAntrolFKTPV2 => throw _privateConstructorUsedError;
   String? get id =>
       throw _privateConstructorUsedError; // List<Null>? createdPlannedProcedure,
   String? get doctorName => throw _privateConstructorUsedError;
   String? get createdName => throw _privateConstructorUsedError;
   @JsonKey(name: 'Pasiens')
-  PatientModel? get pasiens =>
-      throw _privateConstructorUsedError; // PracticeModel? prakteks,
+  RJPatientModel? get pasiens => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Prakteks')
+  PracticeModel? get prakteks => throw _privateConstructorUsedError;
   String? get encounterId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -78,9 +81,11 @@ abstract class $ItemRJModelCopyWith<$Res> {
       _$ItemRJModelCopyWithImpl<$Res, ItemRJModel>;
   @useResult
   $Res call(
-      {String? bpjsTreatment,
+      {MrsModel? mrs,
+      String? bpjsTreatment,
       String? poli,
       String? pasienFkId,
+      dynamic praktekFkId,
       String? day,
       String? appDate,
       String? date,
@@ -101,20 +106,24 @@ abstract class $ItemRJModelCopyWith<$Res> {
       String? procedurePlan,
       String? complaint,
       String? triase,
+      VitalSignsModel? vitalSign,
       bool? isBpjs,
       String? finishedDate,
       String? finishedId,
       bool? isPayFirst,
       String? uniqueCode,
-      bool? isAntrolFKTP,
       bool? isAntrolFKTPV2,
       String? id,
       String? doctorName,
       String? createdName,
-      @JsonKey(name: 'Pasiens') PatientModel? pasiens,
+      @JsonKey(name: 'Pasiens') RJPatientModel? pasiens,
+      @JsonKey(name: 'Prakteks') PracticeModel? prakteks,
       String? encounterId});
 
-  $PatientModelCopyWith<$Res>? get pasiens;
+  $MrsModelCopyWith<$Res>? get mrs;
+  $VitalSignsModelCopyWith<$Res>? get vitalSign;
+  $RJPatientModelCopyWith<$Res>? get pasiens;
+  $PracticeModelCopyWith<$Res>? get prakteks;
 }
 
 /// @nodoc
@@ -130,9 +139,11 @@ class _$ItemRJModelCopyWithImpl<$Res, $Val extends ItemRJModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? mrs = freezed,
     Object? bpjsTreatment = freezed,
     Object? poli = freezed,
     Object? pasienFkId = freezed,
+    Object? praktekFkId = freezed,
     Object? day = freezed,
     Object? appDate = freezed,
     Object? date = freezed,
@@ -153,20 +164,25 @@ class _$ItemRJModelCopyWithImpl<$Res, $Val extends ItemRJModel>
     Object? procedurePlan = freezed,
     Object? complaint = freezed,
     Object? triase = freezed,
+    Object? vitalSign = freezed,
     Object? isBpjs = freezed,
     Object? finishedDate = freezed,
     Object? finishedId = freezed,
     Object? isPayFirst = freezed,
     Object? uniqueCode = freezed,
-    Object? isAntrolFKTP = freezed,
     Object? isAntrolFKTPV2 = freezed,
     Object? id = freezed,
     Object? doctorName = freezed,
     Object? createdName = freezed,
     Object? pasiens = freezed,
+    Object? prakteks = freezed,
     Object? encounterId = freezed,
   }) {
     return _then(_value.copyWith(
+      mrs: freezed == mrs
+          ? _value.mrs
+          : mrs // ignore: cast_nullable_to_non_nullable
+              as MrsModel?,
       bpjsTreatment: freezed == bpjsTreatment
           ? _value.bpjsTreatment
           : bpjsTreatment // ignore: cast_nullable_to_non_nullable
@@ -179,6 +195,10 @@ class _$ItemRJModelCopyWithImpl<$Res, $Val extends ItemRJModel>
           ? _value.pasienFkId
           : pasienFkId // ignore: cast_nullable_to_non_nullable
               as String?,
+      praktekFkId: freezed == praktekFkId
+          ? _value.praktekFkId
+          : praktekFkId // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       day: freezed == day
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
@@ -259,6 +279,10 @@ class _$ItemRJModelCopyWithImpl<$Res, $Val extends ItemRJModel>
           ? _value.triase
           : triase // ignore: cast_nullable_to_non_nullable
               as String?,
+      vitalSign: freezed == vitalSign
+          ? _value.vitalSign
+          : vitalSign // ignore: cast_nullable_to_non_nullable
+              as VitalSignsModel?,
       isBpjs: freezed == isBpjs
           ? _value.isBpjs
           : isBpjs // ignore: cast_nullable_to_non_nullable
@@ -279,10 +303,6 @@ class _$ItemRJModelCopyWithImpl<$Res, $Val extends ItemRJModel>
           ? _value.uniqueCode
           : uniqueCode // ignore: cast_nullable_to_non_nullable
               as String?,
-      isAntrolFKTP: freezed == isAntrolFKTP
-          ? _value.isAntrolFKTP
-          : isAntrolFKTP // ignore: cast_nullable_to_non_nullable
-              as bool?,
       isAntrolFKTPV2: freezed == isAntrolFKTPV2
           ? _value.isAntrolFKTPV2
           : isAntrolFKTPV2 // ignore: cast_nullable_to_non_nullable
@@ -302,7 +322,11 @@ class _$ItemRJModelCopyWithImpl<$Res, $Val extends ItemRJModel>
       pasiens: freezed == pasiens
           ? _value.pasiens
           : pasiens // ignore: cast_nullable_to_non_nullable
-              as PatientModel?,
+              as RJPatientModel?,
+      prakteks: freezed == prakteks
+          ? _value.prakteks
+          : prakteks // ignore: cast_nullable_to_non_nullable
+              as PracticeModel?,
       encounterId: freezed == encounterId
           ? _value.encounterId
           : encounterId // ignore: cast_nullable_to_non_nullable
@@ -312,13 +336,49 @@ class _$ItemRJModelCopyWithImpl<$Res, $Val extends ItemRJModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $PatientModelCopyWith<$Res>? get pasiens {
+  $MrsModelCopyWith<$Res>? get mrs {
+    if (_value.mrs == null) {
+      return null;
+    }
+
+    return $MrsModelCopyWith<$Res>(_value.mrs!, (value) {
+      return _then(_value.copyWith(mrs: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $VitalSignsModelCopyWith<$Res>? get vitalSign {
+    if (_value.vitalSign == null) {
+      return null;
+    }
+
+    return $VitalSignsModelCopyWith<$Res>(_value.vitalSign!, (value) {
+      return _then(_value.copyWith(vitalSign: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RJPatientModelCopyWith<$Res>? get pasiens {
     if (_value.pasiens == null) {
       return null;
     }
 
-    return $PatientModelCopyWith<$Res>(_value.pasiens!, (value) {
+    return $RJPatientModelCopyWith<$Res>(_value.pasiens!, (value) {
       return _then(_value.copyWith(pasiens: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PracticeModelCopyWith<$Res>? get prakteks {
+    if (_value.prakteks == null) {
+      return null;
+    }
+
+    return $PracticeModelCopyWith<$Res>(_value.prakteks!, (value) {
+      return _then(_value.copyWith(prakteks: value) as $Val);
     });
   }
 }
@@ -332,9 +392,11 @@ abstract class _$$ItemRJModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? bpjsTreatment,
+      {MrsModel? mrs,
+      String? bpjsTreatment,
       String? poli,
       String? pasienFkId,
+      dynamic praktekFkId,
       String? day,
       String? appDate,
       String? date,
@@ -355,21 +417,28 @@ abstract class _$$ItemRJModelImplCopyWith<$Res>
       String? procedurePlan,
       String? complaint,
       String? triase,
+      VitalSignsModel? vitalSign,
       bool? isBpjs,
       String? finishedDate,
       String? finishedId,
       bool? isPayFirst,
       String? uniqueCode,
-      bool? isAntrolFKTP,
       bool? isAntrolFKTPV2,
       String? id,
       String? doctorName,
       String? createdName,
-      @JsonKey(name: 'Pasiens') PatientModel? pasiens,
+      @JsonKey(name: 'Pasiens') RJPatientModel? pasiens,
+      @JsonKey(name: 'Prakteks') PracticeModel? prakteks,
       String? encounterId});
 
   @override
-  $PatientModelCopyWith<$Res>? get pasiens;
+  $MrsModelCopyWith<$Res>? get mrs;
+  @override
+  $VitalSignsModelCopyWith<$Res>? get vitalSign;
+  @override
+  $RJPatientModelCopyWith<$Res>? get pasiens;
+  @override
+  $PracticeModelCopyWith<$Res>? get prakteks;
 }
 
 /// @nodoc
@@ -383,9 +452,11 @@ class __$$ItemRJModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? mrs = freezed,
     Object? bpjsTreatment = freezed,
     Object? poli = freezed,
     Object? pasienFkId = freezed,
+    Object? praktekFkId = freezed,
     Object? day = freezed,
     Object? appDate = freezed,
     Object? date = freezed,
@@ -406,20 +477,25 @@ class __$$ItemRJModelImplCopyWithImpl<$Res>
     Object? procedurePlan = freezed,
     Object? complaint = freezed,
     Object? triase = freezed,
+    Object? vitalSign = freezed,
     Object? isBpjs = freezed,
     Object? finishedDate = freezed,
     Object? finishedId = freezed,
     Object? isPayFirst = freezed,
     Object? uniqueCode = freezed,
-    Object? isAntrolFKTP = freezed,
     Object? isAntrolFKTPV2 = freezed,
     Object? id = freezed,
     Object? doctorName = freezed,
     Object? createdName = freezed,
     Object? pasiens = freezed,
+    Object? prakteks = freezed,
     Object? encounterId = freezed,
   }) {
     return _then(_$ItemRJModelImpl(
+      mrs: freezed == mrs
+          ? _value.mrs
+          : mrs // ignore: cast_nullable_to_non_nullable
+              as MrsModel?,
       bpjsTreatment: freezed == bpjsTreatment
           ? _value.bpjsTreatment
           : bpjsTreatment // ignore: cast_nullable_to_non_nullable
@@ -432,6 +508,10 @@ class __$$ItemRJModelImplCopyWithImpl<$Res>
           ? _value.pasienFkId
           : pasienFkId // ignore: cast_nullable_to_non_nullable
               as String?,
+      praktekFkId: freezed == praktekFkId
+          ? _value.praktekFkId
+          : praktekFkId // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       day: freezed == day
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
@@ -512,6 +592,10 @@ class __$$ItemRJModelImplCopyWithImpl<$Res>
           ? _value.triase
           : triase // ignore: cast_nullable_to_non_nullable
               as String?,
+      vitalSign: freezed == vitalSign
+          ? _value.vitalSign
+          : vitalSign // ignore: cast_nullable_to_non_nullable
+              as VitalSignsModel?,
       isBpjs: freezed == isBpjs
           ? _value.isBpjs
           : isBpjs // ignore: cast_nullable_to_non_nullable
@@ -532,10 +616,6 @@ class __$$ItemRJModelImplCopyWithImpl<$Res>
           ? _value.uniqueCode
           : uniqueCode // ignore: cast_nullable_to_non_nullable
               as String?,
-      isAntrolFKTP: freezed == isAntrolFKTP
-          ? _value.isAntrolFKTP
-          : isAntrolFKTP // ignore: cast_nullable_to_non_nullable
-              as bool?,
       isAntrolFKTPV2: freezed == isAntrolFKTPV2
           ? _value.isAntrolFKTPV2
           : isAntrolFKTPV2 // ignore: cast_nullable_to_non_nullable
@@ -555,7 +635,11 @@ class __$$ItemRJModelImplCopyWithImpl<$Res>
       pasiens: freezed == pasiens
           ? _value.pasiens
           : pasiens // ignore: cast_nullable_to_non_nullable
-              as PatientModel?,
+              as RJPatientModel?,
+      prakteks: freezed == prakteks
+          ? _value.prakteks
+          : prakteks // ignore: cast_nullable_to_non_nullable
+              as PracticeModel?,
       encounterId: freezed == encounterId
           ? _value.encounterId
           : encounterId // ignore: cast_nullable_to_non_nullable
@@ -568,9 +652,11 @@ class __$$ItemRJModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ItemRJModelImpl implements _ItemRJModel {
   const _$ItemRJModelImpl(
-      {this.bpjsTreatment,
+      {this.mrs,
+      this.bpjsTreatment,
       this.poli,
       this.pasienFkId,
+      this.praktekFkId,
       this.day,
       this.appDate,
       this.date,
@@ -591,29 +677,33 @@ class _$ItemRJModelImpl implements _ItemRJModel {
       this.procedurePlan,
       this.complaint,
       this.triase,
+      this.vitalSign,
       this.isBpjs,
       this.finishedDate,
       this.finishedId,
       this.isPayFirst,
       this.uniqueCode,
-      this.isAntrolFKTP,
       this.isAntrolFKTPV2,
       this.id,
       this.doctorName,
       this.createdName,
       @JsonKey(name: 'Pasiens') this.pasiens,
+      @JsonKey(name: 'Prakteks') this.prakteks,
       this.encounterId});
 
   factory _$ItemRJModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemRJModelImplFromJson(json);
 
   @override
+  final MrsModel? mrs;
+  @override
   final String? bpjsTreatment;
   @override
   final String? poli;
   @override
   final String? pasienFkId;
-// String? praktekFkId,
+  @override
+  final dynamic praktekFkId;
   @override
   final String? day;
   @override
@@ -658,7 +748,8 @@ class _$ItemRJModelImpl implements _ItemRJModel {
   final String? complaint;
   @override
   final String? triase;
-// Null vitalSign,
+  @override
+  final VitalSignsModel? vitalSign;
   @override
   final bool? isBpjs;
   @override
@@ -670,8 +761,7 @@ class _$ItemRJModelImpl implements _ItemRJModel {
 // List<Null>? plannedPacketProcedures,
   @override
   final String? uniqueCode;
-  @override
-  final bool? isAntrolFKTP;
+// bool? isAntrolFKTP,
   @override
   final bool? isAntrolFKTPV2;
   @override
@@ -683,14 +773,16 @@ class _$ItemRJModelImpl implements _ItemRJModel {
   final String? createdName;
   @override
   @JsonKey(name: 'Pasiens')
-  final PatientModel? pasiens;
-// PracticeModel? prakteks,
+  final RJPatientModel? pasiens;
+  @override
+  @JsonKey(name: 'Prakteks')
+  final PracticeModel? prakteks;
   @override
   final String? encounterId;
 
   @override
   String toString() {
-    return 'ItemRJModel(bpjsTreatment: $bpjsTreatment, poli: $poli, pasienFkId: $pasienFkId, day: $day, appDate: $appDate, date: $date, mulai: $mulai, selesai: $selesai, estimateTime: $estimateTime, consultPlanDuration: $consultPlanDuration, status: $status, isMedicaboo: $isMedicaboo, rumahSakitId: $rumahSakitId, hp: $hp, idExt: $idExt, paymentMethod: $paymentMethod, createdAt: $createdAt, confirmed: $confirmed, startWaitingTime: $startWaitingTime, startEngageTime: $startEngageTime, procedurePlan: $procedurePlan, complaint: $complaint, triase: $triase, isBpjs: $isBpjs, finishedDate: $finishedDate, finishedId: $finishedId, isPayFirst: $isPayFirst, uniqueCode: $uniqueCode, isAntrolFKTP: $isAntrolFKTP, isAntrolFKTPV2: $isAntrolFKTPV2, id: $id, doctorName: $doctorName, createdName: $createdName, pasiens: $pasiens, encounterId: $encounterId)';
+    return 'ItemRJModel(mrs: $mrs, bpjsTreatment: $bpjsTreatment, poli: $poli, pasienFkId: $pasienFkId, praktekFkId: $praktekFkId, day: $day, appDate: $appDate, date: $date, mulai: $mulai, selesai: $selesai, estimateTime: $estimateTime, consultPlanDuration: $consultPlanDuration, status: $status, isMedicaboo: $isMedicaboo, rumahSakitId: $rumahSakitId, hp: $hp, idExt: $idExt, paymentMethod: $paymentMethod, createdAt: $createdAt, confirmed: $confirmed, startWaitingTime: $startWaitingTime, startEngageTime: $startEngageTime, procedurePlan: $procedurePlan, complaint: $complaint, triase: $triase, vitalSign: $vitalSign, isBpjs: $isBpjs, finishedDate: $finishedDate, finishedId: $finishedId, isPayFirst: $isPayFirst, uniqueCode: $uniqueCode, isAntrolFKTPV2: $isAntrolFKTPV2, id: $id, doctorName: $doctorName, createdName: $createdName, pasiens: $pasiens, prakteks: $prakteks, encounterId: $encounterId)';
   }
 
   @override
@@ -698,11 +790,14 @@ class _$ItemRJModelImpl implements _ItemRJModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ItemRJModelImpl &&
+            (identical(other.mrs, mrs) || other.mrs == mrs) &&
             (identical(other.bpjsTreatment, bpjsTreatment) ||
                 other.bpjsTreatment == bpjsTreatment) &&
             (identical(other.poli, poli) || other.poli == poli) &&
             (identical(other.pasienFkId, pasienFkId) ||
                 other.pasienFkId == pasienFkId) &&
+            const DeepCollectionEquality()
+                .equals(other.praktekFkId, praktekFkId) &&
             (identical(other.day, day) || other.day == day) &&
             (identical(other.appDate, appDate) || other.appDate == appDate) &&
             (identical(other.date, date) || other.date == date) &&
@@ -734,6 +829,8 @@ class _$ItemRJModelImpl implements _ItemRJModel {
             (identical(other.complaint, complaint) ||
                 other.complaint == complaint) &&
             (identical(other.triase, triase) || other.triase == triase) &&
+            (identical(other.vitalSign, vitalSign) ||
+                other.vitalSign == vitalSign) &&
             (identical(other.isBpjs, isBpjs) || other.isBpjs == isBpjs) &&
             (identical(other.finishedDate, finishedDate) ||
                 other.finishedDate == finishedDate) &&
@@ -743,8 +840,6 @@ class _$ItemRJModelImpl implements _ItemRJModel {
                 other.isPayFirst == isPayFirst) &&
             (identical(other.uniqueCode, uniqueCode) ||
                 other.uniqueCode == uniqueCode) &&
-            (identical(other.isAntrolFKTP, isAntrolFKTP) ||
-                other.isAntrolFKTP == isAntrolFKTP) &&
             (identical(other.isAntrolFKTPV2, isAntrolFKTPV2) ||
                 other.isAntrolFKTPV2 == isAntrolFKTPV2) &&
             (identical(other.id, id) || other.id == id) &&
@@ -753,6 +848,8 @@ class _$ItemRJModelImpl implements _ItemRJModel {
             (identical(other.createdName, createdName) ||
                 other.createdName == createdName) &&
             (identical(other.pasiens, pasiens) || other.pasiens == pasiens) &&
+            (identical(other.prakteks, prakteks) ||
+                other.prakteks == prakteks) &&
             (identical(other.encounterId, encounterId) ||
                 other.encounterId == encounterId));
   }
@@ -761,9 +858,11 @@ class _$ItemRJModelImpl implements _ItemRJModel {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        mrs,
         bpjsTreatment,
         poli,
         pasienFkId,
+        const DeepCollectionEquality().hash(praktekFkId),
         day,
         appDate,
         date,
@@ -784,17 +883,18 @@ class _$ItemRJModelImpl implements _ItemRJModel {
         procedurePlan,
         complaint,
         triase,
+        vitalSign,
         isBpjs,
         finishedDate,
         finishedId,
         isPayFirst,
         uniqueCode,
-        isAntrolFKTP,
         isAntrolFKTPV2,
         id,
         doctorName,
         createdName,
         pasiens,
+        prakteks,
         encounterId
       ]);
 
@@ -814,9 +914,11 @@ class _$ItemRJModelImpl implements _ItemRJModel {
 
 abstract class _ItemRJModel implements ItemRJModel {
   const factory _ItemRJModel(
-      {final String? bpjsTreatment,
+      {final MrsModel? mrs,
+      final String? bpjsTreatment,
       final String? poli,
       final String? pasienFkId,
+      final dynamic praktekFkId,
       final String? day,
       final String? appDate,
       final String? date,
@@ -837,29 +939,34 @@ abstract class _ItemRJModel implements ItemRJModel {
       final String? procedurePlan,
       final String? complaint,
       final String? triase,
+      final VitalSignsModel? vitalSign,
       final bool? isBpjs,
       final String? finishedDate,
       final String? finishedId,
       final bool? isPayFirst,
       final String? uniqueCode,
-      final bool? isAntrolFKTP,
       final bool? isAntrolFKTPV2,
       final String? id,
       final String? doctorName,
       final String? createdName,
-      @JsonKey(name: 'Pasiens') final PatientModel? pasiens,
+      @JsonKey(name: 'Pasiens') final RJPatientModel? pasiens,
+      @JsonKey(name: 'Prakteks') final PracticeModel? prakteks,
       final String? encounterId}) = _$ItemRJModelImpl;
 
   factory _ItemRJModel.fromJson(Map<String, dynamic> json) =
       _$ItemRJModelImpl.fromJson;
 
   @override
+  MrsModel? get mrs;
+  @override
   String? get bpjsTreatment;
   @override
   String? get poli;
   @override
   String? get pasienFkId;
-  @override // String? praktekFkId,
+  @override
+  dynamic get praktekFkId;
+  @override
   String? get day;
   @override
   String? get appDate;
@@ -902,7 +1009,9 @@ abstract class _ItemRJModel implements ItemRJModel {
   String? get complaint;
   @override
   String? get triase;
-  @override // Null vitalSign,
+  @override
+  VitalSignsModel? get vitalSign;
+  @override
   bool? get isBpjs;
   @override
   String? get finishedDate;
@@ -912,9 +1021,7 @@ abstract class _ItemRJModel implements ItemRJModel {
   bool? get isPayFirst;
   @override // List<Null>? plannedPacketProcedures,
   String? get uniqueCode;
-  @override
-  bool? get isAntrolFKTP;
-  @override
+  @override // bool? isAntrolFKTP,
   bool? get isAntrolFKTPV2;
   @override
   String? get id;
@@ -924,8 +1031,11 @@ abstract class _ItemRJModel implements ItemRJModel {
   String? get createdName;
   @override
   @JsonKey(name: 'Pasiens')
-  PatientModel? get pasiens;
-  @override // PracticeModel? prakteks,
+  RJPatientModel? get pasiens;
+  @override
+  @JsonKey(name: 'Prakteks')
+  PracticeModel? get prakteks;
+  @override
   String? get encounterId;
   @override
   @JsonKey(ignore: true)

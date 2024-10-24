@@ -1,6 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:privata/app/data/models/rj/item_rj/vital_signs/vital_signs_model.dart';
 
-import 'patient/patient_model.dart';
+import 'mrs/mrs_model.dart';
+import 'patient/rj_patient_model.dart';
+import 'practice/practice_model.dart';
 
 part 'item_rj_model.freezed.dart';
 part 'item_rj_model.g.dart';
@@ -8,10 +11,11 @@ part 'item_rj_model.g.dart';
 @freezed
 class ItemRJModel with _$ItemRJModel {
   const factory ItemRJModel({
+    MrsModel? mrs,
     String? bpjsTreatment,
     String? poli,
     String? pasienFkId,
-    // String? praktekFkId,
+    dynamic praktekFkId,
     String? day,
     String? appDate,
     String? date,
@@ -33,21 +37,21 @@ class ItemRJModel with _$ItemRJModel {
     String? procedurePlan,
     String? complaint,
     String? triase,
-    // Null vitalSign,
+    VitalSignsModel? vitalSign,
     bool? isBpjs,
     String? finishedDate,
     String? finishedId,
     bool? isPayFirst,
     // List<Null>? plannedPacketProcedures,
     String? uniqueCode,
-    bool? isAntrolFKTP,
+    // bool? isAntrolFKTP,
     bool? isAntrolFKTPV2,
     String? id,
     // List<Null>? createdPlannedProcedure,
     String? doctorName,
     String? createdName,
-    @JsonKey(name: 'Pasiens') PatientModel? pasiens,
-    // PracticeModel? prakteks,
+    @JsonKey(name: 'Pasiens') RJPatientModel? pasiens,
+    @JsonKey(name: 'Prakteks') PracticeModel? prakteks,
     String? encounterId,
   }) = _ItemRJModel;
 

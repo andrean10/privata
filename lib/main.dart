@@ -38,50 +38,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (true) {
-      return GetMaterialApp(
-        title: ConstantsKeys.appName,
-        theme: SharedTheme.lightThemeMaterial,
-        darkTheme: SharedTheme.darkThemeMaterial,
-        // themeMode: ThemeMode.light,
-        initialBinding: InitBinding(),
-        initialRoute: AppPages.INITIAL,
-        getPages: AppPages.routes,
-        defaultTransition: Transition.cupertino,
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('id'), // Indonesia
-          Locale('en') // English
-        ],
-        debugShowCheckedModeBanner: false,
-        enableLog: true,
-      );
-    } else {
-      return GetCupertinoApp(
-        title: ConstantsKeys.appName,
-        theme: (Get.isDarkMode)
-            ? SharedTheme.darkThemeCupertino
-            : SharedTheme.lightThemeCupertino,
-        initialBinding: InitBinding(),
-        initialRoute: AppPages.INITIAL,
-        getPages: AppPages.routes,
-        defaultTransition: Transition.cupertino,
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('id'), // Indonesia
-          Locale('en') // English
-        ],
-        debugShowCheckedModeBanner: false,
-        enableLog: true,
-      );
-    }
+    return GetMaterialApp(
+      title: ConstantsKeys.appName,
+      theme: SharedTheme.lightThemeMaterial,
+      darkTheme: SharedTheme.darkThemeMaterial,
+      themeMode: ThemeMode.system,
+      initialBinding: InitBinding(),
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
+      defaultTransition: Transition.cupertino,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('id'), // Indonesia
+        // Locale('en') // English
+      ],
+      debugShowCheckedModeBanner: false,
+      enableLog: true,
+    );
   }
 }

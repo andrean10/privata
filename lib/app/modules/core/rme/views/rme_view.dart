@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:privata/app/modules/core/rme/views/all_rme_screen.dart';
 import 'package:privata/app/modules/core/rme/views/today_rme_screen.dart';
 
+import '../../menu_registration/search_patient/views/search_patient_view.dart';
 import '../controllers/rme_controller.dart';
 
 class RmeView extends GetView<RmeController> {
@@ -24,7 +24,7 @@ class RmeView extends GetView<RmeController> {
         controller: controller.tabC,
         children: const [
           TodayRmeScreen(),
-          AllRmeScreen(),
+          SearchPatientView(),
         ],
       ),
     );

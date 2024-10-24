@@ -1,17 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:privata/app/helpers/text_helper.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
-  final String title;
+  final bool isRequired;
   final String? initialValue;
+  final String title;
   final String? hintText;
+  final int? hintMaxLines;
   final String? helperText;
+  final int? helperMaxLines;
   final String? errorText;
+  final int? errorMaxLines;
   final IconData? prefixIcon;
   final Widget? suffixIcon;
   final String? suffixText;
@@ -25,8 +29,9 @@ class CustomTextFormField extends StatelessWidget {
   final bool isAutoCorrect;
   final bool isAutoFocus;
   final bool isEnable;
-  final bool obscureText;
   final bool isLabel;
+  final bool isNumericOnly;
+  final bool obscureText;
   final TextAlign textAlign;
   final int? maxLines;
   final int? maxLength;
@@ -40,12 +45,16 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     required this.controller,
-    required this.focusNode,
+    this.focusNode,
+    this.isRequired = false,
     this.initialValue,
     required this.title,
     this.hintText,
+    this.hintMaxLines,
     this.helperText,
+    this.helperMaxLines = 2,
     this.errorText,
+    this.errorMaxLines = 5,
     this.prefixIcon,
     this.suffixIcon,
     this.suffixText,
@@ -59,8 +68,9 @@ class CustomTextFormField extends StatelessWidget {
     this.isAutoFocus = false,
     this.isReadOnly = false,
     this.isEnable = true,
-    this.obscureText = false,
     this.isLabel = false,
+    this.isNumericOnly = false,
+    this.obscureText = false,
     this.textAlign = TextAlign.start,
     this.maxLines,
     this.maxLength,
@@ -75,155 +85,173 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-
-    Widget? builderSuffixIcon() {
-      if (suffixIcon != null) {
-        return suffixIcon;
-      } else {
-        if (suffixIconState != null) {
-          if (suffixIconState!) {
-            return IconButton(
-              onPressed: () => controller?.clear(),
-              icon: const Icon(
-                Icons.cancel_outlined,
-              ),
-            );
-          }
-        }
-      }
-      return null;
-    }
+    final textTheme = context.textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (title != '' && !isLabel) ...[
-          Text(
-            title,
-            style: theme.textTheme.titleMedium,
-            maxLines: 1,
-          ),
+        builderTitle(theme, textTheme),
+        builderTextForm(context),
+      ],
+    );
+  }
+
+  Widget builderTitle(ThemeData theme, TextTheme textTheme) {
+    if (title != '' && !isLabel) {
+      return Column(
+        children: [
+          if (isRequired)
+            TextHelper.buildRichText(
+              text: '$title *',
+              highlight: '*',
+              highlightStyle:
+                  textTheme.titleMedium!.copyWith(color: Colors.red),
+              defaultStyle: textTheme.titleMedium,
+            )
+          else
+            Text(
+              title,
+              style: theme.textTheme.titleMedium,
+              maxLines: 1,
+            ),
           const SizedBox(height: 8),
         ],
-        (false)
-            ? CupertinoTextField(
-                controller: controller,
-                focusNode: focusNode,
-                placeholder: hintText,
-                decoration: BoxDecoration(
-                  border: Border.fromBorderSide(
-                    BorderSide(
-                      width: 1,
-                      color: theme.colorScheme.outline,
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  Widget? builderSuffixIcon(ThemeData theme) {
+    if (suffixIcon != null) {
+      return suffixIcon;
+    } else {
+      if (isNumericOnly) {
+        return IntrinsicHeight(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Material(
+                type: MaterialType.transparency,
+                child: InkWell(
+                  splashColor: theme.focusColor,
+                  customBorder: const CircleBorder(),
+                  onTap: () {
+                    var value = int.tryParse(controller?.text ?? '0') ?? 0;
+                    value++;
+                    controller?.text = value.toString();
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 2),
+                    child: Icon(
+                      Icons.arrow_drop_up,
                     ),
                   ),
-                  borderRadius: BorderRadius.circular(12),
                 ),
-                clearButtonMode: OverlayVisibilityMode.editing,
-                prefix: (prefixIcon != null) ? Icon(prefixIcon) : null,
-                suffix: (suffixText != null)
-                    ? Text('$suffixText')
-                    : (suffixIcon != null)
-                        ? suffixIcon
-                        : null,
-                keyboardType: keyboardType,
-                textCapitalization: textCapitalization,
-                textInputAction: textInputAction,
-                style: style,
-                readOnly: isReadOnly,
-                obscureText: obscureText,
-                autocorrect: isAutoCorrect,
-                autofocus: isAutoFocus,
-                maxLines: (keyboardType == TextInputType.multiline)
-                    ? null
-                    : (obscureText)
-                        ? 1
-                        : maxLines,
-                maxLength: (keyboardType == TextInputType.multiline)
-                    ? null
-                    : maxLength,
-                onChanged: onChanged,
-                onTap: onTap,
-                onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                onSubmitted: onFieldSubmitted ??
-                    (_) => FocusScope.of(context).nextFocus(),
-                // validator: validator,
-                // autovalidateMode: AutovalidateMode.onUserInteraction,
-                // textAlign: textAlign,
-                // buildCounter: (
-                //   context, {
-                //   required currentLength,
-                //   required isFocused,
-                //   maxLength,
-                // }) =>
-                //     null,
-                enabled: isEnable,
-                inputFormatters: inputFormatters,
-              )
-            : TextFormField(
-                controller: controller,
-                focusNode: focusNode,
-                initialValue: initialValue,
-                decoration: InputDecoration(
-                  labelText: (isLabel) ? title : null,
-                  hintText: hintText,
-                  helperText: helperText,
-                  helperMaxLines: 2,
-                  errorText: errorText,
-                  errorMaxLines: 5,
-                  prefixIcon: (prefixIcon != null) ? Icon(prefixIcon) : null,
-                  suffixIcon:
-                      (suffixIcon != null) ? suffixIcon : builderSuffixIcon(),
-                  suffixText: suffixText,
-                  filled: isFilled,
-                  border: (!isFilled)
-                      ? OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: theme.colorScheme.outline,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        )
-                      : null,
-                ),
-                keyboardType: keyboardType,
-                textCapitalization: textCapitalization,
-                textInputAction: textInputAction,
-                style: style,
-                readOnly: isReadOnly,
-                obscureText: obscureText,
-                autocorrect: isAutoCorrect,
-                autofocus: isAutoFocus,
-                maxLines: (keyboardType == TextInputType.multiline)
-                    ? null
-                    : (obscureText)
-                        ? 1
-                        : maxLines,
-                maxLength: (keyboardType == TextInputType.multiline)
-                    ? null
-                    : maxLength,
-                onChanged: onChanged,
-                onTap: onTap,
-                onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                // onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                onFieldSubmitted: onFieldSubmitted ??
-                    (_) => FocusScope.of(context).nextFocus(),
-                validator: validator,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                textAlign: textAlign,
-                buildCounter: (
-                  context, {
-                  required currentLength,
-                  required isFocused,
-                  maxLength,
-                }) =>
-                    null,
-                enabled: isEnable,
-                inputFormatters: inputFormatters,
               ),
-      ],
+              Material(
+                type: MaterialType.transparency,
+                child: InkWell(
+                  splashColor: theme.focusColor,
+                  customBorder: const CircleBorder(),
+                  onTap: () {
+                    var value = int.tryParse(controller?.text ?? '0') ?? 0;
+                    if (value > 0) {
+                      value--;
+                      controller?.text = value.toString();
+                    }
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(bottom: 2),
+                    child: Icon(
+                      Icons.arrow_drop_down,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      if (suffixIconState != null) {
+        if (suffixIconState!) {
+          return IconButton(
+            onPressed: () => controller?.clear(),
+            icon: const Icon(Icons.cancel_outlined),
+          );
+        }
+
+        return const SizedBox.shrink();
+      }
+    }
+    return null;
+  }
+
+  Widget builderTextForm(BuildContext context) {
+    final theme = context.theme;
+
+    return TextFormField(
+      initialValue: initialValue,
+      controller: controller,
+      focusNode: focusNode,
+      textAlignVertical: TextAlignVertical.center,
+      decoration: InputDecoration(
+        labelText: (isLabel) ? title : null,
+        hintText: hintText,
+        hintMaxLines: hintMaxLines,
+        helperText: helperText,
+        helperMaxLines: helperMaxLines,
+        errorText: errorText,
+        errorMaxLines: errorMaxLines,
+        prefixIcon: (prefixIcon != null) ? Icon(prefixIcon) : null,
+        suffixIcon: builderSuffixIcon(theme),
+        suffixText: suffixText,
+        filled: isFilled,
+        border: (!isFilled)
+            ? OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 1,
+                  color: theme.colorScheme.outline,
+                ),
+                borderRadius: BorderRadius.circular(12),
+              )
+            : null,
+      ),
+      keyboardType: keyboardType,
+      textCapitalization: textCapitalization,
+      textInputAction: textInputAction,
+      style: style,
+      readOnly: isReadOnly,
+      obscureText: obscureText,
+      autocorrect: isAutoCorrect,
+      autofocus: isAutoFocus,
+      maxLines: (keyboardType == TextInputType.multiline)
+          ? null
+          : (obscureText)
+              ? 1
+              : maxLines,
+      maxLength: (keyboardType == TextInputType.multiline) ? null : maxLength,
+      onChanged: onChanged,
+      onTap: onTap,
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      // onEditingComplete: () => FocusScope.of(context).nextFocus(),
+      onFieldSubmitted:
+          onFieldSubmitted ?? (_) => FocusScope.of(context).nextFocus(),
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      textAlign: textAlign,
+      buildCounter: (
+        context, {
+        required currentLength,
+        required isFocused,
+        maxLength,
+      }) =>
+          null,
+      enabled: isEnable,
+      inputFormatters: inputFormatters,
     );
   }
 }

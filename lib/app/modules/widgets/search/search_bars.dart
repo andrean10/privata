@@ -33,7 +33,7 @@ abstract class SearchBars {
       suggestions: suggestions,
       maxSuggestionBoxHeight: maxSuggestionBoxHeight ?? height / 3,
       onSearchTextChanged: onSearchTextChanged,
-      searchInputDecoration: InputDecoration(
+      searchInputDecoration: SearchInputDecoration(
         prefixIcon: const Icon(Icons.search_rounded),
         suffixIcon: (state)
             ? IconButton(
@@ -82,7 +82,7 @@ abstract class SearchBars {
               ),
             )
           : const SizedBox.shrink(),
-      dynamicHeightItem: true,
+      dynamicHeight: true,
       scrollbarDecoration: ScrollbarDecoration(
         radius: const Radius.circular(12),
         thumbColor: theme.colorScheme.secondaryContainer,

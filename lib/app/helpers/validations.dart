@@ -1,34 +1,61 @@
 import 'package:get/get.dart';
-import 'package:privata/app/data/models/range/range_model.dart';
+import 'package:privata/app/data/db/range/range_model.dart';
 
 abstract class Validation {
   static String? formField({
     required String titleField,
     required String? value,
-    bool isNumericOnly = false,
-    bool isEmail = false,
-    bool isNotZero = false,
-    num minLength = 0,
-    num? maxLength,
+    bool isRequired = true,
+    bool? isNumericOnly,
+    bool? isEmail,
+    bool? isNotZero,
+    num? minLengthChar,
+    num? maxLengthChar,
+    int? minLength = 0,
+    int? maxLength,
     RangeModel? range,
     String? messageEmpty,
+    String? messageNotZero,
     String? messageMinChar,
     String? messageMaxChar,
+    String? messageMinLength,
+    String? messageMaxLength,
   }) {
-    if (value != null) {
-      if (value.isEmpty) {
+    // print('value = $value');
+
+    // jika wajib diisi maka
+    if (isRequired) {
+      if (value?.isEmpty ?? false) {
         return '$titleField harus di isi!';
       }
+    }
 
-      if (isNumericOnly) {
+    // jika tidak wajib diisi maka
+    if (value != null && value.isNotEmpty) {
+      if (isNumericOnly ?? false) {
         if (!value.isNumericOnly) {
           return messageEmpty ?? 'Inputan $titleField harus berupa angka!';
         }
 
-        if (isNotZero) {
+        if (isNotZero ?? false) {
           if (int.parse(value) == 0) {
-            return 'Nilai field harus lebih dari 0';
+            return messageNotZero ?? 'Nilai field harus lebih dari 0';
           }
+
+          if (int.parse(value) < minLength!) {
+            return messageMinLength ?? '$titleField tidak boleh kurang dari 0';
+          }
+
+          if (maxLength != null) {
+            if (int.parse(value) > maxLength) {
+              return messageMinLength ??
+                  '$titleField tidak boleh lebih dari $maxLength';
+            }
+          }
+        }
+
+        if (!value.isPhoneNumber && value.startsWith('0')) {
+          return 'Format penulisan angka salah, tidak boleh menambahkan angka 0 di depan';
         }
 
         if (range != null) {
@@ -44,27 +71,27 @@ abstract class Validation {
             return '$titleField melebihi rentang ($minRange - $maxRange $typeRange)';
           }
         }
-      }
+      } else {
+        // jika bukan angka
+        if (isEmail ?? false) {
+          if (!value.isEmail) {
+            return 'Format $titleField tidak sesuai';
+          }
+        }
 
-      if (isEmail) {
-        if (!value.isEmail) {
-          return 'Format $titleField tidak sesuai';
+        if (value.length.isLowerThan(minLengthChar ?? 0)) {
+          return messageMinChar ??
+              '$titleField minimal harus $minLengthChar karakter!';
+        }
+
+        if (maxLengthChar != null &&
+            value.length.isGreaterThan(maxLengthChar)) {
+          return messageMaxChar ??
+              '$titleField melewati maksimal $maxLengthChar karakter';
         }
       }
-
-      if (value.length.isLowerThan(minLength)) {
-        return messageMinChar ??
-            '$titleField minimal harus $minLength karakter!';
-      }
-
-      if (maxLength != null &&
-          isNumericOnly &&
-          value.isNumericOnly &&
-          int.parse(value).isGreaterThan(maxLength)) {
-        return messageMaxChar ??
-            '$titleField melewati maksimal $maxLength karakter';
-      }
     }
+
     return null;
   }
 }

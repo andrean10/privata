@@ -46,7 +46,7 @@ class StatusConnect extends GetConnect {
       );
 
   Future<Response> rescheduleV2(Map<String, dynamic> body) => put(
-        '/Janjis/rescheduleStatusV2',
+        '/Janjis/rescheduleV2',
         body,
         headers: headers,
       );

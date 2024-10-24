@@ -1,20 +1,47 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../buttons/buttons.dart';
 
 abstract class Dialogs {
-  static Widget builderAction(String textButton, bool result) {
-    return (false)
-        ? CupertinoDialogAction(
-            child: Text(textButton),
-            onPressed: () => Get.back(result: result),
-          )
-        : Buttons.text(
-            child: Text(textButton),
-            onPressed: () => Get.back(result: result),
-          );
+  static Widget builderAction({
+    required String textButton,
+    bool? result,
+  }) {
+    return Buttons.text(
+      child: Text(textButton),
+      onPressed: () => Get.back(result: result),
+    );
+  }
+
+  static Future<bool?> fullScreen({
+    required BuildContext context,
+    required String title,
+    TextStyle? titleTextStyle,
+    required List<Widget>? actions,
+    required Widget content,
+  }) {
+    return showAdaptiveDialog<bool>(
+      context: context,
+      builder: (context) => Dialog.fullscreen(
+        child: Scaffold(
+          appBar: AppBar(
+            leading: CloseButton(
+              onPressed: () => Get.back(result: false),
+            ),
+            title: Text(
+              title,
+              style: titleTextStyle,
+            ),
+            actions: actions,
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: content,
+          ),
+        ),
+      ),
+    );
   }
 
   static Future<bool?> alert({
@@ -31,7 +58,22 @@ abstract class Dialogs {
     String? textNo,
     String? textYes,
   }) {
-    return showDialog<bool>(
+    List<Widget> builderActions;
+
+    if (actions != null) {
+      builderActions = actions;
+    } else {
+      if (isSingleAction) {
+        builderActions = [builderAction(textButton: 'Tutup')];
+      } else {
+        builderActions = [
+          builderAction(textButton: textNo ?? 'Tidak', result: false),
+          builderAction(textButton: textYes ?? 'Iya', result: true),
+        ];
+      }
+    }
+
+    return showAdaptiveDialog<bool?>(
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (context) => AlertDialog(
@@ -40,12 +82,34 @@ abstract class Dialogs {
         titleTextStyle: titleTextStyle,
         contentTextStyle: contentTextStyle,
         content: content,
-        actions: actions ??
-            [
-              builderAction(textNo ?? 'Tidak', false),
-              builderAction(textYes ?? 'Iya', true),
-            ],
+        actions: builderActions,
         actionsAlignment: actionsAlignment ?? MainAxisAlignment.end,
+      ),
+    );
+  }
+
+  static Future<bool?> loading({
+    required BuildContext context,
+    Widget? content,
+  }) {
+    final textTheme = context.textTheme;
+
+    return showAdaptiveDialog<bool?>(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => AlertDialog(
+        content: content ??
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator.adaptive(),
+                const SizedBox(height: 18),
+                Text(
+                  'Loading.....',
+                  style: textTheme.labelLarge,
+                ),
+              ],
+            ),
       ),
     );
   }

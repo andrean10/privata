@@ -100,20 +100,23 @@ class CashierView extends GetView<CashierController> {
       onNotification: controller.onNotification,
       child: RefreshIndicator.adaptive(
         onRefresh: controller.fetchData,
-        child: ListView.builder(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: 4,
-          ),
-          itemBuilder: (context, index) => builderItem(
-            context: context,
-            textTheme: textTheme,
-            index: index,
-          ).animate(target: controller.isLoading.value ? 0 : 1).shimmer(
-                duration: 3000.ms,
-              ),
-          itemCount: 10,
+        child: const Center(
+          child: Text('Tidak ada data tranasksi hari ini'),
         ),
+        // child: ListView.builder(
+        //   padding: const EdgeInsets.symmetric(
+        //     horizontal: 8,
+        //     vertical: 4,
+        //   ),
+        //   itemBuilder: (context, index) => builderItem(
+        //     context: context,
+        //     textTheme: textTheme,
+        //     index: index,
+        //   ).animate(target: controller.isLoading.value ? 0 : 1).shimmer(
+        //         duration: 3000.ms,
+        //       ),
+        //   itemCount: 10,
+        // ),
       ),
     );
   }

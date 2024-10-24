@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/shared/shared_theme.dart';
 
-import '../app/data/models/status/status_model.dart';
-import '../app/data/models/walkthrough/walkthrough_model.dart';
+import '../app/data/db/status/status_model.dart';
+import '../app/data/db/walkthrough/walkthrough_model.dart';
 import 'constants_assets.dart';
 
 abstract class ConstantsStrings {
@@ -1224,7 +1224,7 @@ abstract class ConstantsStrings {
   static const address = 'Alamat';
   static const hintAddress = 'Misal Jalan Soekarno Hatta';
   static const postalCode = 'Kode Pos';
-  static const hintPostalCode = 'Misal 0xxxxs';
+  static const hintPostalCode = 'Misal xxxxx';
 
   static const province = 'Provinsi';
   static const regency = 'Kabupaten/Kota';
@@ -1240,6 +1240,8 @@ abstract class ConstantsStrings {
   static const religion = 'Agama';
   static const marriedStatus = 'Status';
   static const bloodType = 'Golongan Darah';
+  static const lastEducation = 'Pendidikan Terakhir';
+  static const job = 'Pekerjaan';
 
   static final dataStatus = [
     StatusModel(
@@ -1276,14 +1278,8 @@ abstract class ConstantsStrings {
     'Whatsapp',
     'SMS',
     'Telepon',
-    'Reschedule',
     'Catatan Perawat',
     'Vital Sign',
-  ];
-
-  static const dataDoctors = [
-    'Drs. Arma Fazilla',
-    'Drs. Zulfa Sakinah',
   ];
 
   static const dataGender = [
@@ -1318,6 +1314,41 @@ abstract class ConstantsStrings {
     'O+',
     'O-',
     'Tidak Tahu',
+  ];
+
+  static const dataLastEducation = [
+    'SMP dan Sebelumnya',
+    'SMA',
+    'Diploma (D3)',
+    'Sarjana (S1)',
+    'Master (S2)',
+    'Lainnya',
+  ];
+
+  static const dataJob = [
+    'Pegawai Negeri',
+    'Pegawai Swasta',
+    'Wiraswasta',
+    'Pelajar',
+    'Freelancer',
+    'Mengurus Rumah Tangga',
+    'Pensiun',
+    'Tentara',
+    'Kepolisian',
+    'Dosen',
+    'Guru',
+    'Pilot',
+    'Pengacara',
+    'Notaris',
+    'Dokter',
+    'Bidan',
+    'Perawat',
+    'Apoteker',
+    'Psikiater/Psikolog',
+    'Petani',
+    'Nelayan',
+    'Lainnya',
+    'Tidak Bekerja',
   ];
 
   static const email = 'Email';
@@ -1435,6 +1466,52 @@ abstract class ConstantsStrings {
 
   static const String dummy =
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+
+  // PENDAFTARAN KUNJUNGAN
+  static const dataMethodPayment = [
+    'Tunai',
+    'BPJS Kesehatan',
+    'BPJS Ketenagakerjaan',
+    'Asuransi',
+    'Perusahaan',
+    'Kartu Debit',
+    'Kartu Kredit',
+    'Lainnya',
+  ];
+
+  static const dataVisitType = [
+    'Kunjungan Sakit',
+    // 'Kunjungan Sehat',
+    // 'Perawatan',
+  ];
+
+  static const dataServiceType = [
+    'Rawat Jalan',
+    // 'Rawat Inap',
+    // 'Rawat Inap Persalinan'
+  ];
+
+  static const dataServiceTypeBody = [
+    'Tubuh',
+    'Wajah',
+  ];
+
+  static const dataPoly = ['Umum'];
+
+  static const dataBeautyPoly = ['Kecantikan'];
+
+  static const dummyDataRoomType = ['Mawar', 'VVIP'];
+
+  static const dummyDataActivity = [
+    'Home-Visit',
+    'Konseling',
+    'Imunisasi (BCG)'
+  ];
+
+  static const dummyDataMedicalPersonnel = [
+    'drs. Eka Sinta Aprilia',
+    'dr. Andrean Ramadhan',
+  ];
 
   // RESEP OBAT
   static const medicineName = 'Nama Obat';

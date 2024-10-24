@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:privata/app/data/models/menu/menu_model.dart';
+import 'package:privata/app/data/db/menu/menu_model.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 
 class MainController extends GetxController {

@@ -23,11 +23,12 @@ abstract class Routes {
   static const ADD_DOCTOR = _Paths.ADD_DOCTOR;
   static const TRANSACTION = _Paths.TRANSACTION;
   static const SEARCH_PATIENT = _Paths.SEARCH_PATIENT;
+  static const SEARCH_PATIENT_DIALOG = _Paths.SEARCH_PATIENT_DIALOG;
   static const MEDICAL_PRESCRIPTION = _Paths.MEDICAL_PRESCRIPTION;
   static const BILLING_LANDING = _Paths.BILLING_LANDING;
   static const DETAIL_BILLING_LANDING = _Paths.DETAIL_BILLING_LANDING;
   static const INVOICE = _Paths.INVOICE;
-  static const PACKAGES = _Paths.PACKAGES;
+  static const SUBSCRIBE = _Paths.SUBSCRIBE;
   static const PAYMENT_STATUS = _Paths.PAYMENT_STATUS;
   static const PAYMENT = _Paths.PAYMENT;
   static const PRINTER_SETTINGS = _Paths.PRINTER_SETTINGS;
@@ -55,11 +56,12 @@ abstract class _Paths {
   static const ADD_DOCTOR = '/add-doctor';
   static const TRANSACTION = '/transaction';
   static const SEARCH_PATIENT = '/search-patient';
+  static const SEARCH_PATIENT_DIALOG = '/search-patient-dialog';
   static const MEDICAL_PRESCRIPTION = '/medical-prescription';
   static const BILLING_LANDING = '/billing-landing';
   static const DETAIL_BILLING_LANDING = '/detail-billing-landing';
   static const INVOICE = '/invoice';
-  static const PACKAGES = '/packages';
+  static const SUBSCRIBE = '/subscribe';
   static const PAYMENT_STATUS = '/payment-status';
   static const PAYMENT = '/payment';
   static const PRINTER_SETTINGS = '/printer-settings';
