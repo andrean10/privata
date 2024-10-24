@@ -1,4 +1,4 @@
-name: Privata-iOS-ipa-build
+name: Privata iOS Build V1.0.0-alpha-1.2
 
 on:
   workflow_dispatch:
