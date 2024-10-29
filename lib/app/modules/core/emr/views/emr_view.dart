@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/data/db/range/range_model.dart';
 import 'package:privata/app/data/models/detail_rj/detail_rj_model.dart';
-import 'package:privata/app/data/models/detail_rj/diagnoses/item_diagnoses/item_diagnoses_model.dart';
 import 'package:privata/app/helpers/format_date_time.dart';
 import 'package:privata/app/helpers/validations.dart';
 import 'package:privata/app/modules/widgets/textformfield/custom_dropdown_type_form_field.dart';
-import 'package:privata/app/modules/widgets/textformfield/custom_dropdown_type_form_field_multi_selection.dart';
 
 import '../../../../helpers/helper.dart';
 import '../../../../helpers/text_helper.dart';
@@ -17,7 +15,6 @@ import '../../../widgets/card/cards.dart';
 import '../../../widgets/dialog/dialogs.dart';
 import '../../../widgets/textformfield/custom_textform_field.dart';
 import '../controllers/emr_controller.dart';
-import '../controllers/search_action_controller.dart';
 
 class EmrView extends GetView<EmrController> {
   const EmrView({super.key});
@@ -49,137 +46,140 @@ class EmrView extends GetView<EmrController> {
       child: Column(
         children: [
           builderHeader(textTheme),
-          const SizedBox(height: 18),
-          builderCard(
-            [
-              builderKeluhan(),
-              const SizedBox(height: 18),
-              builderRowVital(
-                firstController: controller.lajuPernapasanC,
-                secondController: controller.denyutNadiC,
-                firstFocusNode: controller.lajuPernapasanF,
-                secondFocusNode: controller.denyutNadiF,
-                nextFocus: controller.tinggiBadanF,
-                firstTitle: 'Laju Pernapasan',
-                secondTitle: 'Denyut Nadi',
-                firstSuffixText: 'bpm',
-                secondSuffixText: 'hbpm',
-                firstMaxLength: 2,
-                secondMaxLength: 3,
-                firstRangeValidation: RangeModel(
-                  minRange: 5,
-                  maxRange: 70,
-                  type: 'bpm',
+          const SizedBox(height: 8),
+          Form(
+            key: controller.formKey,
+            child: builderCard(
+              [
+                builderKeluhan(),
+                const SizedBox(height: 18),
+                builderRowVital(
+                  firstController: controller.lajuPernapasanC,
+                  secondController: controller.denyutNadiC,
+                  firstFocusNode: controller.lajuPernapasanF,
+                  secondFocusNode: controller.denyutNadiF,
+                  nextFocus: controller.tinggiBadanF,
+                  firstTitle: 'Laju Pernapasan',
+                  secondTitle: 'Denyut Nadi',
+                  firstSuffixText: 'bpm',
+                  secondSuffixText: 'hbpm',
+                  firstMaxLength: 2,
+                  secondMaxLength: 3,
+                  firstRangeValidation: RangeModel(
+                    minRange: 5,
+                    maxRange: 70,
+                    type: 'bpm',
+                  ),
+                  secondRangeValidation: RangeModel(
+                    minRange: 30,
+                    maxRange: 160,
+                    type: 'hbpm',
+                  ),
                 ),
-                secondRangeValidation: RangeModel(
-                  minRange: 30,
-                  maxRange: 160,
-                  type: 'hbpm',
+                const SizedBox(height: 18),
+                builderRowVital(
+                  firstController: controller.tinggiBadanC,
+                  secondController: controller.beratBadanC,
+                  firstFocusNode: controller.tinggiBadanF,
+                  secondFocusNode: controller.beratBadanF,
+                  nextFocus: controller.gulaDarahF,
+                  firstTitle: 'Tinggi Badan',
+                  secondTitle: 'Berat Badan',
+                  firstSuffixText: 'cm',
+                  secondSuffixText: 'kg',
+                  firstMaxLength: 3,
+                  secondMaxLength: 3,
+                  firstRangeValidation: RangeModel(
+                    minRange: 30,
+                    maxRange: 250,
+                    type: 'cm',
+                  ),
+                  secondRangeValidation: RangeModel(
+                    minRange: 2,
+                    maxRange: 300,
+                    type: 'kg',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 18),
-              builderRowVital(
-                firstController: controller.tinggiBadanC,
-                secondController: controller.beratBadanC,
-                firstFocusNode: controller.tinggiBadanF,
-                secondFocusNode: controller.beratBadanF,
-                nextFocus: controller.gulaDarahF,
-                firstTitle: 'Tinggi Badan',
-                secondTitle: 'Berat Badan',
-                firstSuffixText: 'cm',
-                secondSuffixText: 'kg',
-                firstMaxLength: 3,
-                secondMaxLength: 3,
-                firstRangeValidation: RangeModel(
-                  minRange: 30,
-                  maxRange: 250,
-                  type: 'cm',
+                const SizedBox(height: 18),
+                builderRowVital(
+                  firstController: controller.gulaDarahC,
+                  secondController: controller.suhuTubuhC,
+                  firstFocusNode: controller.gulaDarahF,
+                  secondFocusNode: controller.suhuTubuhF,
+                  nextFocus: controller.lingkarPerutF,
+                  firstTitle: 'Gula Darah',
+                  secondTitle: 'Suhu Tubuh',
+                  firstSuffixText: 'mg/dL',
+                  secondSuffixText: '°C',
+                  secondMaxLength: 3,
+                  firstRangeValidation: RangeModel(
+                    minRange: 0,
+                    maxRange: 99999,
+                    type: 'mg/dL',
+                  ),
+                  secondRangeValidation: RangeModel(
+                    minRange: 25,
+                    maxRange: 45,
+                    type: '°C',
+                  ),
                 ),
-                secondRangeValidation: RangeModel(
-                  minRange: 2,
-                  maxRange: 300,
-                  type: 'kg',
+                const SizedBox(height: 18),
+                builderRowVital(
+                  firstController: controller.lingkarPerutC,
+                  secondController: controller.saturasiOksigenC,
+                  firstFocusNode: controller.lingkarPerutF,
+                  secondFocusNode: controller.saturasiOksigenF,
+                  nextFocus: controller.darahSistolikF,
+                  firstTitle: 'Lingkar Perut',
+                  secondTitle: 'Saturasi Oksigen',
+                  firstSuffixText: 'cm',
+                  secondSuffixText: 'SpO2',
+                  firstMaxLength: 3,
+                  firstRangeValidation: RangeModel(
+                    minRange: 25,
+                    maxRange: 300,
+                    type: 'cm',
+                  ),
+                  secondRangeValidation: RangeModel(
+                    minRange: 1,
+                    maxRange: 99999,
+                    type: 'SpO2',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 18),
-              builderRowVital(
-                firstController: controller.gulaDarahC,
-                secondController: controller.suhuTubuhC,
-                firstFocusNode: controller.gulaDarahF,
-                secondFocusNode: controller.suhuTubuhF,
-                nextFocus: controller.lingkarPerutF,
-                firstTitle: 'Gula Darah',
-                secondTitle: 'Suhu Tubuh',
-                firstSuffixText: 'mg/dL',
-                secondSuffixText: '°C',
-                secondMaxLength: 3,
-                firstRangeValidation: RangeModel(
-                  minRange: 0,
-                  maxRange: 99999,
-                  type: 'mg/dL',
+                const SizedBox(height: 18),
+                builderRowVital(
+                  firstController: controller.darahSistolikC,
+                  secondController: controller.darahDiastolikC,
+                  firstFocusNode: controller.darahSistolikF,
+                  secondFocusNode: controller.darahDiastolikF,
+                  firstTitle: 'Sistolik',
+                  secondTitle: 'Diastolik',
+                  firstSuffixText: 'mmHg',
+                  secondSuffixText: 'mmHg',
+                  firstMaxLength: 3,
+                  secondMaxLength: 3,
+                  firstRangeValidation: RangeModel(
+                    minRange: 40,
+                    maxRange: 250,
+                    type: 'mmHg',
+                  ),
+                  secondRangeValidation: RangeModel(
+                    minRange: 30,
+                    maxRange: 180,
+                    type: 'mmHg',
+                  ),
                 ),
-                secondRangeValidation: RangeModel(
-                  minRange: 25,
-                  maxRange: 45,
-                  type: '°C',
-                ),
-              ),
-              const SizedBox(height: 18),
-              builderRowVital(
-                firstController: controller.lingkarPerutC,
-                secondController: controller.saturasiOksigenC,
-                firstFocusNode: controller.lingkarPerutF,
-                secondFocusNode: controller.saturasiOksigenF,
-                nextFocus: controller.darahSistolikF,
-                firstTitle: 'Lingkar Perut',
-                secondTitle: 'Saturasi Oksigen',
-                firstSuffixText: 'cm',
-                secondSuffixText: 'SpO2',
-                firstMaxLength: 3,
-                firstRangeValidation: RangeModel(
-                  minRange: 25,
-                  maxRange: 300,
-                  type: 'cm',
-                ),
-                secondRangeValidation: RangeModel(
-                  minRange: 1,
-                  maxRange: 99999,
-                  type: 'SpO2',
-                ),
-              ),
-              const SizedBox(height: 18),
-              builderRowVital(
-                firstController: controller.darahSistolikC,
-                secondController: controller.darahDiastolikC,
-                firstFocusNode: controller.darahSistolikF,
-                secondFocusNode: controller.darahDiastolikF,
-                firstTitle: 'Tekanan Darah Sistolik',
-                secondTitle: 'Tekanan Darah Diastolik',
-                firstSuffixText: 'mmHg',
-                secondSuffixText: 'mmHg',
-                firstMaxLength: 3,
-                secondMaxLength: 3,
-                firstRangeValidation: RangeModel(
-                  minRange: 40,
-                  maxRange: 250,
-                  type: 'mmHg',
-                ),
-                secondRangeValidation: RangeModel(
-                  minRange: 30,
-                  maxRange: 180,
-                  type: 'mmHg',
-                ),
-              ),
-              const SizedBox(height: 18),
-              builderDiagnosis(context),
-              const SizedBox(height: 18),
-              builderProcedure(context),
-              const SizedBox(height: 18),
-              builderDrug(context),
-              const SizedBox(height: 18),
-              builderSave(),
-              const SizedBox(height: 18),
-            ],
+                const SizedBox(height: 18),
+                builderDiagnosis(context),
+                const SizedBox(height: 18),
+                builderProcedure(context),
+                const SizedBox(height: 18),
+                builderDrug(context),
+                const SizedBox(height: 18),
+                builderSave(context),
+                const SizedBox(height: 18),
+              ],
+            ),
           ),
         ],
       ),
@@ -194,6 +194,7 @@ class EmrView extends GetView<EmrController> {
         IconButton(
           onPressed: controller.moveToTimelineEMR,
           icon: const Icon(Icons.view_timeline_rounded),
+          tooltip: 'Timeline',
         )
       ],
     );
@@ -254,7 +255,7 @@ class EmrView extends GetView<EmrController> {
         controller: controller.keluhanC,
         focusNode: controller.keluhanF,
         title: 'Keluhan',
-        hintText: 'Isi Keluhan',
+        // hintText: 'Isi Keluhan',
         isFilled: true,
         keyboardType: TextInputType.multiline,
         maxLines: 5,
@@ -291,8 +292,8 @@ class EmrView extends GetView<EmrController> {
             controller: firstController,
             focusNode: firstFocusNode,
             title: firstTitle,
-            hintText: 'Isi ${firstTitle.toLowerCase()}',
-            hintMaxLines: 1,
+            // hintText: 'Isi ${firstTitle.toLowerCase()}',
+            // hintMaxLines: 1,
             isFilled: true,
             isNumericOnly: true,
             maxLength: firstMaxLength,
@@ -301,6 +302,7 @@ class EmrView extends GetView<EmrController> {
             validator: (value) => Validation.formField(
               value: value,
               titleField: TextHelper.capitalizeEachWords(firstTitle) ?? '',
+              isRequired: false,
               isNotZero: true,
               isNumericOnly: true,
               range: firstRangeValidation,
@@ -313,8 +315,8 @@ class EmrView extends GetView<EmrController> {
             controller: secondController,
             focusNode: secondFocusNode,
             title: secondTitle,
-            hintText: 'Isi ${secondTitle.toLowerCase()}',
-            hintMaxLines: 1,
+            // hintText: 'Isi ${secondTitle.toLowerCase()}',
+            // hintMaxLines: 1,
             isFilled: true,
             isNumericOnly: true,
             maxLength: secondMaxLength,
@@ -324,6 +326,7 @@ class EmrView extends GetView<EmrController> {
             validator: (value) => Validation.formField(
               value: value,
               titleField: TextHelper.capitalizeEachWords(secondTitle) ?? '',
+              isRequired: false,
               isNotZero: true,
               isNumericOnly: true,
               range: secondRangeValidation,
@@ -353,60 +356,26 @@ class EmrView extends GetView<EmrController> {
             children: controller.itemsDiagnoses.map(
               (e) {
                 final keyword = e.name?.firstOrNull?.keyword ?? '-';
-                final (code, description) =
-                    TextHelper.extractCodeAndDescription(
+                final (code, _) = TextHelper.extractCodeAndDescription(
                   input: keyword,
                 );
+                final writeBy = e.createdName;
+                final streakBy = e.streakName;
                 final date = FormatDateTime.dateToString(
                   newPattern: 'dd MMMM yyyy HH:mm',
                   value: e.createdAt,
                 );
-                var writeBy = 'Ditulis oleh ${e.createdName ?? '-'}';
-                var streakBy = '-';
-                var isStroke = false;
-
-                if (e.streakName != null) {
-                  streakBy = 'Dicoret oleh ${e.streakName}';
-                  isStroke = true;
-                }
+                final isStroke = e.streakId != null && streakBy != null;
 
                 return InputChip(
-                  onPressed: () {
-                    Dialogs.alert(
-                      context: context,
-                      title: 'Diagnosa',
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            keyword,
-                            style: textTheme.bodyLarge,
-                          ),
-                          const SizedBox(height: 32),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(writeBy),
-                                if (e.streakName != null)
-                                  Text(
-                                    streakBy,
-                                    style: TextStyle(
-                                      color: theme.colorScheme.error,
-                                    ),
-                                  ),
-                                const SizedBox(height: 8),
-                                Text(date),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      isSingleAction: true,
-                    );
-                  },
+                  onPressed: () => _showDialogInfo(
+                    context: context,
+                    title: 'Diagnosa',
+                    name: keyword,
+                    writeBy: writeBy,
+                    streakBy: streakBy,
+                    date: date,
+                  ),
                   avatar: CircleAvatar(
                     backgroundColor: theme.focusColor,
                     child: Text(
@@ -424,23 +393,23 @@ class EmrView extends GetView<EmrController> {
                     theme.colorScheme.primaryContainer,
                   ),
                   deleteButtonTooltipMessage: 'Coret Diagnosa',
-                  deleteIcon: const Icon(Icons.clear_rounded),
-                  onDeleted: () async {
-                    final state = await Dialogs.alert(
-                      context: context,
-                      title: 'Perhatian',
-                      content: Text(
-                        'Apakah anda yakin ingin mencoret diagnosa $description ini ?',
-                      ),
-                      textYes: 'Coret',
-                    );
+                  deleteIcon:
+                      (!isStroke) ? const Icon(Icons.clear_rounded) : null,
+                  onDeleted: (!isStroke)
+                      ? () async {
+                          final state = await _showCrossAlertDialog(
+                            context: context,
+                            type: 'diagnosa',
+                            description: keyword,
+                          );
 
-                    if (state != null) {
-                      if (state) {
-                        controller.strokeDiagnose(e.id);
-                      }
-                    }
-                  },
+                          if (state != null) {
+                            if (state) {
+                              controller.strokeDiagnose(e.id);
+                            }
+                          }
+                        }
+                      : null,
                 );
               },
             ).toList(),
@@ -461,35 +430,9 @@ class EmrView extends GetView<EmrController> {
     );
   }
 
-  Widget builderCross(BuildContext context) {
-    return Buttons.text(
-      onPressed: () {
-        showAdaptiveDialog(
-          context: context,
-          builder: (context) => AlertDialog.adaptive(
-            title: const Text('Perhatian'),
-            content: const Text(
-              'Apakah anda ingin mencoret tindakan ini?',
-            ),
-            actions: [
-              Buttons.text(
-                onPressed: () => Get.back(),
-                child: const Text('Tidak'),
-              ),
-              Buttons.text(
-                onPressed: () => Get.back(),
-                child: const Text('Ya'),
-              ),
-            ],
-          ),
-        );
-      },
-      child: const Text('Coret'),
-    );
-  }
-
   Widget builderProcedure(BuildContext context) {
     final textTheme = context.textTheme;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -498,12 +441,10 @@ class EmrView extends GetView<EmrController> {
           children: [
             AutoSizeText(
               'Tindakan',
-              style: textTheme.titleLarge,
+              style: textTheme.titleMedium,
             ),
             IconButton(
-              onPressed: () => controller.showActionDialog(
-                type: SearchType.procedure,
-              ),
+              onPressed: controller.showProcedureDialog,
               icon: const Icon(Icons.add_rounded),
               tooltip: 'Tambah Tindakan',
             ),
@@ -511,27 +452,78 @@ class EmrView extends GetView<EmrController> {
         ),
         const SizedBox(height: 4),
         Obx(
-          () => ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              final name = controller.resultProcedures[index].name;
-              final fee = controller.resultProcedures[index].basicFee;
+          () => Cards.filled(
+            context: context,
+            inPadding: EdgeInsets.zero,
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final item = controller.itemsProcedures[index];
+                final name = item.procedureName;
+                final basicFee = item.basicFee;
+                final discountFee = item.discountFee;
+                final totalFee = item.totalFee;
+                final writeBy = item.createdName;
+                final fee = item.basicFee;
+                final streakBy = item.streakName;
+                final date = FormatDateTime.dateToString(
+                  newPattern: 'dd MMMM yyyy HH:mm',
+                  value: item.createdAt,
+                );
+                final isStroke = item.streakId != null || streakBy != null;
 
-              return ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(name ?? '-'),
-                titleTextStyle: textTheme.titleMedium,
-                subtitle: Text(
-                    TextHelper.formatRupiah(amount: fee, isCompact: false) ??
-                        'Rp. 0'),
-                trailing: Buttons.text(
-                  onPressed: () {},
-                  child: const Text('Coret'),
-                ),
-              );
-            },
-            itemCount: controller.resultProcedures.length,
+                return ListTile(
+                  onTap: () => _showDialogInfo(
+                    context: context,
+                    title: 'Tindakan',
+                    name: name,
+                    basicFee: basicFee,
+                    discountFee: discountFee,
+                    totalFee: totalFee,
+                    writeBy: writeBy,
+                    streakBy: streakBy,
+                    date: date,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 12,
+                  ),
+                  title: Text(name ?? '-'),
+                  titleTextStyle: textTheme.titleMedium?.copyWith(
+                    decoration: isStroke ? TextDecoration.lineThrough : null,
+                  ),
+                  subtitle: Text(
+                    TextHelper.formatRupiah(
+                      amount: fee,
+                      isCompact: false,
+                    ),
+                  ),
+                  subtitleTextStyle: textTheme.bodyMedium?.copyWith(
+                    decoration: isStroke ? TextDecoration.lineThrough : null,
+                  ),
+                  trailing: (!isStroke)
+                      ? IconButton(
+                          onPressed: () async {
+                            final state = await _showCrossAlertDialog(
+                              context: context,
+                              type: 'tindakan',
+                              description: name ?? '',
+                            );
+
+                            if (state != null) {
+                              if (state) {
+                                controller.strokeProcedure(index, item.id);
+                              }
+                            }
+                          },
+                          icon: const Icon(Icons.clear_rounded),
+                        )
+                      : null,
+                );
+              },
+              itemCount: controller.itemsProcedures.length,
+            ),
           ),
         ),
       ],
@@ -549,11 +541,10 @@ class EmrView extends GetView<EmrController> {
           children: [
             AutoSizeText(
               'Obat',
-              style: textTheme.titleLarge,
+              style: textTheme.titleMedium,
             ),
             IconButton(
-              onPressed: () =>
-                  controller.showActionDialog(type: SearchType.drugs),
+              onPressed: () => controller.showDrugsModal(context),
               icon: const Icon(Icons.add_rounded),
               tooltip: 'Tambah Obat',
             ),
@@ -561,56 +552,279 @@ class EmrView extends GetView<EmrController> {
         ),
         const SizedBox(height: 4),
         Obx(
-          () => ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              final title = controller.listDrugs[index].title;
-              final price = controller.listDrugs[index].price;
+          () => Cards.filled(
+            context: context,
+            inPadding: EdgeInsets.zero,
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final item = controller.itemsDrugs[index];
+                final name = item.medicineName ?? '-';
+                final quantity = item.quantity;
+                final unit = item.unit;
+                final cigna = item.cigna;
+                final basicFee = item.basicFee;
+                final totalFee = item.totalFee;
+                final writeBy = item.createdName;
+                final streakBy = item.streakName;
+                final date = FormatDateTime.dateToString(
+                  newPattern: 'dd MMMM yyyy HH:mm',
+                  value: item.createdAt,
+                );
+                final isStroke =
+                    item.streakId != null && item.streakName != null;
 
-              return ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(title),
-                titleTextStyle: textTheme.titleMedium,
-                subtitle: Text('Rp. $price'),
-                trailing: builderCross(context),
-              );
-            },
-            itemCount: controller.listDrugs.length,
+                return ListTile(
+                  onTap: () => _showDialogInfo(
+                    context: context,
+                    title: 'Obat',
+                    name: name,
+                    quantity: quantity,
+                    unit: unit,
+                    cigna: cigna,
+                    basicFee: basicFee?.toInt(),
+                    totalFee: totalFee,
+                    writeBy: writeBy,
+                    streakBy: streakBy,
+                    date: date,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 12,
+                  ),
+                  title: Text(name),
+                  titleTextStyle: textTheme.titleMedium?.copyWith(
+                    decoration: isStroke ? TextDecoration.lineThrough : null,
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        TextHelper.formatRupiah(
+                          amount: totalFee,
+                          isCompact: false,
+                        ),
+                      ),
+                      if (cigna != null) ...[
+                        const SizedBox(height: 2),
+                        Text(cigna),
+                      ]
+                    ],
+                  ),
+                  subtitleTextStyle: textTheme.bodyMedium?.copyWith(
+                    decoration: isStroke ? TextDecoration.lineThrough : null,
+                  ),
+                  trailing: (!isStroke)
+                      ? IconButton(
+                          onPressed: () async {
+                            final state = await _showCrossAlertDialog(
+                              context: context,
+                              type: 'obat',
+                              description: name,
+                            );
+
+                            if (state != null) {
+                              if (state) {
+                                controller.strokeDrugs(index, item.id);
+                              }
+                            }
+                          },
+                          icon: const Icon(Icons.clear_rounded),
+                        )
+                      : null,
+                );
+              },
+              itemCount: controller.itemsDrugs.length,
+            ),
           ),
         ),
       ],
     );
   }
 
-  // Widget builderDrug() {
-  //   return Obx(
-  //     () => CustomTextFormField(
-  //       controller: controller.obatC,
-  //       focusNode: controller.obatF,
-  //       title: 'Obat',
-  //       hintText: 'Isi Obat',
-  //       isFilled: true,
-  //       keyboardType: TextInputType.multiline,
-  //       maxLines: 5,
-  //       suffixIconState: controller.obat.value.isNotEmpty,
-  //       validator: (value) => Validation.formField(
-  //         titleField: 'Obat',
-  //         value: value,
-  //         isRequired: false,
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  Widget builderSave() {
-    return Obx(
-      () => Buttons.filled(
-        width: double.infinity,
-        state: controller.isLoading.value,
-        onPressed: !controller.isLoading.value ? controller.save : null,
-        child: const Text('Simpan'),
+  Future<bool?> _showCrossAlertDialog({
+    required BuildContext context,
+    required String type,
+    required String description,
+  }) async {
+    return await Dialogs.alert(
+      context: context,
+      title: 'Perhatian',
+      content: Text(
+        'Apakah anda yakin ingin mencoret $type $description ini ?',
       ),
+      textYes: 'Coret',
+    );
+  }
+
+  Widget builderRowFee({
+    required TextTheme textTheme,
+    required String name,
+    int? fee,
+    String? notFee,
+  }) {
+    Widget text = const SizedBox.shrink();
+
+    if (fee != null) {
+      text = Text(
+        TextHelper.formatRupiah(amount: fee),
+      );
+    }
+
+    if (notFee != null) {
+      text = Text(notFee);
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            name,
+            style: textTheme.labelLarge,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(child: text),
+      ],
+    );
+  }
+
+  void _showDialogInfo({
+    required BuildContext context,
+    required String title,
+    required String? name,
+    int? quantity,
+    String? unit,
+    String? cigna,
+    int? basicFee,
+    int? discountFee,
+    int? totalFee,
+    required String? writeBy,
+    String? streakBy,
+    required String? date,
+  }) {
+    final theme = context.theme;
+    final textTheme = context.textTheme;
+
+    final widgetPrice = <Widget>[
+      const SizedBox(height: 16),
+    ];
+
+    if (title == 'Tindakan') {
+      widgetPrice.addAll([
+        builderRowFee(
+          textTheme: textTheme,
+          name: 'Nama Tindakan',
+          notFee: name,
+        ),
+        const SizedBox(height: 4),
+        builderRowFee(
+          textTheme: textTheme,
+          name: 'Harga Jual',
+          fee: basicFee,
+        ),
+        const SizedBox(height: 4),
+        builderRowFee(
+          textTheme: textTheme,
+          name: 'Discount',
+          fee: discountFee,
+        ),
+        const SizedBox(height: 4),
+        builderRowFee(
+          textTheme: textTheme,
+          name: 'Total',
+          fee: totalFee,
+        ),
+        const SizedBox(height: 4),
+      ]);
+    }
+
+    if (title == 'Obat') {
+      widgetPrice.addAll([
+        builderRowFee(
+          textTheme: textTheme,
+          name: 'Jumlah',
+          notFee: quantity.toString(),
+        ),
+        const SizedBox(height: 4),
+        builderRowFee(
+          textTheme: textTheme,
+          name: 'Satuan',
+          notFee: unit,
+        ),
+        builderRowFee(
+          textTheme: textTheme,
+          name: 'Cigna',
+          notFee: cigna,
+        ),
+        const SizedBox(height: 4),
+        builderRowFee(
+          textTheme: textTheme,
+          name: 'Harga Satuan',
+          fee: basicFee,
+        ),
+        const SizedBox(height: 4),
+        builderRowFee(
+          textTheme: textTheme,
+          name: 'Total',
+          fee: totalFee,
+        ),
+      ]);
+    }
+
+    Dialogs.alert(
+      context: context,
+      title: title,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            name ?? '-',
+            style: textTheme.bodyLarge,
+          ),
+          ...widgetPrice,
+          const SizedBox(height: 32),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text('Ditulis oleh $writeBy'),
+                if (streakBy != null)
+                  Text(
+                    'Dicoret oleh $streakBy',
+                    style: TextStyle(
+                      color: theme.colorScheme.error,
+                    ),
+                  ),
+                const SizedBox(height: 8),
+                Text(date ?? '-'),
+              ],
+            ),
+          ),
+        ],
+      ),
+      isSingleAction: true,
+    );
+  }
+
+  Widget builderSave(BuildContext context) {
+    return Obx(
+      () {
+        final isEnabledSave =
+            !controller.isLoading.value && controller.keluhan.isNotEmpty;
+
+        return Buttons.filled(
+          width: double.infinity,
+          state: controller.isLoading.value,
+          onPressed: isEnabledSave ? () => controller.save(context) : null,
+          child: const Text('Simpan'),
+        );
+      },
     );
   }
 }

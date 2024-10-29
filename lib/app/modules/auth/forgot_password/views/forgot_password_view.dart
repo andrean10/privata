@@ -75,7 +75,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
         controller: controller.emailC,
         focusNode: controller.emailF,
         title: ConstantsStrings.usernameOrEmail,
-        hintText: ConstantsStrings.hintUsernameOrEmail,
+        // hintText: ConstantsStrings.hintUsernameOrEmail,
         isLabel: true,
         suffixIconState: controller.email.value.isNotEmpty,
         keyboardType: TextInputType.emailAddress,

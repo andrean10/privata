@@ -33,6 +33,7 @@ mixin _$FamilyModel {
   @JsonKey(name: 'created_id')
   String? get createdId => throw _privateConstructorUsedError;
   String? get updatedId => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: idFromJson)
   int? get id => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get dateOfBirth => throw _privateConstructorUsedError;
@@ -61,7 +62,7 @@ abstract class $FamilyModelCopyWith<$Res> {
       String? updatedAt,
       @JsonKey(name: 'created_id') String? createdId,
       String? updatedId,
-      int? id,
+      @JsonKey(fromJson: idFromJson) int? id,
       String? email,
       String? dateOfBirth});
 }
@@ -175,7 +176,7 @@ abstract class _$$FamilyModelImplCopyWith<$Res>
       String? updatedAt,
       @JsonKey(name: 'created_id') String? createdId,
       String? updatedId,
-      int? id,
+      @JsonKey(fromJson: idFromJson) int? id,
       String? email,
       String? dateOfBirth});
 }
@@ -282,7 +283,7 @@ class _$FamilyModelImpl implements _FamilyModel {
       this.updatedAt,
       @JsonKey(name: 'created_id') this.createdId,
       this.updatedId,
-      this.id,
+      @JsonKey(fromJson: idFromJson) this.id,
       this.email,
       this.dateOfBirth});
 
@@ -314,6 +315,7 @@ class _$FamilyModelImpl implements _FamilyModel {
   @override
   final String? updatedId;
   @override
+  @JsonKey(fromJson: idFromJson)
   final int? id;
   @override
   final String? email;
@@ -401,7 +403,7 @@ abstract class _FamilyModel implements FamilyModel {
       final String? updatedAt,
       @JsonKey(name: 'created_id') final String? createdId,
       final String? updatedId,
-      final int? id,
+      @JsonKey(fromJson: idFromJson) final int? id,
       final String? email,
       final String? dateOfBirth}) = _$FamilyModelImpl;
 
@@ -433,6 +435,7 @@ abstract class _FamilyModel implements FamilyModel {
   @override
   String? get updatedId;
   @override
+  @JsonKey(fromJson: idFromJson)
   int? get id;
   @override
   String? get email;

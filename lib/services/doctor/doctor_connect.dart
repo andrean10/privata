@@ -13,8 +13,6 @@ class DoctorConnect extends GetConnect {
       'Accept': 'application/json',
     };
 
-    _initC.logger.d('debug: authToken = $token');
-
     if (token != null) {
       headers['Authorization'] = token;
     }

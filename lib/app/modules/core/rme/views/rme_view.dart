@@ -12,19 +12,15 @@ class RmeView extends GetView<RmeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Rekam Medis'),
-        centerTitle: true,
-        bottom: TabBar(
-          controller: controller.tabC,
-          tabs: controller.listTab.map((e) => Tab(text: e)).toList(),
-        ),
+      appBar: TabBar(
+        controller: controller.tabC,
+        tabs: controller.listTab.map((e) => Tab(text: e)).toList(),
       ),
       body: TabBarView(
         controller: controller.tabC,
         children: const [
           TodayRmeScreen(),
-          SearchPatientView(),
+          SearchPatientView(isFromRME: true),
         ],
       ),
     );

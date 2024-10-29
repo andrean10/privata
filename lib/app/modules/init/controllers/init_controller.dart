@@ -96,6 +96,7 @@ class InitController extends GetxController {
         // Note for iOS and macOS:
         // There is no separate network interface type for [vpn].
         // It returns [other] on any device (also simulator)
+        isConnectedInternet.value = true;
       } else if (result.contains(ConnectivityResult.bluetooth)) {
         // Bluetooth connection available.
       } else if (result.contains(ConnectivityResult.other)) {

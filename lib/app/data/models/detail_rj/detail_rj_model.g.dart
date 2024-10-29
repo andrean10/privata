@@ -27,9 +27,22 @@ _$DetailRJModelImpl _$$DetailRJModelImplFromJson(Map<String, dynamic> json) =>
       patients: json['Patients'] == null
           ? null
           : RJPatientModel.fromJson(json['Patients'] as Map<String, dynamic>),
+      doctorNotes: (json['DoctorNotes'] as List<dynamic>?)
+          ?.map((e) => DoctorNotesModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       nurseNotes: (json['NurseNotes'] as List<dynamic>?)
           ?.map((e) => NurseNotesModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      prescriptions: (json['Prescriptions'] as List<dynamic>?)
+          ?.map((e) => PrescriptionsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      procedures: (json['Procedures'] as List<dynamic>?)
+          ?.map((e) => ProcedureModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      appointments: json['Appointments'] == null
+          ? null
+          : AppointmentModel.fromJson(
+              json['Appointments'] as Map<String, dynamic>),
       practices: json['Practices'] == null
           ? null
           : PracticeModel.fromJson(json['Practices'] as Map<String, dynamic>),
@@ -55,7 +68,11 @@ Map<String, dynamic> _$$DetailRJModelImplToJson(_$DetailRJModelImpl instance) =>
       'id': instance.id,
       'VitalSigns': instance.vitalSigns,
       'Patients': instance.patients,
+      'DoctorNotes': instance.doctorNotes,
       'NurseNotes': instance.nurseNotes,
+      'Prescriptions': instance.prescriptions,
+      'Procedures': instance.procedures,
+      'Appointments': instance.appointments,
       'Practices': instance.practices,
       'Diagnoses': instance.diagnoses,
     };

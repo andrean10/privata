@@ -9,13 +9,12 @@ part of 'patient_model.dart';
 _$PatientModelImpl _$$PatientModelImplFromJson(Map<String, dynamic> json) =>
     _$PatientModelImpl(
       nama: json['nama'] as String?,
+      gender: (json['gender'] as num?)?.toInt(),
       tanggalLahir: json['tanggalLahir'] as String?,
       ph: (json['ph'] as List<dynamic>?)
           ?.map((e) => PHModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      address: json['address'] == null
-          ? null
-          : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
+      address: addressFromJson(json['address']),
       phone: json['phone'] as String?,
       id: json['id'] as String?,
     );
@@ -23,6 +22,7 @@ _$PatientModelImpl _$$PatientModelImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$PatientModelImplToJson(_$PatientModelImpl instance) =>
     <String, dynamic>{
       'nama': instance.nama,
+      'gender': instance.gender,
       'tanggalLahir': instance.tanggalLahir,
       'ph': instance.ph,
       'address': instance.address,

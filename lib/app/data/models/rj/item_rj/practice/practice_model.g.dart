@@ -28,7 +28,7 @@ _$PracticeModelImpl _$$PracticeModelImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       slugRs: json['slug_rs'] as String?,
       levelDoctor: json['level_doctor'] as bool?,
-      noKTP: json['noKTP'] as String?,
+      noKTP: noKTPFromJson(json['noKTP']),
       displayQueueName: json['displayQueueName'] as String?,
       updatedAt: json['updatedAt'] as String?,
       updatedId: json['updatedId'] as String?,

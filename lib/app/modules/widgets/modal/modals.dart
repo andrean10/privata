@@ -3,19 +3,62 @@ import 'package:get/get.dart';
 import 'package:privata/app/modules/widgets/buttons/buttons.dart';
 
 abstract class Modals {
-  static Future<bool?> bottomSheet({
+  static Future<dynamic?> bottomSheet({
     required BuildContext context,
     bool useSafeArea = true,
     bool enableDrag = true,
     bool showDragHandle = true,
     bool isDismissible = true,
     required Widget content,
+    Widget? actions,
     bool isAction = false,
     String startActionText = 'Tutup',
     String endActionText = 'Simpan',
     VoidCallback? startOnPressed,
     VoidCallback? endOnPressed,
   }) {
+    Widget widgetActions;
+
+    if (actions != null) {
+      widgetActions = Column(
+        children: [
+          const SizedBox(height: 8),
+          actions,
+          const SizedBox(height: 21),
+        ],
+      );
+    } else if (isAction) {
+      widgetActions = Column(
+        children: [
+          const SizedBox(height: 21),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Buttons.outlined(
+                    onPressed: startOnPressed ?? () => Get.back(result: false),
+                    child: Text(startActionText),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Buttons.filled(
+                    onPressed: endOnPressed ?? () => Get.back(result: true),
+                    child: Text(endActionText),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 21),
+        ],
+      );
+    } else {
+      widgetActions = const SizedBox.shrink();
+    }
+
     return showModalBottomSheet<bool?>(
       context: context,
       useSafeArea: useSafeArea,
@@ -37,33 +80,7 @@ abstract class Modals {
             mainAxisSize: MainAxisSize.min,
             children: [
               content,
-              if (isAction) ...[
-                const SizedBox(height: 21),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Buttons.outlined(
-                          onPressed:
-                              startOnPressed ?? () => Get.back(result: false),
-                          child: Text(startActionText),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Buttons.filled(
-                          onPressed:
-                              endOnPressed ?? () => Get.back(result: true),
-                          child: Text(endActionText),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 21),
-              ]
+              widgetActions,
             ],
           ),
         ),
@@ -85,12 +102,49 @@ abstract class Modals {
     bool snap = true,
     List<double> snapSizes = const [0.25, 0.5, 0.75, 1.0],
     required Widget content,
+    Widget? actions,
     bool isAction = false,
     String startActionText = 'Tutup',
     String endActionText = 'Simpan',
     VoidCallback? startOnPressed,
     VoidCallback? endOnPressed,
   }) {
+    Widget widgetActions;
+
+    if (actions != null) {
+      widgetActions = actions;
+    } else if (isAction) {
+      widgetActions = Column(
+        children: [
+          const SizedBox(height: 21),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Buttons.outlined(
+                    onPressed: startOnPressed ?? () => Get.back(result: false),
+                    child: Text(startActionText),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Buttons.filled(
+                    onPressed: endOnPressed ?? () => Get.back(result: true),
+                    child: Text(endActionText),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 21),
+        ],
+      );
+    } else {
+      widgetActions = const SizedBox.shrink();
+    }
+
     return showModalBottomSheet<bool?>(
       context: context,
       useSafeArea: useSafeArea,
@@ -122,33 +176,7 @@ abstract class Modals {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   content,
-                  if (isAction) ...[
-                    const SizedBox(height: 21),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Buttons.outlined(
-                              onPressed: startOnPressed ??
-                                  () => Get.back(result: false),
-                              child: Text(startActionText),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Buttons.filled(
-                              onPressed:
-                                  endOnPressed ?? () => Get.back(result: true),
-                              child: Text(endActionText),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 21),
-                  ],
+                  widgetActions,
                 ],
               ),
             );

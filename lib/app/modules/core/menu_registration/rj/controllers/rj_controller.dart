@@ -18,6 +18,7 @@ import '../../../../../../utils/constants_keys.dart';
 import '../../../../../data/models/doctor/doctor_model.dart';
 import '../../../../../data/models/rj/rj_model.dart';
 import '../../../../../data/models/slot/slot_model.dart';
+import '../../../../../helpers/helper.dart';
 import '../../../../../routes/app_pages.dart';
 import '../../../../widgets/dialog/dialogs.dart';
 import '../../../../widgets/snackbar/snackbar.dart';
@@ -37,10 +38,9 @@ class RJController extends GetxController with StateMixin<dynamic> {
   final formKeyCancel = GlobalKey<FormState>();
 
   // FILTER
-  final doctorFilterC = TextEditingController();
   final dateFilterC = TextEditingController();
 
-  final selectedDoctorFilter = RxnString();
+  final selectedDoctorFilter = Rxn<DoctorModel>();
   final selectedDateFilter = Rx(DateTime.now());
 
   // RESCHEDULE
@@ -228,6 +228,9 @@ class RJController extends GetxController with StateMixin<dynamic> {
 
   void changedVisibleSubFab() => isSubFabVisible.toggle();
 
+  void onChangedDoctor(DoctorModel? value) =>
+      selectedDoctorFilter.value = value;
+
   void onChangedStatus({
     required int index,
     required String id,
@@ -321,15 +324,6 @@ class RJController extends GetxController with StateMixin<dynamic> {
             itemsData[index] = updateItem;
             break;
           case 'reschedule':
-            // jika tanggal reschedule dari tanggal selected
-
-            // jika tanggal reschedule
-
-            final formatDate = FormatDateTime.stringToDateTime(
-              newPattern: 'yyyy-MM-dd',
-              value: itemsData[index].date,
-            )?.day;
-
             final isSameDate = selectedDateFilter.value.day ==
                 selectedDateReschedule.value.day;
 
@@ -395,11 +389,6 @@ class RJController extends GetxController with StateMixin<dynamic> {
     idSelected.value = '';
   }
 
-  void setDoctorFilter(value) {
-    doctorFilterC.text = value;
-    selectedDoctorFilter.value = value;
-  }
-
   void setDateFilter(DateTime value) {
     dateFilterC.text = FormatDateTime.dateToString(
       newPattern: 'dd MMMM yyyy',
@@ -447,7 +436,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
 
       final query = {
         'filter_data': jsonEncode(filterData),
-        // 'total': '$totalLimit',
+        // 'total': '50',
       };
 
       final res = await _doctorConn.getDoctor(query);
@@ -457,10 +446,8 @@ class RJController extends GetxController with StateMixin<dynamic> {
         final response = ResultDoctorModel.fromJson(body);
         final itemsDoctor = response.items;
 
-        print('response = $response');
-
         if (itemsDoctor.isNotEmpty) {
-          return [];
+          return itemsDoctor;
         }
       } else {
         _initC.handleError(status: res.status);
@@ -482,7 +469,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
 
       final query = {
         'filter_data': jsonEncode(filterData),
-        'total': '$totalLimit',
+        // 'total': '$totalLimit',
       };
 
       final res = await _doctorConn.getDoctor(query);
@@ -505,8 +492,6 @@ class RJController extends GetxController with StateMixin<dynamic> {
             itemsDoctor,
           );
         }
-
-        print('dataDoctor = $dataDoctor');
       } else {
         _initC.handleError(status: res.status);
       }
@@ -519,9 +504,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
     }
   }
 
-  void fetchDataPatient({
-    bool isRefresh = false,
-  }) async {
+  void fetchDataPatient({bool isRefresh = false}) async {
     const pattern = 'yyyy-MM-dd';
 
     //* jika item belum ada data atau user mengubah filter maka tampilkan loading dan set currentpage ke 0
@@ -561,7 +544,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
           'filter_data': jsonEncode(params),
           'page': '$currentPage',
           'total': '10',
-          'sort': 'createdAt ASC'
+          // 'sort': 'date ASC'
         };
 
         final res = await _patientRegistConn.getList(query);
@@ -604,6 +587,60 @@ class RJController extends GetxController with StateMixin<dynamic> {
     isLoadingMore.value = false;
   }
 
+  Future<void> fetchDataPatientByFilter() async {
+    totalPage = 0;
+    totalItem = 0;
+
+    if (hospitalId != null && selectedDoctorFilter.value != null) {
+      final query = {
+        'practiceId': selectedDoctorFilter.value!.id,
+        'rumahSakitId': hospitalId!,
+        'date': FormatDateTime.dateToString(
+          newPattern: 'yyyy-MM-dd',
+          value: selectedDateFilter.value.toString(),
+        ),
+      };
+
+      try {
+        final res = await _patientRegistConn.getListByDoctor(query);
+        final body = res.body;
+
+        if (res.isOk) {
+          if (body != null && body is List<dynamic> && body.isNotEmpty) {
+            final rj = body.firstOrNull;
+
+            final data = RJModel.fromJson(rj);
+            itemsData.addAll(data.items);
+
+            totalPage = data.totalPage ?? 0;
+            totalItem = data.totalItem ?? 0;
+
+            //* jika total item nya kosong maka tampilkan halaman data kosong silahkan cari filter yang lain
+            change(
+              itemsData,
+              status: (itemsData.isNotEmpty)
+                  ? RxStatus.success()
+                  : RxStatus.empty(),
+            );
+          } else {
+            change(null, status: RxStatus.empty());
+          }
+        } else {
+          if (!_initC.isConnectedInternet.value) {
+            change(
+              null,
+              status: RxStatus.error('Data tidak ditemukan'),
+            );
+          }
+          _initC.handleError(status: res.status);
+        }
+      } on GetHttpException catch (e) {
+        _initC.logger.e('Error: $e');
+        change(null, status: RxStatus.error(e.message));
+      }
+    }
+  }
+
   void fetchDataPractice(String id) async {
     try {
       final date = FormatDateTime.dateToString(
@@ -643,7 +680,13 @@ class RJController extends GetxController with StateMixin<dynamic> {
     isSubFabVisible.value = false;
 
     if (dataDoctor.isNotEmpty) {
-      Get.toNamed(Routes.SEARCH_PATIENT);
+      final state = await Get.toNamed(Routes.SEARCH_PATIENT);
+      if (state != null) {
+        if (state) {
+          _clearDataPagination();
+          fetchDataPatient();
+        }
+      }
     } else {
       final state = await Dialogs.alert(
         context: context,
@@ -672,11 +715,25 @@ class RJController extends GetxController with StateMixin<dynamic> {
         arguments: args,
       );
 
-  void moveToEMR({ItemRJModel? itemRJ}) {
+  void moveToEMR({
+    required int index,
+    required ItemRJModel? itemRJ,
+  }) async {
     if (itemRJ != null) {
-      Get.toNamed(Routes.EMR, arguments: itemRJ);
+      final state = await Get.toNamed(Routes.EMR, arguments: itemRJ);
+
+      if (state != null) {
+        if (state) {
+          final updateItem = itemRJ.copyWith.call(status: 'succeed');
+          itemsData[index] = updateItem;
+        }
+      }
     } else {
-      Get.toNamed(Routes.EMR);
+      Snackbar.failed(
+        context: Get.context!,
+        content:
+            'Sepertinya ada kesalahan, tidak bisa membuka detail EMR, cek koneksi internet anda dan coba lagi',
+      );
     }
   }
 
@@ -717,9 +774,9 @@ class RJController extends GetxController with StateMixin<dynamic> {
     );
   }
 
-  void makeToNurseNotes() => showDialogNextFeatures();
+  // void makeToNurseNotes() => showDialogNextFeatures();
 
-  void makeToVitalSign() => showDialogNextFeatures();
+  // void makeToVitalSign() => showDialogNextFeatures();
 
   Future<void> launch({required Uri uri, required String errMsg}) async {
     if (await canLaunchUrl(uri)) {
@@ -758,7 +815,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
       newPattern: 'dd MMMM yyyy',
       value: now.toString(),
     );
-    doctorFilterC.clear();
+    selectedDoctorFilter.value = null;
   }
 
   void _clearDataPagination() {

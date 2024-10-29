@@ -21,8 +21,10 @@ PatientModel _$PatientModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PatientModel {
   String? get nama => throw _privateConstructorUsedError;
+  int? get gender => throw _privateConstructorUsedError;
   String? get tanggalLahir => throw _privateConstructorUsedError;
   List<PHModel>? get ph => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: addressFromJson)
   AddressModel? get address => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
@@ -41,9 +43,10 @@ abstract class $PatientModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? nama,
+      int? gender,
       String? tanggalLahir,
       List<PHModel>? ph,
-      AddressModel? address,
+      @JsonKey(fromJson: addressFromJson) AddressModel? address,
       String? phone,
       String? id});
 
@@ -64,6 +67,7 @@ class _$PatientModelCopyWithImpl<$Res, $Val extends PatientModel>
   @override
   $Res call({
     Object? nama = freezed,
+    Object? gender = freezed,
     Object? tanggalLahir = freezed,
     Object? ph = freezed,
     Object? address = freezed,
@@ -75,6 +79,10 @@ class _$PatientModelCopyWithImpl<$Res, $Val extends PatientModel>
           ? _value.nama
           : nama // ignore: cast_nullable_to_non_nullable
               as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as int?,
       tanggalLahir: freezed == tanggalLahir
           ? _value.tanggalLahir
           : tanggalLahir // ignore: cast_nullable_to_non_nullable
@@ -121,9 +129,10 @@ abstract class _$$PatientModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? nama,
+      int? gender,
       String? tanggalLahir,
       List<PHModel>? ph,
-      AddressModel? address,
+      @JsonKey(fromJson: addressFromJson) AddressModel? address,
       String? phone,
       String? id});
 
@@ -143,6 +152,7 @@ class __$$PatientModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? nama = freezed,
+    Object? gender = freezed,
     Object? tanggalLahir = freezed,
     Object? ph = freezed,
     Object? address = freezed,
@@ -154,6 +164,10 @@ class __$$PatientModelImplCopyWithImpl<$Res>
           ? _value.nama
           : nama // ignore: cast_nullable_to_non_nullable
               as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as int?,
       tanggalLahir: freezed == tanggalLahir
           ? _value.tanggalLahir
           : tanggalLahir // ignore: cast_nullable_to_non_nullable
@@ -183,9 +197,10 @@ class __$$PatientModelImplCopyWithImpl<$Res>
 class _$PatientModelImpl implements _PatientModel {
   const _$PatientModelImpl(
       {this.nama,
+      this.gender,
       this.tanggalLahir,
       final List<PHModel>? ph,
-      this.address,
+      @JsonKey(fromJson: addressFromJson) this.address,
       this.phone,
       this.id})
       : _ph = ph;
@@ -195,6 +210,8 @@ class _$PatientModelImpl implements _PatientModel {
 
   @override
   final String? nama;
+  @override
+  final int? gender;
   @override
   final String? tanggalLahir;
   final List<PHModel>? _ph;
@@ -208,6 +225,7 @@ class _$PatientModelImpl implements _PatientModel {
   }
 
   @override
+  @JsonKey(fromJson: addressFromJson)
   final AddressModel? address;
   @override
   final String? phone;
@@ -216,7 +234,7 @@ class _$PatientModelImpl implements _PatientModel {
 
   @override
   String toString() {
-    return 'PatientModel(nama: $nama, tanggalLahir: $tanggalLahir, ph: $ph, address: $address, phone: $phone, id: $id)';
+    return 'PatientModel(nama: $nama, gender: $gender, tanggalLahir: $tanggalLahir, ph: $ph, address: $address, phone: $phone, id: $id)';
   }
 
   @override
@@ -225,6 +243,7 @@ class _$PatientModelImpl implements _PatientModel {
         (other.runtimeType == runtimeType &&
             other is _$PatientModelImpl &&
             (identical(other.nama, nama) || other.nama == nama) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.tanggalLahir, tanggalLahir) ||
                 other.tanggalLahir == tanggalLahir) &&
             const DeepCollectionEquality().equals(other._ph, _ph) &&
@@ -235,7 +254,7 @@ class _$PatientModelImpl implements _PatientModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, nama, tanggalLahir,
+  int get hashCode => Object.hash(runtimeType, nama, gender, tanggalLahir,
       const DeepCollectionEquality().hash(_ph), address, phone, id);
 
   @JsonKey(ignore: true)
@@ -255,9 +274,10 @@ class _$PatientModelImpl implements _PatientModel {
 abstract class _PatientModel implements PatientModel {
   const factory _PatientModel(
       {final String? nama,
+      final int? gender,
       final String? tanggalLahir,
       final List<PHModel>? ph,
-      final AddressModel? address,
+      @JsonKey(fromJson: addressFromJson) final AddressModel? address,
       final String? phone,
       final String? id}) = _$PatientModelImpl;
 
@@ -267,10 +287,13 @@ abstract class _PatientModel implements PatientModel {
   @override
   String? get nama;
   @override
+  int? get gender;
+  @override
   String? get tanggalLahir;
   @override
   List<PHModel>? get ph;
   @override
+  @JsonKey(fromJson: addressFromJson)
   AddressModel? get address;
   @override
   String? get phone;

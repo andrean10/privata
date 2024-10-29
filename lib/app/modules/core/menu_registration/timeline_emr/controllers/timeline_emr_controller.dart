@@ -2,13 +2,16 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
+import 'package:privata/utils/constants_keys.dart';
 
 import '../../../../../../services/timeline/emr_connect.dart';
+import '../../../../../data/models/detail_rj/detail_rj_model.dart';
 import '../../../../../data/models/rj/item_rj/item_rj_model.dart';
 import '../../../../../helpers/helper.dart';
 import '../../../../init/controllers/init_controller.dart';
 
-class TimelineEmrController extends GetxController {
+class TimelineEmrController extends GetxController
+    with StateMixin<List<DetailRJModel>> {
   late final InitController _initC;
   late final EMRConnect _emrConn;
 
@@ -25,24 +28,25 @@ class TimelineEmrController extends GetxController {
       _initC = Get.find<InitController>();
     }
 
+    _emrConn = EMRConnect(_initC);
+
     _prepareView();
   }
 
   void _prepareView() {
-    final args = Get.arguments;
+    final data = Get.arguments as ItemRJModel?;
+    final patient = data?.pasiens;
 
-    if (args is ItemRJModel) {
-      final patient = args.pasiens;
+    hospitalId = _initC.localStorage.read<String>(ConstantsKeys.hospitalId);
+    patientId = patient?.id;
+    name = patient?.nama ?? '-';
+    age = '${Helper.getAge(patient?.tanggalLahir)} Thn';
+    gender = patient!.gender == 1 ? 'Laki-laki' : 'Perempuan';
 
-      name = patient?.nama ?? '-';
-      age = '${Helper.getAge(patient?.tanggalLahir)} Thn';
-      gender = patient!.gender == 1 ? 'Laki-laki' : 'Perempuan';
-    }
+    fetchTimeline();
   }
 
   void fetchTimeline() async {
-    //   if (!isLoading.value && hospitalId != null) {
-
     final params = {
       "where": {
         "hospitalId": hospitalId,
@@ -70,18 +74,22 @@ class TimelineEmrController extends GetxController {
 
       if (res.isOk) {
         final body = res.body;
-        // final rj = RJModel.fromJson(body);
 
-        // currentPage = rj.currentPage ?? 0;
-        // totalPage = rj.totalPage ?? 0;
-        // totalItem = rj.totalItem ?? 0;
-
-        return body;
-
-        // change(rj, status: RxStatus.success());
+        if (body != null) {
+          if (body is List<dynamic>) {
+            final items = body.map((e) => DetailRJModel.fromJson(e)).toList();
+            change(items, status: RxStatus.success());
+          }
+        } else {
+          change(null, status: RxStatus.empty());
+        }
+      } else {
+        _initC.handleError(status: res.status);
+        change(null, status: RxStatus.error(res.statusText));
       }
     } on GetHttpException catch (e) {
       _initC.logger.e('Error: $e');
+      change(null, status: RxStatus.error(e.message));
     }
 
     return null;

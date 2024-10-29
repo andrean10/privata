@@ -5,8 +5,12 @@ import 'package:privata/app/data/models/rj/item_rj/practice/practice_model.dart'
 
 import '../rj/item_rj/vital_signs/vital_signs_model.dart';
 
+import 'appointment/appointment_model.dart';
 import 'diagnoses/diagnoses_model.dart';
+import 'doctor_notes/doctor_notes_model.dart';
 import 'nurse_notes/nurse_notes_model.dart';
+import 'prescriptions/prescriptions_model.dart';
+import 'procedure/procedure_model.dart';
 
 part 'detail_rj_model.freezed.dart';
 part 'detail_rj_model.g.dart';
@@ -29,12 +33,12 @@ class DetailRJModel with _$DetailRJModel {
     String? id,
     @JsonKey(name: 'VitalSigns') List<VitalSignsModel>? vitalSigns,
     @JsonKey(name: 'Patients') RJPatientModel? patients,
-    // List<Null>? doctorNotes,
+    @JsonKey(name: 'DoctorNotes') List<DoctorNotesModel>? doctorNotes,
     @JsonKey(name: 'NurseNotes') List<NurseNotesModel>? nurseNotes,
-    // List<Null>? prescriptions,
+    @JsonKey(name: 'Prescriptions') List<PrescriptionsModel>? prescriptions,
     // List<Null>? scourPrescriptions,
-    // List<Null>? procedures,
-    // Appointments? appointments,
+    @JsonKey(name: 'Procedures') List<ProcedureModel>? procedures,
+    @JsonKey(name: 'Appointments') AppointmentModel? appointments,
     @JsonKey(name: 'Practices') PracticeModel? practices,
     @JsonKey(name: 'Diagnoses') List<DiagnosesModel>? diagnoses,
     // List<Null>? kRecipeNotes,

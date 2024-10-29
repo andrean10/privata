@@ -1278,8 +1278,8 @@ abstract class ConstantsStrings {
     'Whatsapp',
     'SMS',
     'Telepon',
-    'Catatan Perawat',
-    'Vital Sign',
+    // 'Catatan Perawat',
+    // 'Vital Sign',
   ];
 
   static const dataGender = [

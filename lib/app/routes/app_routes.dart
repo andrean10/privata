@@ -18,7 +18,7 @@ abstract class Routes {
   static const NEW_PATIENT = _Paths.NEW_PATIENT;
   static const EMR = _Paths.EMR;
   static const TIMELINE_EMR = _Paths.TIMELINE_EMR;
-  static const SEARCH_ACTION_DIALOG = _Paths.SEARCH_ACTION_DIALOG;
+  static const SEARCH_PROCEDURE_DIALOG = _Paths.SEARCH_PROCEDURE_DIALOG;
   static const VISIT_REGISTRATION = _Paths.VISIT_REGISTRATION;
   static const ADD_DOCTOR = _Paths.ADD_DOCTOR;
   static const TRANSACTION = _Paths.TRANSACTION;
@@ -51,7 +51,7 @@ abstract class _Paths {
   static const NEW_PATIENT = '/new-patient';
   static const EMR = '/emr';
   static const TIMELINE_EMR = '/timeline-emr';
-  static const SEARCH_ACTION_DIALOG = '/search-action-dialog';
+  static const SEARCH_PROCEDURE_DIALOG = '/search-procedure-dialog';
   static const VISIT_REGISTRATION = '/visit-registration';
   static const ADD_DOCTOR = '/add-doctor';
   static const TRANSACTION = '/transaction';

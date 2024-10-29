@@ -19,7 +19,7 @@ _$FamilyModelImpl _$$FamilyModelImplFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updatedAt'] as String?,
       createdId: json['created_id'] as String?,
       updatedId: json['updatedId'] as String?,
-      id: (json['id'] as num?)?.toInt(),
+      id: idFromJson(json['id']),
       email: json['email'] as String?,
       dateOfBirth: json['dateOfBirth'] as String?,
     );

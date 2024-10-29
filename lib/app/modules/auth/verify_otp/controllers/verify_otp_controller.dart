@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
-import 'package:privata/app/modules/widgets/snackbar/snackbar.dart';
 import 'package:privata/app/routes/app_pages.dart';
 import 'package:privata/services/auth/auth_connect.dart';
 import 'package:privata/utils/constants_keys.dart';

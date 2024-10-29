@@ -22,9 +22,9 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   // await FirebaseAppCheck.instance.activate();
   await GetStorage.init();
   // debugPaintSizeEnabled = true;
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       title: ConstantsKeys.appName,
       theme: SharedTheme.lightThemeMaterial,
       darkTheme: SharedTheme.darkThemeMaterial,
-      themeMode: ThemeMode.system,
+      // themeMode: ThemeMode.dark,
       initialBinding: InitBinding(),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,

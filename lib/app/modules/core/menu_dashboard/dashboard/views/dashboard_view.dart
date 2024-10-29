@@ -19,10 +19,6 @@ class DashboardView extends GetView<DashboardController> {
     final textTheme = context.textTheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-        centerTitle: true,
-      ),
       body: RefreshIndicator.adaptive(
         onRefresh: () async {
           controller.fetchAllData();
@@ -228,8 +224,7 @@ class DashboardView extends GetView<DashboardController> {
                         ? Container(
                             margin: const EdgeInsets.only(right: 32),
                             child: AutoSizeText(
-                              TextHelper.formatRupiah(amount: amount) ??
-                                  'Rp. -',
+                              TextHelper.formatRupiah(amount: amount),
                               style: textTheme.titleSmall?.copyWith(
                                 fontWeight: SharedTheme.bold,
                               ),

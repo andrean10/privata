@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
+import 'package:privata/app/data/models/rj/item_rj/item_rj_model.dart';
+import 'package:privata/app/data/models/rj/item_rj/patient/rj_patient_model.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 import 'package:privata/services/rj/rj_connect.dart';
 
@@ -93,10 +95,39 @@ class SearchPatientController extends GetxController
     }
   }
 
-  void moveTo(PatientModel item) => Get.toNamed(
-        Routes.VISIT_REGISTRATION,
-        arguments: item,
+  void fetchTimelinePatient() {}
+
+  void moveTo({
+    required PatientModel dataPatient,
+    required bool isFromRME,
+  }) async {
+    if (isFromRME) {
+      final itemRJModel = ItemRJModel(
+        pasiens: RJPatientModel(
+          id: dataPatient.id,
+          nama: dataPatient.nama,
+          tanggalLahir: dataPatient.tanggalLahir,
+          gender: dataPatient.gender,
+        ),
       );
+
+      Get.toNamed(
+        Routes.TIMELINE_EMR,
+        arguments: itemRJModel,
+      );
+    } else {
+      final state = await Get.toNamed(
+        Routes.VISIT_REGISTRATION,
+        arguments: dataPatient,
+      );
+
+      // cek jika visit registrasi berhasil ditambahkan maka kembalikan
+      // state ke rj view
+      if (state != null) {
+        if (state) Get.back(result: state);
+      }
+    }
+  }
 
   void backTo(PatientModel item) => Get.back(result: item);
 }

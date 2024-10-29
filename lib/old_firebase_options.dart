@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -44,39 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB4d_Ph_kV4zyHlrnUEwwxWG-OR7Twebhw',
-    appId: '1:791781374835:android:3838362fc5727b1061e306',
-    messagingSenderId: '791781374835',
-    projectId: 'robust-caldron-428902-r5',
-    storageBucket: 'robust-caldron-428902-r5.appspot.com',
+    apiKey: 'AIzaSyCVlLyuVDcXsaASR4ZJMmMgMngsP5EnidY',
+    appId: '1:242581042731:android:4eac98347eac516e035c6e',
+    messagingSenderId: '242581042731',
+    projectId: 'jagaanugrahgiatasa-187e5',
+    storageBucket: 'jagaanugrahgiatasa-187e5.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB0GuvmPrMDMEAI7-HAE3PgzWdvwWk4oqs',
-    appId: '1:791781374835:ios:1c00ba77efdaae4061e306',
-    messagingSenderId: '791781374835',
-    projectId: 'robust-caldron-428902-r5',
-    storageBucket: 'robust-caldron-428902-r5.appspot.com',
+    apiKey: 'AIzaSyDJrimB2Ud4UFNJs1pKKv8EXvJo4Ak6lBs',
+    appId: '1:242581042731:ios:570187f195346a9b035c6e',
+    messagingSenderId: '242581042731',
+    projectId: 'jagaanugrahgiatasa-187e5',
+    storageBucket: 'jagaanugrahgiatasa-187e5.appspot.com',
     iosBundleId: 'com.assistid.privata',
   );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB0GuvmPrMDMEAI7-HAE3PgzWdvwWk4oqs',
-    appId: '1:791781374835:ios:f1a819e5b6ea4a9861e306',
-    messagingSenderId: '791781374835',
-    projectId: 'robust-caldron-428902-r5',
-    storageBucket: 'robust-caldron-428902-r5.appspot.com',
-    iosBundleId: 'com.assistid.privata.privata',
-  );
-
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB862gMexEYPdQXbVzlVplAPWJQ39ONSSc',
-    appId: '1:791781374835:web:0dae2bc93bbc693c61e306',
-    messagingSenderId: '791781374835',
-    projectId: 'robust-caldron-428902-r5',
-    authDomain: 'robust-caldron-428902-r5.firebaseapp.com',
-    storageBucket: 'robust-caldron-428902-r5.appspot.com',
-    measurementId: 'G-6G4LNHWB5G',
-  );
-
 }

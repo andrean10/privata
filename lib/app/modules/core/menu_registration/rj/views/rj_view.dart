@@ -8,7 +8,7 @@ import 'package:privata/app/modules/widgets/textformfield/custom_dropdown_type_f
 
 import '../../../../widgets/buttons/buttons.dart';
 import '../../../../widgets/modal/modals.dart';
-import '../../../../widgets/textformfield/text_form_fields.dart';
+import '../../../../widgets/textformfield/custom_textform_field.dart';
 import '../controllers/rj_controller.dart';
 
 class RJView extends GetView<RJController> {
@@ -18,21 +18,21 @@ class RJView extends GetView<RJController> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: builderAppBar(context),
+      // appBar: builderAppBar(context),
       body: builderBody(context),
       floatingActionButton: builderFAB(context),
     );
   }
 
-  AppBar builderAppBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Pendaftaran'),
-      centerTitle: true,
-      actions: [
-        builderActionFilter(context),
-      ],
-    );
-  }
+  // AppBar builderAppBar(BuildContext context) {
+  //   return AppBar(
+  //     title: const Text('Pendaftaran'),
+  //     centerTitle: true,
+  //     actions: [
+  //       builderActionFilter(context),
+  //     ],
+  //   );
+  // }
 
   Widget builderBody(BuildContext context) {
     final width = context.mediaQuerySize.width;
@@ -142,7 +142,7 @@ class RJView extends GetView<RJController> {
                       width: width / 2,
                       onPressed: () {
                         if (controller.isFilter.value) {
-                          showFilter(context);
+                          _showFilter(context);
                         } else {
                           controller.fetchDataPatient();
                         }
@@ -227,12 +227,12 @@ class RJView extends GetView<RJController> {
     );
   }
 
-  Widget builderActionFilter(BuildContext context) {
-    return Buttons.text(
-      onPressed: () => showFilter(context),
-      child: const Text('Filter'),
-    );
-  }
+  // Widget builderActionFilter(BuildContext context) {
+  //   return Buttons.text(
+  //     onPressed: () => showFilter(context),
+  //     child: const Text('Filter'),
+  //   );
+  // }
 
   DropdownMenuEntry<String> dropdownLoading({
     required String label,
@@ -258,7 +258,7 @@ class RJView extends GetView<RJController> {
     );
   }
 
-  void showFilter(BuildContext context) async {
+  void _showFilter(BuildContext context) async {
     // final theme = context.theme;
     // controller.fetchDoctor(controller.currentTotalLimitDoctor.value);
 
@@ -272,97 +272,37 @@ class RJView extends GetView<RJController> {
         children: [
           // Obx(
           //   () { return
-          CustomDropdownTypeFormField(
-            // mode: Mode.form,
-            title: 'Dokter',
-            hintText: 'Semua Dokter',
-            hintTextSearch: 'Cari Nama Dokter',
-            // selectedItem: controller.selectedDoctorFilter.value,
-            asyncItems: controller.fetchNewDoctor,
-            itemAsString: (value) {
-              final doctorName =
-                  value.dokters?.gelar?.replaceFirst('*', value.nama ?? '') ??
-                      '-';
-              return doctorName;
-            },
-            isDense: true,
-            // isItemsCached: true,
-            isShowSearchBox: true,
-            // ),
-
-            // return TextFormFields.dropdown(
-            //   controller: controller.doctorFilterC,
-            //   title: 'Dokter',
-            //   hintText: 'Semua Dokter',
-            //   isExpanded: true,
-            //   isFilled: false,
-            //   isEnableSearch: true,
-            //   isLabel: true,
-            //   isDense: true,
-            //   menuHeight: 300,
-            //   items: controller.dataDoctor.map(
-            //     (item) {
-            //       if (item != null) {
-            //         if (controller.isLoadingDoctor.value) {
-            //           return dropdownLoading(
-            //             label: 'Loading...',
-            //             isLoading: true,
-            //           );
-            //         } else {
-            //           final doctorName = item.dokters?.gelar
-            //                   ?.replaceFirst('*', item.nama ?? '') ??
-            //               '-';
-
-            //           return DropdownMenuEntry(
-            //             value: item,
-            //             label: doctorName,
-            //             labelWidget: Text(
-            //               doctorName,
-            //               maxLines: 1,
-            //               overflow: TextOverflow.ellipsis,
-            //             ),
-            //             enabled:
-            //                 item.id != controller.selectedDoctorFilter.value,
-            //             style: ButtonStyle(
-            //               foregroundColor: WidgetStatePropertyAll(
-            //                 (item.id == controller.selectedDoctorFilter.value)
-            //                     ? theme.colorScheme.surface
-            //                     : theme.colorScheme.onSurface,
-            //               ),
-            //               backgroundColor: WidgetStatePropertyAll(
-            //                 (item.id == controller.selectedDoctorFilter.value)
-            //                     ? theme.colorScheme.primary
-            //                     : null,
-            //               ),
-            //             ),
-            //           );
-            //         }
-            //       }
-
-            //       return const DropdownMenuEntry(
-            //         value: '',
-            //         label: 'Data dokter belum ada',
-            //         enabled: false,
-            //       );
-            //     },
-            //   ).toList()
-            //     ..addIf(
-            //       !controller.isHasReachedMaxDoctor.value,
-            //       dropdownLoading(
-            //         label: 'Memuat data...',
-            //         isLoading: controller.isLoadingMoreDoctor.value,
-            //       ),
-            //     ),
-            //   onSelected: controller.setDoctorFilter,
-            // );
-            //   },
+          Obx(
+            () => CustomDropdownTypeFormField(
+              // mode: Mode.form,
+              title: 'Dokter',
+              hintText: 'Semua Dokter',
+              hintTextSearch: 'Cari Nama Dokter',
+              selectedItem: controller.selectedDoctorFilter.value,
+              items: controller.dataDoctor,
+              // asyncItems: controller.fetchNewDoctor,
+              itemAsString: (value) {
+                final doctorName = value?.dokters?.gelar
+                        ?.replaceFirst('*', value.nama ?? '') ??
+                    '-';
+                return doctorName;
+              },
+              // isDense: true,
+              // isItemsCached: true,
+              isShowSearchBox: true,
+              onChanged: (value) => controller.onChangedDoctor(value),
+              // constraints: const BoxConstraints(maxHeight: 200),
+              // ),
+            ),
           ),
-          const SizedBox(height: 12),
-          TextFormFields.outlined(
+          const SizedBox(height: 16),
+          CustomTextFormField(
             controller: controller.dateFilterC,
             isReadOnly: true,
             title: 'Tanggal',
-            hintText: 'Pilih Tanggal',
+            // hintText: 'Pilih Tanggal',
+            isFilled: false,
+            // isDense: true,
             keyboardType: TextInputType.datetime,
             textInputAction: TextInputAction.done,
             suffixIcon: const Icon(Icons.date_range_rounded),
@@ -389,7 +329,13 @@ class RJView extends GetView<RJController> {
 
     if (state != null && state) {
       controller.isFilter.value = true;
-      controller.fetchDataPatient();
+      // filter by dokter dan tanggal
+      if (controller.selectedDoctorFilter.value != null) {
+        controller.fetchDataPatientByFilter();
+      } else {
+        // filter tanggal aja
+        controller.fetchDataPatient();
+      }
     }
   }
 

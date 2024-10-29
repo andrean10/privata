@@ -68,7 +68,7 @@ abstract class TextHelper {
   }
 
   // format int to rupiah
-  static String? formatRupiah({
+  static String formatRupiah({
     required num? amount,
     bool isCompact = true,
   }) {

@@ -55,6 +55,7 @@ mixin _$PracticeModel {
   String? get slugRs => throw _privateConstructorUsedError;
   @JsonKey(name: 'level_doctor')
   bool? get levelDoctor => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: noKTPFromJson)
   String? get noKTP =>
       throw _privateConstructorUsedError; // BpjsResponse? bpjsResponse,
   String? get displayQueueName => throw _privateConstructorUsedError;
@@ -103,7 +104,7 @@ abstract class $PracticeModelCopyWith<$Res> {
       String? id,
       @JsonKey(name: 'slug_rs') String? slugRs,
       @JsonKey(name: 'level_doctor') bool? levelDoctor,
-      String? noKTP,
+      @JsonKey(fromJson: noKTPFromJson) String? noKTP,
       String? displayQueueName,
       String? updatedAt,
       String? updatedId,
@@ -307,7 +308,7 @@ abstract class _$$PracticeModelImplCopyWith<$Res>
       String? id,
       @JsonKey(name: 'slug_rs') String? slugRs,
       @JsonKey(name: 'level_doctor') bool? levelDoctor,
-      String? noKTP,
+      @JsonKey(fromJson: noKTPFromJson) String? noKTP,
       String? displayQueueName,
       String? updatedAt,
       String? updatedId,
@@ -504,7 +505,7 @@ class _$PracticeModelImpl implements _PracticeModel {
       this.id,
       @JsonKey(name: 'slug_rs') this.slugRs,
       @JsonKey(name: 'level_doctor') this.levelDoctor,
-      this.noKTP,
+      @JsonKey(fromJson: noKTPFromJson) this.noKTP,
       this.displayQueueName,
       this.updatedAt,
       this.updatedId,
@@ -574,6 +575,7 @@ class _$PracticeModelImpl implements _PracticeModel {
   @JsonKey(name: 'level_doctor')
   final bool? levelDoctor;
   @override
+  @JsonKey(fromJson: noKTPFromJson)
   final String? noKTP;
 // BpjsResponse? bpjsResponse,
   @override
@@ -730,7 +732,7 @@ abstract class _PracticeModel implements PracticeModel {
       final String? id,
       @JsonKey(name: 'slug_rs') final String? slugRs,
       @JsonKey(name: 'level_doctor') final bool? levelDoctor,
-      final String? noKTP,
+      @JsonKey(fromJson: noKTPFromJson) final String? noKTP,
       final String? displayQueueName,
       final String? updatedAt,
       final String? updatedId,
@@ -798,6 +800,7 @@ abstract class _PracticeModel implements PracticeModel {
   @JsonKey(name: 'level_doctor')
   bool? get levelDoctor;
   @override
+  @JsonKey(fromJson: noKTPFromJson)
   String? get noKTP;
   @override // BpjsResponse? bpjsResponse,
   String? get displayQueueName;

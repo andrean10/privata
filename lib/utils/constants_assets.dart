@@ -16,6 +16,12 @@ abstract class ConstantsAssets {
   static const icW5 = '${_icPath}ic_w5.png';
   static const icVerifyForgotPassword =
       '${_icPath}ic_verify_forgot_password.webp';
+  static const icDashboard = '${_icPath}ic_dashboard.png';
+  static const icPendaftaran = '${_icPath}ic_pendaftaran.png';
+  static const icRME = '${_icPath}ic_rme.png';
+  static const icCashier = '${_icPath}ic_cashier.png';
+  static const icReport = '${_icPath}ic_report.png';
+  static const icSettings = '${_icPath}ic_settings.png';
   static const icCamera = '${_icPath}ic_camera.png';
   static const icGallery = '${_icPath}ic_gallery.png';
   static const icWelcome = '${_icPath}ic_welcome.png';
@@ -28,6 +34,7 @@ abstract class ConstantsAssets {
 
   // IMAGE
   static const imgDummyLogoClinic = '${_imgPath}img_dummy_logo_clinic.png';
+  static const imgDummyClinicHeader = '${_imgPath}img_dummy_clinic_header.jpg';
   static const imgNoPhoto = '${_imgPath}img_no_photo.png';
   static const imgPackages = '${_imgPath}img_packages.png';
 }

@@ -18,82 +18,82 @@ class CashierView extends GetView<CashierController> {
     final textTheme = context.textTheme;
 
     return Scaffold(
-      appBar: builderAppBar(context),
+      // appBar: builderAppBar(context),
       body: builderBody(context, textTheme),
       floatingActionButton: builderFAB(),
     );
   }
 
-  AppBar builderAppBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Kasir'),
-      centerTitle: true,
-      actions: [
-        builderActionFilter(context),
-      ],
-    );
-  }
+  // AppBar builderAppBar(BuildContext context) {
+  //   return AppBar(
+  //     title: const Text('Kasir'),
+  //     centerTitle: true,
+  //     actions: [
+  //       builderActionFilter(context),
+  //     ],
+  //   );
+  // }
 
-  Widget builderActionFilter(BuildContext context) {
-    return Buttons.text(
-      onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          useSafeArea: true,
-          enableDrag: true,
-          showDragHandle: true,
-          builder: (context) => Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              bottom: 21,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormFields.outlined(
-                  controller: controller.dateC,
-                  focusNode: controller.dateF,
-                  isReadOnly: true,
-                  title: 'Tanggal',
-                  hintText: 'Pilih Tanggal',
-                  onTap: () async {
-                    final date = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime.now(),
-                      initialEntryMode: DatePickerEntryMode.calendarOnly,
-                    );
+  // Widget builderActionFilter(BuildContext context) {
+  //   return Buttons.text(
+  //     onPressed: () {
+  //       showModalBottomSheet(
+  //         context: context,
+  //         useSafeArea: true,
+  //         enableDrag: true,
+  //         showDragHandle: true,
+  //         builder: (context) => Container(
+  //           width: double.infinity,
+  //           margin: EdgeInsets.only(
+  //             bottom: MediaQuery.of(context).viewInsets.bottom,
+  //           ),
+  //           padding: const EdgeInsets.only(
+  //             left: 16,
+  //             right: 16,
+  //             bottom: 21,
+  //           ),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               TextFormFields.outlined(
+  //                 controller: controller.dateC,
+  //                 focusNode: controller.dateF,
+  //                 isReadOnly: true,
+  //                 title: 'Tanggal',
+  //                 hintText: 'Pilih Tanggal',
+  //                 onTap: () async {
+  //                   final date = await showDatePicker(
+  //                     context: context,
+  //                     initialDate: DateTime.now(),
+  //                     firstDate: DateTime(2020),
+  //                     lastDate: DateTime.now(),
+  //                     initialEntryMode: DatePickerEntryMode.calendarOnly,
+  //                   );
 
-                    if (date != null) controller.setDate(date);
-                  },
-                  keyboardType: TextInputType.datetime,
-                  textInputAction: TextInputAction.done,
-                  suffixIcon: const Icon(Icons.date_range_rounded),
-                ),
-                const SizedBox(height: 21),
-                Obx(
-                  () => Buttons.filled(
-                    width: double.infinity,
-                    state: controller.isLoading.value,
-                    onPressed: controller.filter,
-                    child: const Text('Simpan'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ).then((_) => controller.clearData());
-      },
-      child: const Text('Filter'),
-    );
-  }
+  //                   if (date != null) controller.setDate(date);
+  //                 },
+  //                 keyboardType: TextInputType.datetime,
+  //                 textInputAction: TextInputAction.done,
+  //                 suffixIcon: const Icon(Icons.date_range_rounded),
+  //               ),
+  //               const SizedBox(height: 21),
+  //               Obx(
+  //                 () => Buttons.filled(
+  //                   width: double.infinity,
+  //                   state: controller.isLoading.value,
+  //                   onPressed: controller.filter,
+  //                   child: const Text('Simpan'),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ).then((_) => controller.clearData());
+  //     },
+  //     child: const Text('Filter'),
+  //   );
+  // }
 
   Widget builderBody(BuildContext context, TextTheme textTheme) {
     return NotificationListener<ScrollNotification>(

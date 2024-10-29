@@ -91,12 +91,14 @@ abstract class Dialogs {
   static Future<bool?> loading({
     required BuildContext context,
     Widget? content,
+    String? message,
+    bool isDismissable = false,
   }) {
     final textTheme = context.textTheme;
 
     return showAdaptiveDialog<bool?>(
       context: context,
-      barrierDismissible: true,
+      barrierDismissible: isDismissable,
       builder: (context) => AlertDialog(
         content: content ??
             Column(
@@ -105,7 +107,7 @@ abstract class Dialogs {
                 const CircularProgressIndicator.adaptive(),
                 const SizedBox(height: 18),
                 Text(
-                  'Loading.....',
+                  message ?? 'Loading.....',
                   style: textTheme.labelLarge,
                 ),
               ],

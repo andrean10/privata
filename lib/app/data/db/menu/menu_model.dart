@@ -1,12 +1,14 @@
 import 'package:flutter/widgets.dart';
 
 class MenuModel {
-  final IconData icon;
+  final String? iconAsset;
+  final IconData? iconData;
   final String label;
   final Function()? onPressed;
 
   MenuModel({
-    required this.icon,
+    this.iconAsset,
+    this.iconData,
     required this.label,
     this.onPressed,
   });

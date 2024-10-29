@@ -10,8 +10,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool isRequired;
   final String? initialValue;
   final String title;
-  final String? hintText;
-  final int? hintMaxLines;
+  // final String? hintText;
+  // final int? hintMaxLines;
   final String? helperText;
   final int? helperMaxLines;
   final String? errorText;
@@ -30,6 +30,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool isAutoFocus;
   final bool isEnable;
   final bool isLabel;
+  final bool isDense;
   final bool isNumericOnly;
   final bool obscureText;
   final TextAlign textAlign;
@@ -49,8 +50,8 @@ class CustomTextFormField extends StatelessWidget {
     this.isRequired = false,
     this.initialValue,
     required this.title,
-    this.hintText,
-    this.hintMaxLines,
+    // this.hintText,
+    // this.hintMaxLines,
     this.helperText,
     this.helperMaxLines = 2,
     this.errorText,
@@ -69,6 +70,7 @@ class CustomTextFormField extends StatelessWidget {
     this.isReadOnly = false,
     this.isEnable = true,
     this.isLabel = false,
+    this.isDense = false,
     this.isNumericOnly = false,
     this.obscureText = false,
     this.textAlign = TextAlign.start,
@@ -197,11 +199,11 @@ class CustomTextFormField extends StatelessWidget {
       initialValue: initialValue,
       controller: controller,
       focusNode: focusNode,
-      textAlignVertical: TextAlignVertical.center,
+      textAlignVertical: (isNumericOnly) ? TextAlignVertical.center : null,
       decoration: InputDecoration(
         labelText: (isLabel) ? title : null,
-        hintText: hintText,
-        hintMaxLines: hintMaxLines,
+        // hintText: hintText,
+        // hintMaxLines: hintMaxLines,
         helperText: helperText,
         helperMaxLines: helperMaxLines,
         errorText: errorText,
@@ -210,6 +212,7 @@ class CustomTextFormField extends StatelessWidget {
         suffixIcon: builderSuffixIcon(theme),
         suffixText: suffixText,
         filled: isFilled,
+        isDense: isDense,
         border: (!isFilled)
             ? OutlineInputBorder(
                 borderSide: BorderSide(

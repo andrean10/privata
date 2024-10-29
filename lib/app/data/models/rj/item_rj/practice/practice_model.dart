@@ -35,7 +35,7 @@ class PracticeModel with _$PracticeModel {
     String? id,
     @JsonKey(name: 'slug_rs') String? slugRs,
     @JsonKey(name: 'level_doctor') bool? levelDoctor,
-    String? noKTP,
+    @JsonKey(fromJson: noKTPFromJson) String? noKTP,
     // BpjsResponse? bpjsResponse,
     String? displayQueueName,
     String? updatedAt,
@@ -55,4 +55,14 @@ class PracticeModel with _$PracticeModel {
 
   factory PracticeModel.fromJson(Map<String, Object?> json) =>
       _$PracticeModelFromJson(json);
-}  
+}
+
+String? noKTPFromJson(dynamic json) {
+  if (json is String) {
+    return json;
+  } else if (json is int) {
+    return json.toString();
+  }
+
+  return null;
+}

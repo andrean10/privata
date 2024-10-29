@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
@@ -169,6 +168,11 @@ class VisitRegistrationController extends GetxController
 
   void _initText() {
     final now = DateTime.now();
+    namaHari = FormatDateTime.dateToString(
+      newPattern: 'EEEE',
+      value: now.toString(),
+    );
+
     _textC(namaPasienC, args.nama);
     _text(penjamin, '${args.nama} (pribadi)');
     _text(jenisKunjungan, ConstantsStrings.dataVisitType.first);
@@ -571,19 +575,6 @@ class VisitRegistrationController extends GetxController
 
   void setDataPatient(RJPatientModel data) {
     emailC.text = data.email ?? '';
-
-    // for (var map in mapWidget) {
-    //   final widgets = map['widgets'] as List<Map<String, dynamic>>;
-    //   final widgetE mail = widgets.firstWhereOrNull(
-    //     (widget) =>
-    //         widget.containsKey('title') && widget.containsValue('Alamat Email'),
-    //   );
-
-    //   if (widgetEmail != null) {
-    //     (widgetEmail['controller'] as TextEditingController?)?.text =
-    //         data.email ?? '';
-    //   }
-    // }
   }
 
   Future<void> postAppointment() async {
@@ -655,10 +646,6 @@ class VisitRegistrationController extends GetxController
       body.addAll(vitalSigns);
     }
 
-    // Helper.printPrettyJson(body);
-
-    // return;
-
     try {
       final res = await _rjConn.createAppointment(body);
 
@@ -669,7 +656,7 @@ class VisitRegistrationController extends GetxController
         );
 
         Get.back();
-        Get.back();
+        Get.back(result: true);
       } else {
         _initC.logger.e('Error: ${res.statusCode}, ${res.statusText}');
         _initC.handleError(status: res.status);

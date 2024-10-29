@@ -10,12 +10,13 @@ import '../../../../widgets/search/search_bars.dart';
 import '../controllers/search_patient_controller.dart';
 
 class SearchPatientView extends GetView<SearchPatientController> {
-  const SearchPatientView({super.key});
+  final bool isFromRME;
+  const SearchPatientView({this.isFromRME = false, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: builderAppBar(),
+      appBar: (!isFromRME) ? builderAppBar() : null,
       body: builderBody(context),
     );
   }
@@ -64,7 +65,10 @@ class SearchPatientView extends GetView<SearchPatientController> {
                 final item = state[index];
 
                 return GestureDetector(
-                  onTap: () => controller.moveTo(item),
+                  onTap: () => controller.moveTo(
+                    isFromRME: isFromRME,
+                    dataPatient: item,
+                  ),
                   child: builderItem(
                     context: context,
                     patient: item,

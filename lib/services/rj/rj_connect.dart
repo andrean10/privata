@@ -27,6 +27,12 @@ class RJConnect extends GetConnect {
         query: query,
       );
 
+  Future<Response> getListByDoctor(Map<String, dynamic> query) => get(
+        'Janjis/getJanjiListByHospitalPracticeAndDates',
+        headers: headers,
+        query: query,
+      );
+
   Future<Response> getPracticeAvailable(Map<String, dynamic> query) => get(
         'Janjis/getPracticeAvailable',
         headers: headers,
@@ -53,7 +59,6 @@ class RJConnect extends GetConnect {
       query: query,
     );
   }
-  
 
   Future<Response> createPatient(Map<String, dynamic> body) => post(
         'Pasiens/postDetail',

@@ -200,7 +200,7 @@ class ItemCardRJ extends GetView<RJController> {
         if (item.status == RJStatus.succeed.name) {
           controller.moveToTimeline(item);
         } else if (item.status == RJStatus.engaged.name) {
-          controller.moveToEMR(itemRJ: item);
+          controller.moveToEMR(index: index, itemRJ: item);
         } else {
           Dialogs.alert(
               context: context,
@@ -226,7 +226,7 @@ class ItemCardRJ extends GetView<RJController> {
   }) {
     List<String> menu;
 
-    menu = ConstantsStrings.dataActions.take(3).toList();
+    menu = ConstantsStrings.dataActions;
 
     // if (item.status == 'succeed') {
     //   menu = ConstantsStrings.dataActions.take(3).toList();
@@ -278,13 +278,14 @@ class ItemCardRJ extends GetView<RJController> {
                   }
                 }
 
-                if (element == menu[3]) {
-                  // Catatan Perawat
-                  controller.makeToNurseNotes();
-                } else if (element == menu.last) {
-                  // Vital Sign
-                  controller.makeToVitalSign();
-                }
+                //! SOON
+                // if (element == menu[3]) {
+                //   // Catatan Perawat
+                //   controller.makeToNurseNotes();
+                // } else if (element == menu.last) {
+                //   // Vital Sign
+                //   controller.makeToVitalSign();
+                // }
               },
             ),
           )

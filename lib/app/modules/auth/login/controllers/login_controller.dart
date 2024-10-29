@@ -11,7 +11,6 @@ import 'package:privata/app/modules/widgets/snackbar/snackbar.dart';
 
 import '../../../../../utils/constants_keys.dart';
 import '../../../../../utils/constants_strings.dart';
-import '../../../../helpers/helper.dart';
 import '../../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
@@ -20,8 +19,10 @@ class LoginController extends GetxController {
   // Position? position;
 
   final formKey = GlobalKey<FormState>();
-  final emailC = TextEditingController(text: 'andrean.ramadhan@assist.id');
-  final passwordC = TextEditingController(text: '12345678');
+  // final emailC = TextEditingController(text: 'andrean.ramadhan@assist.id');
+  // final passwordC = TextEditingController(text: '12345678');
+  final emailC = TextEditingController();
+  final passwordC = TextEditingController();
 
   final emailF = FocusNode();
   final passwordF = FocusNode();
@@ -138,10 +139,9 @@ class LoginController extends GetxController {
           errMsg.value = ConstantsStrings.errLogin;
         }
       } else {
-        if (res.status.isUnauthorized) {
-          _initC.isRedirectLogout.value = true;
-        } else {
-          _initC.handleError(status: res.status);
+        _initC.handleError(status: res.status);
+
+        if (!res.status.isUnauthorized) {
           errMsg.value = ConstantsStrings.errLogin;
         }
       }

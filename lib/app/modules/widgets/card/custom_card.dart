@@ -23,7 +23,7 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: outPadding ?? const EdgeInsets.all(0),
+      padding: outPadding ?? EdgeInsets.zero,
       child: Card(
         shape: shape,
         color: color,

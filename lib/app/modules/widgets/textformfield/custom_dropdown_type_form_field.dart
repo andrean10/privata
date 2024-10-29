@@ -6,12 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../helpers/text_helper.dart';
 
-enum TypeDropDown {
-  menu,
-  dialog,
-  modal,
-  bottomSheet,
-}
+enum TypeDropDown { menu, dialog, modal, bottomSheet }
 
 class CustomDropdownTypeFormField<T> extends StatelessWidget {
   // final TextEditingController? controller;
@@ -109,7 +104,6 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
     // this.isEnableSearch = true,
     // this.isShowKeyboard,
     // this.isExpanded = true,
-    // this.isDense = false,
     // this.menuHeight,
     // this.menuStyle,
     // this.leadingIcon,
@@ -314,7 +308,7 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
       default:
         return PopupProps.menu(
           fit: FlexFit.loose,
-          // constraints: const BoxConstraints(maxHeight: 200),
+          constraints: constraints ?? const BoxConstraints(maxHeight: 200),
           showSearchBox: isShowSearchBox,
           showSelectedItems: true,
           // disableFilter: isFilterOnline,

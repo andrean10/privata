@@ -36,14 +36,18 @@ mixin _$DetailRJModel {
   @JsonKey(name: 'VitalSigns')
   List<VitalSignsModel>? get vitalSigns => throw _privateConstructorUsedError;
   @JsonKey(name: 'Patients')
-  RJPatientModel? get patients =>
-      throw _privateConstructorUsedError; // List<Null>? doctorNotes,
+  RJPatientModel? get patients => throw _privateConstructorUsedError;
+  @JsonKey(name: 'DoctorNotes')
+  List<DoctorNotesModel>? get doctorNotes => throw _privateConstructorUsedError;
   @JsonKey(name: 'NurseNotes')
-  List<NurseNotesModel>? get nurseNotes =>
-      throw _privateConstructorUsedError; // List<Null>? prescriptions,
-// List<Null>? scourPrescriptions,
-// List<Null>? procedures,
-// Appointments? appointments,
+  List<NurseNotesModel>? get nurseNotes => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Prescriptions')
+  List<PrescriptionsModel>? get prescriptions =>
+      throw _privateConstructorUsedError; // List<Null>? scourPrescriptions,
+  @JsonKey(name: 'Procedures')
+  List<ProcedureModel>? get procedures => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Appointments')
+  AppointmentModel? get appointments => throw _privateConstructorUsedError;
   @JsonKey(name: 'Practices')
   PracticeModel? get practices => throw _privateConstructorUsedError;
   @JsonKey(name: 'Diagnoses')
@@ -77,11 +81,16 @@ abstract class $DetailRJModelCopyWith<$Res> {
       String? id,
       @JsonKey(name: 'VitalSigns') List<VitalSignsModel>? vitalSigns,
       @JsonKey(name: 'Patients') RJPatientModel? patients,
+      @JsonKey(name: 'DoctorNotes') List<DoctorNotesModel>? doctorNotes,
       @JsonKey(name: 'NurseNotes') List<NurseNotesModel>? nurseNotes,
+      @JsonKey(name: 'Prescriptions') List<PrescriptionsModel>? prescriptions,
+      @JsonKey(name: 'Procedures') List<ProcedureModel>? procedures,
+      @JsonKey(name: 'Appointments') AppointmentModel? appointments,
       @JsonKey(name: 'Practices') PracticeModel? practices,
       @JsonKey(name: 'Diagnoses') List<DiagnosesModel>? diagnoses});
 
   $RJPatientModelCopyWith<$Res>? get patients;
+  $AppointmentModelCopyWith<$Res>? get appointments;
   $PracticeModelCopyWith<$Res>? get practices;
 }
 
@@ -113,7 +122,11 @@ class _$DetailRJModelCopyWithImpl<$Res, $Val extends DetailRJModel>
     Object? id = freezed,
     Object? vitalSigns = freezed,
     Object? patients = freezed,
+    Object? doctorNotes = freezed,
     Object? nurseNotes = freezed,
+    Object? prescriptions = freezed,
+    Object? procedures = freezed,
+    Object? appointments = freezed,
     Object? practices = freezed,
     Object? diagnoses = freezed,
   }) {
@@ -178,10 +191,26 @@ class _$DetailRJModelCopyWithImpl<$Res, $Val extends DetailRJModel>
           ? _value.patients
           : patients // ignore: cast_nullable_to_non_nullable
               as RJPatientModel?,
+      doctorNotes: freezed == doctorNotes
+          ? _value.doctorNotes
+          : doctorNotes // ignore: cast_nullable_to_non_nullable
+              as List<DoctorNotesModel>?,
       nurseNotes: freezed == nurseNotes
           ? _value.nurseNotes
           : nurseNotes // ignore: cast_nullable_to_non_nullable
               as List<NurseNotesModel>?,
+      prescriptions: freezed == prescriptions
+          ? _value.prescriptions
+          : prescriptions // ignore: cast_nullable_to_non_nullable
+              as List<PrescriptionsModel>?,
+      procedures: freezed == procedures
+          ? _value.procedures
+          : procedures // ignore: cast_nullable_to_non_nullable
+              as List<ProcedureModel>?,
+      appointments: freezed == appointments
+          ? _value.appointments
+          : appointments // ignore: cast_nullable_to_non_nullable
+              as AppointmentModel?,
       practices: freezed == practices
           ? _value.practices
           : practices // ignore: cast_nullable_to_non_nullable
@@ -202,6 +231,18 @@ class _$DetailRJModelCopyWithImpl<$Res, $Val extends DetailRJModel>
 
     return $RJPatientModelCopyWith<$Res>(_value.patients!, (value) {
       return _then(_value.copyWith(patients: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AppointmentModelCopyWith<$Res>? get appointments {
+    if (_value.appointments == null) {
+      return null;
+    }
+
+    return $AppointmentModelCopyWith<$Res>(_value.appointments!, (value) {
+      return _then(_value.copyWith(appointments: value) as $Val);
     });
   }
 
@@ -242,12 +283,18 @@ abstract class _$$DetailRJModelImplCopyWith<$Res>
       String? id,
       @JsonKey(name: 'VitalSigns') List<VitalSignsModel>? vitalSigns,
       @JsonKey(name: 'Patients') RJPatientModel? patients,
+      @JsonKey(name: 'DoctorNotes') List<DoctorNotesModel>? doctorNotes,
       @JsonKey(name: 'NurseNotes') List<NurseNotesModel>? nurseNotes,
+      @JsonKey(name: 'Prescriptions') List<PrescriptionsModel>? prescriptions,
+      @JsonKey(name: 'Procedures') List<ProcedureModel>? procedures,
+      @JsonKey(name: 'Appointments') AppointmentModel? appointments,
       @JsonKey(name: 'Practices') PracticeModel? practices,
       @JsonKey(name: 'Diagnoses') List<DiagnosesModel>? diagnoses});
 
   @override
   $RJPatientModelCopyWith<$Res>? get patients;
+  @override
+  $AppointmentModelCopyWith<$Res>? get appointments;
   @override
   $PracticeModelCopyWith<$Res>? get practices;
 }
@@ -278,7 +325,11 @@ class __$$DetailRJModelImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? vitalSigns = freezed,
     Object? patients = freezed,
+    Object? doctorNotes = freezed,
     Object? nurseNotes = freezed,
+    Object? prescriptions = freezed,
+    Object? procedures = freezed,
+    Object? appointments = freezed,
     Object? practices = freezed,
     Object? diagnoses = freezed,
   }) {
@@ -343,10 +394,26 @@ class __$$DetailRJModelImplCopyWithImpl<$Res>
           ? _value.patients
           : patients // ignore: cast_nullable_to_non_nullable
               as RJPatientModel?,
+      doctorNotes: freezed == doctorNotes
+          ? _value._doctorNotes
+          : doctorNotes // ignore: cast_nullable_to_non_nullable
+              as List<DoctorNotesModel>?,
       nurseNotes: freezed == nurseNotes
           ? _value._nurseNotes
           : nurseNotes // ignore: cast_nullable_to_non_nullable
               as List<NurseNotesModel>?,
+      prescriptions: freezed == prescriptions
+          ? _value._prescriptions
+          : prescriptions // ignore: cast_nullable_to_non_nullable
+              as List<PrescriptionsModel>?,
+      procedures: freezed == procedures
+          ? _value._procedures
+          : procedures // ignore: cast_nullable_to_non_nullable
+              as List<ProcedureModel>?,
+      appointments: freezed == appointments
+          ? _value.appointments
+          : appointments // ignore: cast_nullable_to_non_nullable
+              as AppointmentModel?,
       practices: freezed == practices
           ? _value.practices
           : practices // ignore: cast_nullable_to_non_nullable
@@ -378,11 +445,19 @@ class _$DetailRJModelImpl implements _DetailRJModel {
       this.id,
       @JsonKey(name: 'VitalSigns') final List<VitalSignsModel>? vitalSigns,
       @JsonKey(name: 'Patients') this.patients,
+      @JsonKey(name: 'DoctorNotes') final List<DoctorNotesModel>? doctorNotes,
       @JsonKey(name: 'NurseNotes') final List<NurseNotesModel>? nurseNotes,
+      @JsonKey(name: 'Prescriptions')
+      final List<PrescriptionsModel>? prescriptions,
+      @JsonKey(name: 'Procedures') final List<ProcedureModel>? procedures,
+      @JsonKey(name: 'Appointments') this.appointments,
       @JsonKey(name: 'Practices') this.practices,
       @JsonKey(name: 'Diagnoses') final List<DiagnosesModel>? diagnoses})
       : _vitalSigns = vitalSigns,
+        _doctorNotes = doctorNotes,
         _nurseNotes = nurseNotes,
+        _prescriptions = prescriptions,
+        _procedures = procedures,
         _diagnoses = diagnoses;
 
   factory _$DetailRJModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -428,9 +503,18 @@ class _$DetailRJModelImpl implements _DetailRJModel {
   @override
   @JsonKey(name: 'Patients')
   final RJPatientModel? patients;
-// List<Null>? doctorNotes,
+  final List<DoctorNotesModel>? _doctorNotes;
+  @override
+  @JsonKey(name: 'DoctorNotes')
+  List<DoctorNotesModel>? get doctorNotes {
+    final value = _doctorNotes;
+    if (value == null) return null;
+    if (_doctorNotes is EqualUnmodifiableListView) return _doctorNotes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final List<NurseNotesModel>? _nurseNotes;
-// List<Null>? doctorNotes,
   @override
   @JsonKey(name: 'NurseNotes')
   List<NurseNotesModel>? get nurseNotes {
@@ -441,10 +525,33 @@ class _$DetailRJModelImpl implements _DetailRJModel {
     return EqualUnmodifiableListView(value);
   }
 
-// List<Null>? prescriptions,
+  final List<PrescriptionsModel>? _prescriptions;
+  @override
+  @JsonKey(name: 'Prescriptions')
+  List<PrescriptionsModel>? get prescriptions {
+    final value = _prescriptions;
+    if (value == null) return null;
+    if (_prescriptions is EqualUnmodifiableListView) return _prescriptions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
 // List<Null>? scourPrescriptions,
-// List<Null>? procedures,
-// Appointments? appointments,
+  final List<ProcedureModel>? _procedures;
+// List<Null>? scourPrescriptions,
+  @override
+  @JsonKey(name: 'Procedures')
+  List<ProcedureModel>? get procedures {
+    final value = _procedures;
+    if (value == null) return null;
+    if (_procedures is EqualUnmodifiableListView) return _procedures;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  @JsonKey(name: 'Appointments')
+  final AppointmentModel? appointments;
   @override
   @JsonKey(name: 'Practices')
   final PracticeModel? practices;
@@ -461,7 +568,7 @@ class _$DetailRJModelImpl implements _DetailRJModel {
 
   @override
   String toString() {
-    return 'DetailRJModel(milis: $milis, isBpjs: $isBpjs, mrNo: $mrNo, status: $status, practiceId: $practiceId, appointId: $appointId, patientId: $patientId, hospitalId: $hospitalId, createdName: $createdName, createdId: $createdId, createdAt: $createdAt, isShareRMToc: $isShareRMToc, id: $id, vitalSigns: $vitalSigns, patients: $patients, nurseNotes: $nurseNotes, practices: $practices, diagnoses: $diagnoses)';
+    return 'DetailRJModel(milis: $milis, isBpjs: $isBpjs, mrNo: $mrNo, status: $status, practiceId: $practiceId, appointId: $appointId, patientId: $patientId, hospitalId: $hospitalId, createdName: $createdName, createdId: $createdId, createdAt: $createdAt, isShareRMToc: $isShareRMToc, id: $id, vitalSigns: $vitalSigns, patients: $patients, doctorNotes: $doctorNotes, nurseNotes: $nurseNotes, prescriptions: $prescriptions, procedures: $procedures, appointments: $appointments, practices: $practices, diagnoses: $diagnoses)';
   }
 
   @override
@@ -495,7 +602,15 @@ class _$DetailRJModelImpl implements _DetailRJModel {
             (identical(other.patients, patients) ||
                 other.patients == patients) &&
             const DeepCollectionEquality()
+                .equals(other._doctorNotes, _doctorNotes) &&
+            const DeepCollectionEquality()
                 .equals(other._nurseNotes, _nurseNotes) &&
+            const DeepCollectionEquality()
+                .equals(other._prescriptions, _prescriptions) &&
+            const DeepCollectionEquality()
+                .equals(other._procedures, _procedures) &&
+            (identical(other.appointments, appointments) ||
+                other.appointments == appointments) &&
             (identical(other.practices, practices) ||
                 other.practices == practices) &&
             const DeepCollectionEquality()
@@ -504,26 +619,31 @@ class _$DetailRJModelImpl implements _DetailRJModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      milis,
-      isBpjs,
-      mrNo,
-      status,
-      practiceId,
-      appointId,
-      patientId,
-      hospitalId,
-      createdName,
-      createdId,
-      createdAt,
-      isShareRMToc,
-      id,
-      const DeepCollectionEquality().hash(_vitalSigns),
-      patients,
-      const DeepCollectionEquality().hash(_nurseNotes),
-      practices,
-      const DeepCollectionEquality().hash(_diagnoses));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        milis,
+        isBpjs,
+        mrNo,
+        status,
+        practiceId,
+        appointId,
+        patientId,
+        hospitalId,
+        createdName,
+        createdId,
+        createdAt,
+        isShareRMToc,
+        id,
+        const DeepCollectionEquality().hash(_vitalSigns),
+        patients,
+        const DeepCollectionEquality().hash(_doctorNotes),
+        const DeepCollectionEquality().hash(_nurseNotes),
+        const DeepCollectionEquality().hash(_prescriptions),
+        const DeepCollectionEquality().hash(_procedures),
+        appointments,
+        practices,
+        const DeepCollectionEquality().hash(_diagnoses)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -541,25 +661,30 @@ class _$DetailRJModelImpl implements _DetailRJModel {
 
 abstract class _DetailRJModel implements DetailRJModel {
   const factory _DetailRJModel(
-          {final String? milis,
-          final bool? isBpjs,
-          final String? mrNo,
-          final String? status,
-          final String? practiceId,
-          final String? appointId,
-          final String? patientId,
-          final String? hospitalId,
-          final String? createdName,
-          final String? createdId,
-          final String? createdAt,
-          final bool? isShareRMToc,
-          final String? id,
-          @JsonKey(name: 'VitalSigns') final List<VitalSignsModel>? vitalSigns,
-          @JsonKey(name: 'Patients') final RJPatientModel? patients,
-          @JsonKey(name: 'NurseNotes') final List<NurseNotesModel>? nurseNotes,
-          @JsonKey(name: 'Practices') final PracticeModel? practices,
-          @JsonKey(name: 'Diagnoses') final List<DiagnosesModel>? diagnoses}) =
-      _$DetailRJModelImpl;
+      {final String? milis,
+      final bool? isBpjs,
+      final String? mrNo,
+      final String? status,
+      final String? practiceId,
+      final String? appointId,
+      final String? patientId,
+      final String? hospitalId,
+      final String? createdName,
+      final String? createdId,
+      final String? createdAt,
+      final bool? isShareRMToc,
+      final String? id,
+      @JsonKey(name: 'VitalSigns') final List<VitalSignsModel>? vitalSigns,
+      @JsonKey(name: 'Patients') final RJPatientModel? patients,
+      @JsonKey(name: 'DoctorNotes') final List<DoctorNotesModel>? doctorNotes,
+      @JsonKey(name: 'NurseNotes') final List<NurseNotesModel>? nurseNotes,
+      @JsonKey(name: 'Prescriptions')
+      final List<PrescriptionsModel>? prescriptions,
+      @JsonKey(name: 'Procedures') final List<ProcedureModel>? procedures,
+      @JsonKey(name: 'Appointments') final AppointmentModel? appointments,
+      @JsonKey(name: 'Practices') final PracticeModel? practices,
+      @JsonKey(name: 'Diagnoses')
+      final List<DiagnosesModel>? diagnoses}) = _$DetailRJModelImpl;
 
   factory _DetailRJModel.fromJson(Map<String, dynamic> json) =
       _$DetailRJModelImpl.fromJson;
@@ -596,13 +721,22 @@ abstract class _DetailRJModel implements DetailRJModel {
   @override
   @JsonKey(name: 'Patients')
   RJPatientModel? get patients;
-  @override // List<Null>? doctorNotes,
+  @override
+  @JsonKey(name: 'DoctorNotes')
+  List<DoctorNotesModel>? get doctorNotes;
+  @override
   @JsonKey(name: 'NurseNotes')
   List<NurseNotesModel>? get nurseNotes;
-  @override // List<Null>? prescriptions,
-// List<Null>? scourPrescriptions,
-// List<Null>? procedures,
-// Appointments? appointments,
+  @override
+  @JsonKey(name: 'Prescriptions')
+  List<PrescriptionsModel>? get prescriptions;
+  @override // List<Null>? scourPrescriptions,
+  @JsonKey(name: 'Procedures')
+  List<ProcedureModel>? get procedures;
+  @override
+  @JsonKey(name: 'Appointments')
+  AppointmentModel? get appointments;
+  @override
   @JsonKey(name: 'Practices')
   PracticeModel? get practices;
   @override
