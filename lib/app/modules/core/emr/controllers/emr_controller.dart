@@ -15,6 +15,7 @@ import 'package:privata/services/timeline/emr_connect.dart';
 import 'package:privata/utils/constants_keys.dart';
 
 import '../../../../../services/status/status_connect.dart';
+import '../../../../../utils/constants_strings.dart';
 import '../../../../data/models/detail_rj/detail_rj_model.dart';
 import '../../../../data/models/detail_rj/diagnoses/diagnoses_model.dart';
 import '../../../../data/models/detail_rj/diagnoses/item_diagnoses/item_diagnoses_model.dart';
@@ -824,7 +825,7 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
                       }
                     : null,
                 state: isLoading.value,
-                child: const Text('Simpan'),
+                child: const Text(ConstantsStrings.save),
               );
             },
           ),

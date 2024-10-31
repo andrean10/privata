@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 
+import '../../../../../services/onboarding/onboarding_connect.dart';
 import '../../../../../utils/constants_keys.dart';
+import '../../../../helpers/helper.dart';
 import '../../../../routes/app_pages.dart';
-import '../../../widgets/snackbar/snackbar.dart';
 
 class PreferencesController extends GetxController {
   late final InitController _initC;
+  late final OnBoardingConnect _onboardingConn;
 
-  final longClinicOperatingC = TextEditingController();
-  final numberVisitorC = TextEditingController();
+  InitController get initC => _initC;
 
-  final longClinicOperatingF = FocusNode();
-  final numberVisitorF = FocusNode();
+  String? _configId;
 
-  final longClinicOperating = ''.obs;
-  final numberVisitor = ''.obs;
+  // final longClinicOperatingC = TextEditingController();
+  // final numberVisitorC = TextEditingController();
+
+  // final longClinicOperatingF = FocusNode();
+  // final numberVisitorF = FocusNode();
+
+  final longClinicOperating = RxnString();
+  final numberVisitor = RxnString();
 
   final isActiveRMD = false.obs;
   final isActiveStock = false.obs;
+
+  final isLoading = false.obs;
 
   @override
   void onInit() {
@@ -31,48 +40,82 @@ class PreferencesController extends GetxController {
     if (Get.isRegistered<InitController>()) {
       _initC = Get.find<InitController>();
     }
+
+    _onboardingConn = OnBoardingConnect(_initC);
+    _configId = _initC.localStorage.read<String>(ConstantsKeys.configId);
+
+    // _initListener();
   }
 
-  void confirm() {}
+  // void _initListener() {
+  //   _listener(longClinicOperating, longClinicOperatingC);
+  //   _listener(numberVisitor, numberVisitorC);
+  // }
+
+  // void _listener(RxnString obs, TextEditingController controller) =>
+  //     controller.addListener(() => obs.value = controller.text);
+
+  // void confirm() {
+  //   final body = {
+  //     "3": longClinicOperating.value,
+  //     "5": isActiveRMD.value,
+  //     "7": isActiveStock.value,
+  //     "8": isActiveStock.value,
+  //     "12": numberVisitor.value,
+  //     "configAccountId": _configId
+  //   };
+  // }
+
+  void confirm() async {
+    isLoading.value = true;
+
+    final body = <String, dynamic>{
+      "3": longClinicOperating.value,
+      "5": isActiveRMD.value,
+      "7": isActiveStock.value,
+      "8": isActiveStock.value,
+      "12": numberVisitor.value,
+      "configAccountId": _configId
+    };
+
+    Helper.printPrettyJson(body);
+
+    try {
+      final res = await _onboardingConn.saveAssistPref(body);
+
+      // Helper.printPrettyJson(res.body);
+
+      print(res.body);
+
+      if (res.isOk) {
+        final body = res.body;
+
+        print('body runtimeType = ${body.runtimeType}');
+
+        if (body != null) {
+          _moveToInfoFaskesInfo();
+        }
+
+        // if (body != null && body is Map<String, dynamic>) {
+        //   final data = DiagnosesModel.fromJson(body);
+
+        //   List<DiagnosesModel> newData = List.from(itemsDiagnoses.value);
+        //   newData.add(data);
+        //   itemsDiagnoses.value = newData;
+        // }
+      } else {
+        _initC.handleError(status: res.status);
+      }
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
   void setActiveRMD(bool value) => isActiveRMD.value = value;
 
   void setActiveStock(bool value) => isActiveStock.value = value;
 
-  void moveToFaskesInfo() => Get.toNamed(Routes.INFO_FASKES);
-
-  Future<void> logOut() async {
-    final token = _initC.localStorage.read<String>(ConstantsKeys.authToken);
-
-    if (token != null) {
-      try {
-        final res = await _initC.authCn.logout(token);
-
-        await _initC.localStorage.erase();
-
-        if (res.isOk) {
-          _moveToLogin();
-        } else {
-          Snackbar.failed(
-            context: Get.context!,
-            content:
-                'Gagal logout, sepertinya token anda telah berubah tetap logout?',
-            action: SnackBarAction(
-              label: 'Iya',
-              onPressed: _moveToLogin,
-            ),
-            duration: const Duration(minutes: 1),
-          );
-        }
-      } catch (e) {
-        Snackbar.failed(
-          context: Get.context!,
-          content: 'Ada kesalahan saat ingin logout, coba lagi',
-        );
-        _initC.logger.e('error: $e');
-      }
-    }
-  }
-
-  void _moveToLogin() => Get.offAllNamed(Routes.LOGIN);
+  void _moveToInfoFaskesInfo() => Get.toNamed(Routes.INFO_FASKES);
 }

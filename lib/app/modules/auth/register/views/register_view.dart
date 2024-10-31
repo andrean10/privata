@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:get/get.dart';
+import 'package:privata/app/modules/widgets/textformfield/custom_dropdown_type_form_field.dart';
+import 'package:privata/app/modules/widgets/textformfield/custom_textform_field.dart';
 import 'package:privata/utils/constants_strings.dart';
 
 import '../../../../../shared/shared_theme.dart';
@@ -77,6 +79,8 @@ class RegisterView extends GetView<RegisterController> {
         children: [
           builderFullName(),
           removeSpace(),
+          builderGender(),
+          removeSpace(),
           builderPhone(),
           removeSpace(),
           builderEmail(),
@@ -108,6 +112,7 @@ class RegisterView extends GetView<RegisterController> {
         isLabel: true,
         suffixIconState: controller.fullName.value.isNotEmpty,
         keyboardType: TextInputType.name,
+        isRequired: true,
         validator: (value) => Validation.formField(
           value: value,
           titleField: ConstantsStrings.registerTitleFullName,
@@ -117,23 +122,38 @@ class RegisterView extends GetView<RegisterController> {
     );
   }
 
+  Widget builderGender() {
+    return CustomDropdownTypeFormField(
+      title: 'Jenis Kelamin',
+      items: const ['Laki-laki', 'Perempuan'],
+      isFilled: true,
+      isLabel: true,
+      isRequired: true,
+      onChanged: controller.onChangedGender,
+    );
+  }
+
   Widget builderPhone() {
     return Obx(
-      () => TextFormFields.filled(
+      () => CustomTextFormField(
         controller: controller.phoneC,
         focusNode: controller.phoneF,
         title: ConstantsStrings.registerTitlePhone,
         // hintText: ConstantsStrings.registerHintPhone,
+        helperText: 'Pastikan nomor HP mu terdaftar di whatsapp',
         isLabel: true,
+        isFilled: true,
         suffixIconState: controller.phone.value.isNotEmpty,
         keyboardType: TextInputType.phone,
         textCapitalization: TextCapitalization.none,
         maxLines: 1,
         maxLength: 13,
+        isRequired: true,
         validator: (value) => Validation.formField(
           value: value,
           titleField: ConstantsStrings.registerTitlePhone,
           isNumericOnly: true,
+          isRequired: true,
         ),
         errorText: controller.errMsg.value != null ? '' : null,
       ),
@@ -152,6 +172,7 @@ class RegisterView extends GetView<RegisterController> {
         keyboardType: TextInputType.emailAddress,
         textCapitalization: TextCapitalization.none,
         maxLines: 1,
+        isRequired: true,
         validator: (value) => Validation.formField(
           value: value,
           titleField: ConstantsStrings.registerTitleEmail,
@@ -174,6 +195,7 @@ class RegisterView extends GetView<RegisterController> {
         keyboardType: TextInputType.name,
         textCapitalization: TextCapitalization.none,
         maxLines: 1,
+        isRequired: true,
         validator: (value) => Validation.formField(
           value: value,
           titleField: ConstantsStrings.registerTitleUsername,
@@ -194,6 +216,7 @@ class RegisterView extends GetView<RegisterController> {
         suffixIconState: controller.password.value.isNotEmpty,
         keyboardType: TextInputType.visiblePassword,
         textInputAction: TextInputAction.done,
+        isRequired: true,
         suffixIcon: IconButton(
           onPressed: controller.setHidePassword,
           icon: Icon(
@@ -234,7 +257,7 @@ class RegisterView extends GetView<RegisterController> {
             const SizedBox(height: 16),
             builderForm(),
             const SizedBox(height: 16),
-            Buttons.text(
+            TextButton(
               style: ButtonStyle(
                 foregroundColor:
                     WidgetStatePropertyAll(theme.colorScheme.onSurface),
@@ -242,7 +265,7 @@ class RegisterView extends GetView<RegisterController> {
               onPressed: controller.moveToTerms,
               child: TextHelper.buildRichText(
                 text: ConstantsStrings.registerTerms,
-                highlight: ConstantsStrings.assist,
+                highlight: 'syarat dan ketentuan',
                 highlightStyle: TextStyle(color: theme.colorScheme.primary),
               ),
             ),

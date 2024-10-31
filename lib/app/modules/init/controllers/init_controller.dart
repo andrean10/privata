@@ -3,6 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,6 +13,8 @@ import 'package:privata/services/auth/auth_connect.dart';
 
 import '../../../../utils/constants_keys.dart';
 import '../../../routes/app_pages.dart';
+
+enum STATEPERMISSION { active, notActive, denied, deniedForever }
 
 class InitController extends GetxController {
   late final GetStorage _localStorage;
@@ -117,52 +120,60 @@ class InitController extends GetxController {
   }
 
   bool isUserFirstUsingApp() =>
-      _localStorage.read(ConstantsKeys.isFirstUsingApp);
+      _localStorage.read<bool>(ConstantsKeys.isFirstUsingApp) ?? true;
 
-  // Future<Position> determinePosition() async {
-  //   bool serviceEnabled;
-  //   LocationPermission permission;
+  Future<(Position?, STATEPERMISSION)> determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-  //   // Test if location services are enabled.
-  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     // Location services are not enabled don't continue
-  //     // accessing the position and request users of the
-  //     // App to enable the location services.
-  //     return Future.error('Layanan lokasi tidak aktif');
-  //   }
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
 
-  //   permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       // Permissions are denied, next time you could try
-  //       // requesting permissions again (this is also where
-  //       // Android's shouldShowRequestPermissionRationale
-  //       // returned true. According to Android guidelines
-  //       // your App should show an explanatory UI now.
-  //       return Future.error(
-  //           'Perizinan lokasidi tolak Location permissions are denied');
-  //     }
-  //   }
+      // return Future.error('Layanan lokasi tidak aktif');
+      return (null, STATEPERMISSION.notActive);
+    }
 
-  //   if (permission == LocationPermission.deniedForever) {
-  //     // Permissions are denied forever, handle appropriately.
-  //     return Future.error(
-  //         'Izin lokasi ditolak secara permanen, kami tidak dapat meminta izin.');
-  //   }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
 
-  //   const locationSettings = LocationSettings(
-  //     accuracy: LocationAccuracy.high,
-  //     distanceFilter: 100,
-  //   );
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
 
-  //   // When we reach here, permissions are granted and we can
-  //   // continue accessing the position of the device.
-  //   return await Geolocator.getCurrentPosition(
-  //     locationSettings: locationSettings,
-  //   );
-  // }
+        // return Future.error('Perizinan lokasi di tolak');
+        return (null, STATEPERMISSION.denied);
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      // return Future.error(
+      //     'Izin lokasi ditolak secara permanen, kami tidak dapat meminta izin.');
+      return (null, STATEPERMISSION.deniedForever);
+    }
+
+    const locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 100,
+    );
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return (
+      await Geolocator.getCurrentPosition(
+        locationSettings: locationSettings,
+      ),
+      STATEPERMISSION.active,
+    );
+  }
 
   void _redirectLogout({required BuildContext context}) async {
     Snackbar.info(
@@ -174,10 +185,7 @@ class InitController extends GetxController {
     try {
       // clear cache login
       await _localStorage.erase();
-      _localStorage.write(
-        ConstantsKeys.isFirstUsingApp,
-        false,
-      );
+      await _localStorage.write(ConstantsKeys.isFirstUsingApp, false);
 
       // reset redirect logout
       isRedirectLogout.value = false;
@@ -192,11 +200,23 @@ class InitController extends GetxController {
     required HttpStatus status,
     String? message,
     SnackBarAction? action,
+    bool isFromLogin = false,
   }) {
     logger.d('debug: status code error = ${status.code}');
 
     if (status.isUnauthorized) {
-      isRedirectLogout.value = true;
+      if (!isFromLogin) {
+        isRedirectLogout.value = true;
+      } else {
+        const resMessage =
+            'Login gagal, silahkan cek username/email dan password anda';
+        Snackbar.close(Get.context!);
+        Snackbar.failed(
+          context: Get.context!,
+          content: message ?? resMessage,
+          action: action,
+        );
+      }
     } else {
       var resMessage = 'Ada kesalahan sistem';
 

@@ -35,22 +35,7 @@ _$LinksModelImpl _$$LinksModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$LinksModelImplToJson(_$LinksModelImpl instance) =>
     <String, dynamic>{
-      'accountId': instance.accountId,
-      'configId': instance.configId,
-      'name': instance.name,
       'active': instance.active,
       'type': instance.type,
       'role': instance.role,
-      'roleId': instance.roleId,
-      'occupation': instance.occupation,
-      'employeeNo': instance.employeeNo,
-      'accountToken': instance.accountToken,
-      'hospitalId': instance.hospitalId,
-      'createdAt': instance.createdAt,
-      'createdId': instance.createdId,
-      'id': instance.id,
-      'note': instance.note,
-      'assistPref': instance.assistPref,
-      'RoleActions': instance.roleActions,
-      'Hospitals': instance.hospitals,
     };

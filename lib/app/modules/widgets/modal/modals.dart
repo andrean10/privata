@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/modules/widgets/buttons/buttons.dart';
 
+import '../../../../utils/constants_strings.dart';
+
 abstract class Modals {
   static Future<dynamic?> bottomSheet({
     required BuildContext context,
@@ -13,7 +15,7 @@ abstract class Modals {
     Widget? actions,
     bool isAction = false,
     String startActionText = 'Tutup',
-    String endActionText = 'Simpan',
+    String endActionText = ConstantsStrings.save,
     VoidCallback? startOnPressed,
     VoidCallback? endOnPressed,
   }) {
@@ -105,7 +107,7 @@ abstract class Modals {
     Widget? actions,
     bool isAction = false,
     String startActionText = 'Tutup',
-    String endActionText = 'Simpan',
+    String endActionText = ConstantsStrings.save,
     VoidCallback? startOnPressed,
     VoidCallback? endOnPressed,
   }) {

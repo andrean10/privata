@@ -201,7 +201,7 @@ class CustomTextFormField extends StatelessWidget {
       focusNode: focusNode,
       textAlignVertical: (isNumericOnly) ? TextAlignVertical.center : null,
       decoration: InputDecoration(
-        labelText: (isLabel) ? title : null,
+        labelText: (isLabel) ? '$title ${isRequired ? '*' : ''}' : null,
         // hintText: hintText,
         // hintMaxLines: hintMaxLines,
         helperText: helperText,

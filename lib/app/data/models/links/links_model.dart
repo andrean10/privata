@@ -9,24 +9,32 @@ part 'links_model.g.dart';
 @freezed
 class LinksModel with _$LinksModel {
   const factory LinksModel({
-    String? accountId,
-    String? configId,
-    String? name,
+    @JsonKey(includeToJson: false) String? accountId,
+    @JsonKey(includeToJson: false) String? configId,
+    @JsonKey(includeToJson: false) String? name,
     bool? active,
     String? type,
     String? role,
-    String? roleId,
-    String? occupation,
-    String? employeeNo,
-    String? accountToken,
-    String? hospitalId,
-    String? createdAt,
-    String? createdId,
-    String? id,
-    String? note,
-    String? assistPref,
-    @JsonKey(name: 'RoleActions') RoleActionsModel? roleActions,
-    @JsonKey(name: 'Hospitals') HospitalModel? hospitals,
+    @JsonKey(includeToJson: false) String? roleId,
+    @JsonKey(includeToJson: false) String? occupation,
+    @JsonKey(includeToJson: false) String? employeeNo,
+    @JsonKey(includeToJson: false) String? accountToken,
+    @JsonKey(includeToJson: false) String? hospitalId,
+    @JsonKey(includeToJson: false) String? createdAt,
+    @JsonKey(includeToJson: false) String? createdId,
+    @JsonKey(includeToJson: false) String? id,
+    @JsonKey(includeToJson: false) String? note,
+    @JsonKey(includeToJson: false) String? assistPref,
+    @JsonKey(
+      name: 'RoleActions',
+      includeToJson: false,
+    )
+    RoleActionsModel? roleActions,
+    @JsonKey(
+      name: 'Hospitals',
+      includeToJson: false,
+    )
+    HospitalModel? hospitals,
   }) = _LinksModel;
 
   factory LinksModel.fromJson(Map<String, Object?> json) =>

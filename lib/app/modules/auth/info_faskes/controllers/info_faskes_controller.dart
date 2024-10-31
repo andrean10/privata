@@ -19,6 +19,8 @@ class InfoFaskesController extends GetxController {
   late final InitController _initC;
   late final RegionConnect _regionCn;
 
+  InitController get initC => _initC;
+
   final formKey = GlobalKey<FormState>();
   final faskesNameC = TextEditingController();
   final addressNameC = TextEditingController();
@@ -246,45 +248,10 @@ class InfoFaskesController extends GetxController {
     tempDataVillages.clear();
   }
 
-  Future<void> logOut() async {
-    final token = _initC.localStorage.read<String>(ConstantsKeys.authToken);
-
-    if (token != null) {
-      try {
-        final res = await _initC.authCn.logout(token);
-
-        await _initC.localStorage.erase();
-
-        if (res.isOk) {
-          _moveToLogin();
-        } else {
-          Snackbar.failed(
-            context: Get.context!,
-            content:
-                'Gagal logout, sepertinya token anda telah berubah tetap logout?',
-            action: SnackBarAction(
-              label: 'Iya',
-              onPressed: _moveToLogin,
-            ),
-            duration: const Duration(minutes: 1),
-          );
-        }
-      } catch (e) {
-        Snackbar.failed(
-          context: Get.context!,
-          content: 'Ada kesalahan saat ingin logout, coba lagi',
-        );
-        _initC.logger.e('error: $e');
-      }
-    }
-  }
-
   void confirm() {
     _initC.localStorage.write(ConstantsKeys.isPref, true);
     _moveToWelcome();
   }
 
   void _moveToWelcome() => Get.toNamed(Routes.WELCOME);
-
-  void _moveToLogin() => Get.offAllNamed(Routes.LOGIN);
 }

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:privata/app/helpers/text_helper.dart';
 import 'package:privata/app/modules/widgets/dialog/dialogs.dart';
 import 'package:privata/app/modules/widgets/textformfield/text_form_fields.dart';
 import 'package:privata/shared/shared_theme.dart';
@@ -19,50 +20,34 @@ class PreferencesView extends GetView<PreferencesController> {
     final theme = context.theme;
     final textTheme = context.textTheme;
 
-    // if (defaultTargetPlatform == TargetPlatform.macOS) {
-    //   return CupertinoPageScaffold(
-    //     navigationBar: CupertinoNavigationBar(
-    //       middle: const Text(ConstantsStrings.pref),
-    //       trailing: PopupMenuButton(
-    //         itemBuilder: (context) => [
-    //           PopupMenuItem(
-    //             value: ConstantsStrings.logout,
-    //             child: const Text(ConstantsStrings.logout),
-    //             onTap: () {},
-    //           )
-    //         ],
-    //         icon: const Icon(Icons.more_vert_rounded),
-    //       ),
-    //     ),
-    //     child: builderBody(textTheme, theme),
-    //   );
-    // }
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(ConstantsStrings.pref),
-        centerTitle: true,
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: ConstantsStrings.logout,
-                child: const Text(ConstantsStrings.logout),
-                onTap: () async {
-                  final result = await Dialogs.logout(context: context);
-
-                  if (result ?? false) {
-                    await controller.logOut();
-                  }
-                },
-              )
-            ],
-            position: PopupMenuPosition.under,
-            icon: const Icon(Icons.more_vert_rounded),
-          ),
-        ],
-      ),
+      appBar: builderAppBar(),
       body: builderBody(textTheme, theme),
+    );
+  }
+
+  AppBar builderAppBar() {
+    return AppBar(
+      title: const Text(ConstantsStrings.pref),
+      centerTitle: true,
+      actions: [
+        PopupMenuButton(
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: ConstantsStrings.logout,
+              child: const Text(ConstantsStrings.logout),
+              onTap: () {
+                Dialogs.logout(
+                  context: context,
+                  initC: controller.initC,
+                );
+              },
+            )
+          ],
+          position: PopupMenuPosition.under,
+          icon: const Icon(Icons.more_vert_rounded),
+        ),
+      ],
     );
   }
 
@@ -94,16 +79,20 @@ class PreferencesView extends GetView<PreferencesController> {
                 ),
                 const SizedBox(height: 21),
                 TextFormFields.dropdown(
-                  // controller: controller.longClinicOperatingC,
-                  // focusNode: controller.longClinicOperatingF,
                   title: ConstantsStrings.prefTitleLongClinicOperating,
                   items: ConstantsStrings.prefListLongClinicOperating.indexed
                       .map(
                         (e) => DropdownMenuEntry(value: e.$1, label: e.$2),
                       )
                       .toList(),
-                  textStyle: textTheme.titleMedium,
+                  isRequired: true,
                   isExpanded: true,
+                  onSelected: (value) {
+                    if (value != null) {
+                      controller.longClinicOperating.value =
+                          ConstantsStrings.prefListLongClinicOperating[value];
+                    }
+                  },
                 ),
                 const SizedBox(height: 12),
                 Obx(
@@ -127,25 +116,38 @@ class PreferencesView extends GetView<PreferencesController> {
                 ),
                 const SizedBox(height: 16),
                 TextFormFields.dropdown(
-                  // controller: controller.numberVisitorC,
-                  // focusNode: controller.numberVisitorF,
                   title: ConstantsStrings.prefTitleNumberVisitors,
                   items: ConstantsStrings.prefListNumberVisitors.indexed
                       .map(
                         (e) => DropdownMenuEntry(value: e.$1, label: e.$2),
                       )
                       .toList(),
-                  textStyle: textTheme.titleMedium,
+                  isRequired: true,
                   isExpanded: true,
+                  onSelected: (value) {
+                    if (value != null) {
+                      controller.numberVisitor.value =
+                          ConstantsStrings.prefListNumberVisitors[value];
+                    }
+                  },
                 ),
               ],
             ),
           ),
           const SizedBox(height: 24),
-          Buttons.filled(
-            width: double.infinity,
-            onPressed: controller.moveToFaskesInfo,
-            child: const Text(ConstantsStrings.save),
+          Obx(
+            () {
+              final isEnabled = controller.longClinicOperating.value != null &&
+                  controller.numberVisitor.value != null &&
+                  !controller.isLoading.value;
+
+              return Buttons.filled(
+                width: double.infinity,
+                onPressed: isEnabled ? controller.confirm : null,
+                state: controller.isLoading.value,
+                child: const Text(ConstantsStrings.save),
+              );
+            },
           ),
         ],
       ),
@@ -162,9 +164,11 @@ class PreferencesView extends GetView<PreferencesController> {
     return SwitchListTile.adaptive(
       value: value,
       onChanged: onChanged,
-      title: Text(
-        title,
-        style: textTheme.titleMedium,
+      title: TextHelper.buildRichText(
+        text: '$title *',
+        highlight: '*',
+        defaultStyle: textTheme.titleMedium,
+        highlightStyle: const TextStyle(color: Colors.red),
       ),
       subtitle: Text(subtitle),
       contentPadding: EdgeInsets.zero,

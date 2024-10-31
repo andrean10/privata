@@ -8,6 +8,7 @@ import 'package:privata/app/helpers/format_date_time.dart';
 import 'package:privata/app/helpers/validations.dart';
 import 'package:privata/app/modules/widgets/textformfield/custom_dropdown_type_form_field.dart';
 
+import '../../../../../utils/constants_strings.dart';
 import '../../../../helpers/helper.dart';
 import '../../../../helpers/text_helper.dart';
 import '../../../widgets/buttons/buttons.dart';
@@ -822,7 +823,7 @@ class EmrView extends GetView<EmrController> {
           width: double.infinity,
           state: controller.isLoading.value,
           onPressed: isEnabledSave ? () => controller.save(context) : null,
-          child: const Text('Simpan'),
+          child: const Text(ConstantsStrings.save),
         );
       },
     );

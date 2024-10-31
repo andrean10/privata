@@ -8,6 +8,7 @@ import '../../../../../shared/shared_theme.dart';
 import '../../../../../utils/constants_assets.dart';
 import '../../../widgets/buttons/buttons.dart';
 import '../../../widgets/card/cards.dart';
+import '../../../widgets/dialog/dialogs.dart';
 import '../../../widgets/textformfield/text_form_fields.dart';
 import '../controllers/verify_otp_controller.dart';
 
@@ -21,6 +22,26 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
     final orientation = context.orientation;
 
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: ConstantsStrings.logout,
+                child: const Text(ConstantsStrings.logout),
+                onTap: () {
+                  Dialogs.logout(
+                    context: context,
+                    initC: controller.initC,
+                  );
+                },
+              )
+            ],
+            position: PopupMenuPosition.under,
+            icon: const Icon(Icons.more_vert_rounded),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(

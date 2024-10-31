@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 import 'package:privata/app/modules/widgets/snackbar/snackbar.dart';
 import 'package:privata/utils/constants_keys.dart';
@@ -9,7 +8,7 @@ import '../../../../../data/db/menu/menu_model.dart';
 import '../../../../../routes/app_pages.dart';
 import '../../../../widgets/dialog/dialogs.dart';
 
-class ProfileController extends GetxController {
+class SettingController extends GetxController {
   late final InitController _initC;
 
   String? name;
@@ -65,20 +64,22 @@ class ProfileController extends GetxController {
       case 0:
         break;
       case 1:
-        _moveToPrinterSettings();
+        // _moveToPrinterSettings();
         break;
       case 2:
+        _moveToPrinterSettings();
+        break;
+      case 3:
         _showDialogLogout(context);
         break;
     }
   }
 
   Future<void> _showDialogLogout(BuildContext context) async {
-    final state = await Dialogs.logout(context: context);
-
-    if (state ?? false) {
-      logOut();
-    }
+    Dialogs.logout(
+      context: context,
+      initC: _initC,
+    );
   }
 
   Future<void> logOut() async {
@@ -88,10 +89,10 @@ class ProfileController extends GetxController {
       try {
         final res = await _initC.authCn.logout(token);
 
-        // await _initC.auth.signOut();
-        await _initC.localStorage.erase();
-
         if (res.isOk) {
+          // clear cache login
+          await _initC.localStorage.erase();
+          await _initC.localStorage.write(ConstantsKeys.isFirstUsingApp, false);
           moveToLogin();
         } else {
           Snackbar.failed(

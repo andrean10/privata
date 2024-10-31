@@ -7,6 +7,7 @@ import 'package:privata/app/helpers/format_date_time.dart';
 import 'package:privata/app/modules/core/menu_registration/rj/controllers/rj_controller.dart';
 
 import '../../../../../../../shared/shared_theme.dart';
+import '../../../../../../../utils/constants_strings.dart';
 import '../../../../../../data/models/rj/item_rj/item_rj_model.dart';
 import '../../../../../../data/models/slot/slot_model.dart';
 import '../../../../../../data/db/status/status_model.dart';
@@ -226,7 +227,7 @@ class BuilderDropdownState extends GetView<RJController> {
                           );
                         }
                       },
-                      child: const Text('Simpan'),
+                      child: const Text(ConstantsStrings.save),
                     ),
                   ],
                   content: Form(
@@ -560,7 +561,7 @@ class BuilderDropdownState extends GetView<RJController> {
                     ),
                   ),
                   startActionText: 'Tutup',
-                  endActionText: 'Simpan',
+                  endActionText: ConstantsStrings.save,
                 ).then(
                   (state) {
                     if (item.id != null) {

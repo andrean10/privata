@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 import 'package:privata/utils/constants_keys.dart';
 
+import '../../../helpers/helper.dart';
 import '../../../routes/app_pages.dart';
 
 class SplashController extends GetxController {
@@ -42,17 +43,18 @@ class SplashController extends GetxController {
         final isPref =
             _initC.localStorage.read<bool>(ConstantsKeys.isPref) ?? false;
 
+        moveToMain();
+
         // check is user has verified phone
-        //? !isPhoneVerified
-        if (isPhoneVerified) {
-          _moveToVerifyPhone();
-        }
-        //? !isPref
-        else if (isPref) {
-          _moveToPreferences();
-        } else {
-          moveToMain();
-        }
+        // if (!isPhoneVerified) {
+        //   _moveToVerifyPhone();
+        // }
+        // //? !isPref
+        // else if (!isPref) {
+        //   _moveToPreferences();
+        // } else {
+        //   moveToMain();
+        // }
       } else {
         Get.offAllNamed(Routes.LOGIN);
       }

@@ -43,7 +43,7 @@ class NewPatientView extends GetView<NewPatientController> {
           () => Buttons.text(
             onPressed: controller.save,
             state: controller.isLoading.value,
-            child: const Text('Simpan'),
+            child: const Text(ConstantsStrings.save),
           ),
         )
       ],

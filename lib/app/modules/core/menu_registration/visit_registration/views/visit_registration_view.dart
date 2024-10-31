@@ -39,7 +39,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
             return Buttons.text(
               state: isLoading,
               onPressed: (!isLoading) ? controller.save : null,
-              child: const Text('Simpan'),
+              child: const Text(ConstantsStrings.save),
             );
           },
         ),

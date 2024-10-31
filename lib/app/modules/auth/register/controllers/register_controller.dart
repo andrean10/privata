@@ -8,6 +8,7 @@ import 'package:privata/app/modules/init/controllers/init_controller.dart';
 import 'package:privata/app/modules/widgets/snackbar/snackbar.dart';
 
 import '../../../../../utils/constants_strings.dart';
+import '../../../../helpers/helper.dart';
 import '../../../../routes/app_pages.dart';
 
 enum Gender { male, female }
@@ -31,6 +32,7 @@ class RegisterController extends GetxController {
   final passwordF = FocusNode();
 
   final fullName = ''.obs;
+  final gender = 0.obs;
   final phone = ''.obs;
   final email = ''.obs;
   final username = ''.obs;
@@ -95,10 +97,9 @@ class RegisterController extends GetxController {
 
   Future<void> _checkUser() async {
     clearError();
+    isLoading.value = true;
 
     try {
-      isLoading.value = true;
-
       // check Email
       final resCheckEmail = await _initC.authCn.checkEmailOrUsername({
         'key': 'email',
@@ -127,25 +128,26 @@ class RegisterController extends GetxController {
         errUsername.value = ConstantsStrings.errUsername;
       }
 
-      final registerModel = RegisterModel(
-        links: links,
-        nama: fullName.value.trim(),
-        hp: phone.value,
-        email: email.value.trim(),
-        username: username.value,
-        password: password.value,
-        from: 'mobile',
-      ).toJson();
+      final body = {
+        'dataLink': links,
+        'nama': fullName.value.trim(),
+        'gender': gender.value,
+        'hp': phone.value.trim(),
+        'email': email.value.trim(),
+        'username': username.value.trim(),
+        'password': password.value.trim(),
+        'from': 'mobile',
+      };
 
-      // final body = {'dataLink': };
+      Helper.printPrettyJson(body);
+      
+      final res = await _initC.authCn.register(body);
+      final bodyRes = res.body;
 
-      final res = await _initC.authCn.register(registerModel);
+      Helper.printPrettyJson(bodyRes);
 
       if (res.isOk) {
-        final bodyRes = res.body;
-
-        _initC.logger.d('debug: response register = $bodyRes');
-
+        moveToLogin();
         Snackbar.success(
           context: Get.context!,
           content: ConstantsStrings.successRegistrationAccount,
@@ -169,5 +171,11 @@ class RegisterController extends GetxController {
     errEmail.value = null;
     errUsername.value = null;
     errMsg.value = null;
+  }
+
+  void onChangedGender(String? value) {
+    if (value != null) {
+      gender.value = value == 'Perempuan' ? 2 : 1;
+    }
   }
 }

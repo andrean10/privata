@@ -7,6 +7,7 @@ import 'package:privata/app/modules/core/rme/views/rme_view.dart';
 
 import '../../../../../shared/shared_theme.dart';
 import '../../../../../utils/constants_assets.dart';
+import '../../../../../utils/constants_strings.dart';
 import '../../../widgets/buttons/buttons.dart';
 import '../../../widgets/modal/modals.dart';
 import '../../../widgets/textformfield/custom_dropdown_type_form_field.dart';
@@ -43,6 +44,8 @@ class MainView extends GetView<MainController> {
   }
 
   Widget builderDrawer(BuildContext context) {
+    final textTheme = context.textTheme;
+
     return Obx(
       () => NavigationDrawer(
         selectedIndex: controller.currentIndex.value,
@@ -76,7 +79,10 @@ class MainView extends GetView<MainController> {
                       ),
                       const SizedBox(height: 2),
                       AutoSizeText(controller.email ?? '-'),
-                      AutoSizeText(controller.name ?? '-'),
+                      AutoSizeText(
+                        controller.name ?? '-',
+                        style: textTheme.titleMedium,
+                      ),
                     ],
                   ),
                 ),
@@ -379,11 +385,10 @@ class MainView extends GetView<MainController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormFields.outlined(
-              controller: controller.cashierC.dateC,
-              focusNode: controller.cashierC.dateF,
+              controller: controller.cashierC.startDateC,
+              focusNode: controller.cashierC.startDateF,
               isReadOnly: true,
-              title: 'Tanggal',
-              hintText: 'Pilih Tanggal',
+              title: 'Dari Tanggal',
               onTap: () async {
                 final date = await showDatePicker(
                   context: context,
@@ -393,7 +398,28 @@ class MainView extends GetView<MainController> {
                   initialEntryMode: DatePickerEntryMode.calendarOnly,
                 );
 
-                if (date != null) controller.cashierC.setDate(date);
+                if (date != null) controller.cashierC.setDate(date, true);
+              },
+              keyboardType: TextInputType.datetime,
+              textInputAction: TextInputAction.done,
+              suffixIcon: const Icon(Icons.date_range_rounded),
+            ),
+            const SizedBox(height: 16),
+            TextFormFields.outlined(
+              controller: controller.cashierC.endDateC,
+              focusNode: controller.cashierC.endDateF,
+              isReadOnly: true,
+              title: 'Sampai Tanggal',
+              onTap: () async {
+                final date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime.now(),
+                  initialEntryMode: DatePickerEntryMode.calendarOnly,
+                );
+
+                if (date != null) controller.cashierC.setDate(date, false);
               },
               keyboardType: TextInputType.datetime,
               textInputAction: TextInputAction.done,
@@ -404,13 +430,14 @@ class MainView extends GetView<MainController> {
               () => Buttons.filled(
                 width: double.infinity,
                 state: controller.cashierC.isLoading.value,
-                onPressed: controller.cashierC.filter,
-                child: const Text('Simpan'),
+                onPressed: () =>
+                    controller.cashierC.fetchCashier(isFilter: true),
+                child: const Text(ConstantsStrings.save),
               ),
             ),
           ],
         ),
       ),
-    ).then((_) => controller.cashierC.clearData());
+    );
   }
 }

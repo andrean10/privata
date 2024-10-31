@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../utils/constants_keys.dart';
+import '../../../routes/app_pages.dart';
+import '../../init/controllers/init_controller.dart';
 import '../buttons/buttons.dart';
+import '../snackbar/snackbar.dart';
 
 abstract class Dialogs {
   static Widget builderAction({
@@ -118,6 +122,7 @@ abstract class Dialogs {
 
   static Future<bool?> logout({
     required BuildContext context,
+    required InitController initC,
     TextStyle? titleTextStyle,
     TextStyle? contentTextStyle,
     List<Widget>? actions,
@@ -125,8 +130,8 @@ abstract class Dialogs {
     bool barrierDismissible = true,
     String? textNo,
     String? textYes,
-  }) {
-    return showAdaptiveDialog<bool>(
+  }) async {
+    final state = await showAdaptiveDialog<bool>(
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (context) => AlertDialog.adaptive(
@@ -149,5 +154,45 @@ abstract class Dialogs {
         actionsAlignment: actionsAlignment ?? MainAxisAlignment.end,
       ),
     );
+
+    if (state ?? false) {
+      _logOut(initC);
+    }
+    return state;
+  }
+
+  static Future<void> _logOut(InitController initC) async {
+    final token = initC.localStorage.read<String>(ConstantsKeys.authToken);
+
+    if (token != null) {
+      try {
+        final res = await initC.authCn.logout(token);
+
+        // clear cache login
+        await initC.localStorage.erase();
+        await initC.localStorage.write(ConstantsKeys.isFirstUsingApp, false);
+
+        if (res.isOk) {
+          Get.offAllNamed(Routes.LOGIN);
+        } else {
+          Snackbar.failed(
+            context: Get.context!,
+            content:
+                'Gagal logout, sepertinya token anda telah berubah tetap logout?',
+            action: SnackBarAction(
+              label: 'Iya',
+              onPressed: () => Get.offAllNamed(Routes.LOGIN),
+            ),
+            duration: const Duration(minutes: 1),
+          );
+        }
+      } catch (e) {
+        Snackbar.failed(
+          context: Get.context!,
+          content: 'Ada kesalahan saat ingin logout, coba lagi',
+        );
+        initC.logger.e('error: $e');
+      }
+    }
   }
 }

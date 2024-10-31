@@ -54,9 +54,9 @@ abstract class Validation {
           }
         }
 
-        if (!value.isPhoneNumber && value.startsWith('0')) {
-          return 'Format penulisan angka salah, tidak boleh menambahkan angka 0 di depan';
-        }
+        // if (!isPhoneNumber && value.startsWith('0')) {
+        //   return 'Format penulisan angka salah, tidak boleh menambahkan angka 0 di depan';
+        // }
 
         if (range != null) {
           final minRange = range.minRange;

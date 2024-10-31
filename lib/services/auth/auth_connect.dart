@@ -28,19 +28,34 @@ class AuthConnect extends GetConnect {
         headers: headers,
       );
 
-  Future<Response> verifyOTP({
-    required String token,
-    required String tokenUser,
-  }) {
-    headers['Authorization'] = token;
-
-    return post(
-      'Masyarakats/verifySmsAuthTokenMobile',
-      null,
-      query: {'token': tokenUser},
-      headers: headers,
+  Future<Response> reqOTP(String authToken) {
+    return get(
+      'Masyarakats/reqOtp',
+      headers: headers
+        ..addAll({
+          'Authorization': authToken,
+        }),
     );
   }
+ 
+  Future<Response> verifyOTP({
+    required String authToken,
+    required String otp,
+  }) {
+    return post(
+      'Masyarakats/verifyOtp',
+      {'otp': otp},
+      
+      headers: headers
+        ..addAll({
+          'Authorization': authToken,
+        }),
+    );
+  }
+
+  
+
+
 
   Future<Response> logout(String token) {
     headers['Authorization'] = token;

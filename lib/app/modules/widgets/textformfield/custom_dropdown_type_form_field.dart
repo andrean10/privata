@@ -179,7 +179,7 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
       dropdownDecoratorProps: DropDownDecoratorProps(
         baseStyle: textStyle,
         dropdownSearchDecoration: InputDecoration(
-          labelText: (isLabel) ? title : null,
+          labelText: (isLabel) ? '$title ${isRequired ? '*' : ''}' : null,
           hintText: hintText ?? 'Pilih $title',
           helperText: helperText,
           helperMaxLines: 2,

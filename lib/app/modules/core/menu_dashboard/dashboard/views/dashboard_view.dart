@@ -16,7 +16,22 @@ class DashboardView extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
+    final size = context.mediaQuerySize;
     final textTheme = context.textTheme;
+
+    double containerHeight;
+    if (size.width > 900) {
+      // Tablet besar
+      containerHeight = 150.0;
+    } else if (size.width > 600) {
+      // Tablet kecil atau ponsel besar
+      containerHeight = size.height * 0.15;
+    } else {
+      // Ponsel kecil dengan batas maksimal
+      containerHeight = size.height * 0.15;
+      containerHeight =
+          containerHeight.clamp(70.0, 120.0); // Batasan maksimal untuk ponsel
+    }
 
     return Scaffold(
       body: RefreshIndicator.adaptive(
@@ -52,10 +67,11 @@ class DashboardView extends GetView<DashboardController> {
                     ),
                   ],
                 ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
-                  childAspectRatio: 3 / 2,
+                  mainAxisExtent: containerHeight,
+                  // childAspectRatio: 3 / 2,
                 ),
               ),
               SliverToBoxAdapter(
@@ -120,10 +136,11 @@ class DashboardView extends GetView<DashboardController> {
                     ),
                   ],
                 ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 12,
-                  childAspectRatio: 2 / 2,
+                  // childAspectRatio: 2 / 2,
+                  mainAxisExtent: containerHeight,
                 ),
               ),
               SliverToBoxAdapter(
@@ -177,10 +194,11 @@ class DashboardView extends GetView<DashboardController> {
                     ),
                   ],
                 ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
-                  childAspectRatio: 3 / 2,
+                  // childAspectRatio: 3 / 2,
+                  mainAxisExtent: containerHeight,
                 ),
               ),
             ],
@@ -254,24 +272,50 @@ class DashboardView extends GetView<DashboardController> {
                 Expanded(
                   flex: 2,
                   child: FittedBox(
+                    alignment: Alignment.centerLeft,
                     child: AutoSizeText(
                       label,
-                      style: textTheme.displaySmall,
+                      style: textTheme.labelLarge,
                     ),
                   ),
                 ),
-                const SizedBox(width: 32),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: color,
-                  ),
-                  child: Icon(
-                    icon,
-                    color: Colors.white,
+                const SizedBox(width: 4),
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final maxWidth = constraints.maxWidth;
+
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 2,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: color,
+                        ),
+                        child: Icon(
+                          icon,
+                          color: Colors.white,
+                          size: maxWidth * 0.3,
+                        ),
+                      );
+                    },
                   ),
                 ),
+                // Expanded(
+                //   child: Container(
+                //     padding: const EdgeInsets.all(8),
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(16),
+                //       color: color,
+                //     ),
+                //     child: Icon(
+                //       icon,
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -304,6 +348,7 @@ class DashboardView extends GetView<DashboardController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
+                  flex: 2,
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       final widget = Container(
@@ -340,7 +385,7 @@ class DashboardView extends GetView<DashboardController> {
                     },
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 4),
                 Expanded(
                   child: LayoutBuilder(
                     builder: (context, constraints) {

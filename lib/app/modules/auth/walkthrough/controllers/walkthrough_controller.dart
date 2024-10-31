@@ -29,8 +29,6 @@ class WalkthroughController extends GetxController {
 
   void setCurrentPage() {
     currentPage.value = pageC.page?.toInt() ?? 0;
-
-    _initC.logger.d('debug: current page: $currentPage');
   }
 
   Future<void> moveToLogin() async {

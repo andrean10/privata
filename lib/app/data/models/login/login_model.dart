@@ -12,7 +12,7 @@ class LoginModel with _$LoginModel {
     required String password,
     PositionModel? location,
     @Default(true) bool isMobile,
-    String? deviceName,
+    @Default('-') String? deviceName,
     @Default('-') String browserName,
   }) = _LoginModel;
 

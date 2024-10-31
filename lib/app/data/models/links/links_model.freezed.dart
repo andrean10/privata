@@ -20,25 +20,38 @@ LinksModel _$LinksModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LinksModel {
+  @JsonKey(includeToJson: false)
   String? get accountId => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get configId => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get name => throw _privateConstructorUsedError;
   bool? get active => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
   String? get role => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get roleId => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get occupation => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get employeeNo => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get accountToken => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get hospitalId => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get createdId => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get id => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get note => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get assistPref => throw _privateConstructorUsedError;
-  @JsonKey(name: 'RoleActions')
+  @JsonKey(name: 'RoleActions', includeToJson: false)
   RoleActionsModel? get roleActions => throw _privateConstructorUsedError;
-  @JsonKey(name: 'Hospitals')
+  @JsonKey(name: 'Hospitals', includeToJson: false)
   HospitalModel? get hospitals => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,24 +67,26 @@ abstract class $LinksModelCopyWith<$Res> {
       _$LinksModelCopyWithImpl<$Res, LinksModel>;
   @useResult
   $Res call(
-      {String? accountId,
-      String? configId,
-      String? name,
+      {@JsonKey(includeToJson: false) String? accountId,
+      @JsonKey(includeToJson: false) String? configId,
+      @JsonKey(includeToJson: false) String? name,
       bool? active,
       String? type,
       String? role,
-      String? roleId,
-      String? occupation,
-      String? employeeNo,
-      String? accountToken,
-      String? hospitalId,
-      String? createdAt,
-      String? createdId,
-      String? id,
-      String? note,
-      String? assistPref,
-      @JsonKey(name: 'RoleActions') RoleActionsModel? roleActions,
-      @JsonKey(name: 'Hospitals') HospitalModel? hospitals});
+      @JsonKey(includeToJson: false) String? roleId,
+      @JsonKey(includeToJson: false) String? occupation,
+      @JsonKey(includeToJson: false) String? employeeNo,
+      @JsonKey(includeToJson: false) String? accountToken,
+      @JsonKey(includeToJson: false) String? hospitalId,
+      @JsonKey(includeToJson: false) String? createdAt,
+      @JsonKey(includeToJson: false) String? createdId,
+      @JsonKey(includeToJson: false) String? id,
+      @JsonKey(includeToJson: false) String? note,
+      @JsonKey(includeToJson: false) String? assistPref,
+      @JsonKey(name: 'RoleActions', includeToJson: false)
+      RoleActionsModel? roleActions,
+      @JsonKey(name: 'Hospitals', includeToJson: false)
+      HospitalModel? hospitals});
 
   $RoleActionsModelCopyWith<$Res>? get roleActions;
   $HospitalModelCopyWith<$Res>? get hospitals;
@@ -219,24 +234,26 @@ abstract class _$$LinksModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? accountId,
-      String? configId,
-      String? name,
+      {@JsonKey(includeToJson: false) String? accountId,
+      @JsonKey(includeToJson: false) String? configId,
+      @JsonKey(includeToJson: false) String? name,
       bool? active,
       String? type,
       String? role,
-      String? roleId,
-      String? occupation,
-      String? employeeNo,
-      String? accountToken,
-      String? hospitalId,
-      String? createdAt,
-      String? createdId,
-      String? id,
-      String? note,
-      String? assistPref,
-      @JsonKey(name: 'RoleActions') RoleActionsModel? roleActions,
-      @JsonKey(name: 'Hospitals') HospitalModel? hospitals});
+      @JsonKey(includeToJson: false) String? roleId,
+      @JsonKey(includeToJson: false) String? occupation,
+      @JsonKey(includeToJson: false) String? employeeNo,
+      @JsonKey(includeToJson: false) String? accountToken,
+      @JsonKey(includeToJson: false) String? hospitalId,
+      @JsonKey(includeToJson: false) String? createdAt,
+      @JsonKey(includeToJson: false) String? createdId,
+      @JsonKey(includeToJson: false) String? id,
+      @JsonKey(includeToJson: false) String? note,
+      @JsonKey(includeToJson: false) String? assistPref,
+      @JsonKey(name: 'RoleActions', includeToJson: false)
+      RoleActionsModel? roleActions,
+      @JsonKey(name: 'Hospitals', includeToJson: false)
+      HospitalModel? hospitals});
 
   @override
   $RoleActionsModelCopyWith<$Res>? get roleActions;
@@ -355,33 +372,36 @@ class __$$LinksModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$LinksModelImpl implements _LinksModel {
   const _$LinksModelImpl(
-      {this.accountId,
-      this.configId,
-      this.name,
+      {@JsonKey(includeToJson: false) this.accountId,
+      @JsonKey(includeToJson: false) this.configId,
+      @JsonKey(includeToJson: false) this.name,
       this.active,
       this.type,
       this.role,
-      this.roleId,
-      this.occupation,
-      this.employeeNo,
-      this.accountToken,
-      this.hospitalId,
-      this.createdAt,
-      this.createdId,
-      this.id,
-      this.note,
-      this.assistPref,
-      @JsonKey(name: 'RoleActions') this.roleActions,
-      @JsonKey(name: 'Hospitals') this.hospitals});
+      @JsonKey(includeToJson: false) this.roleId,
+      @JsonKey(includeToJson: false) this.occupation,
+      @JsonKey(includeToJson: false) this.employeeNo,
+      @JsonKey(includeToJson: false) this.accountToken,
+      @JsonKey(includeToJson: false) this.hospitalId,
+      @JsonKey(includeToJson: false) this.createdAt,
+      @JsonKey(includeToJson: false) this.createdId,
+      @JsonKey(includeToJson: false) this.id,
+      @JsonKey(includeToJson: false) this.note,
+      @JsonKey(includeToJson: false) this.assistPref,
+      @JsonKey(name: 'RoleActions', includeToJson: false) this.roleActions,
+      @JsonKey(name: 'Hospitals', includeToJson: false) this.hospitals});
 
   factory _$LinksModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LinksModelImplFromJson(json);
 
   @override
+  @JsonKey(includeToJson: false)
   final String? accountId;
   @override
+  @JsonKey(includeToJson: false)
   final String? configId;
   @override
+  @JsonKey(includeToJson: false)
   final String? name;
   @override
   final bool? active;
@@ -390,30 +410,40 @@ class _$LinksModelImpl implements _LinksModel {
   @override
   final String? role;
   @override
+  @JsonKey(includeToJson: false)
   final String? roleId;
   @override
+  @JsonKey(includeToJson: false)
   final String? occupation;
   @override
+  @JsonKey(includeToJson: false)
   final String? employeeNo;
   @override
+  @JsonKey(includeToJson: false)
   final String? accountToken;
   @override
+  @JsonKey(includeToJson: false)
   final String? hospitalId;
   @override
+  @JsonKey(includeToJson: false)
   final String? createdAt;
   @override
+  @JsonKey(includeToJson: false)
   final String? createdId;
   @override
+  @JsonKey(includeToJson: false)
   final String? id;
   @override
+  @JsonKey(includeToJson: false)
   final String? note;
   @override
+  @JsonKey(includeToJson: false)
   final String? assistPref;
   @override
-  @JsonKey(name: 'RoleActions')
+  @JsonKey(name: 'RoleActions', includeToJson: false)
   final RoleActionsModel? roleActions;
   @override
-  @JsonKey(name: 'Hospitals')
+  @JsonKey(name: 'Hospitals', includeToJson: false)
   final HospitalModel? hospitals;
 
   @override
@@ -496,34 +526,38 @@ class _$LinksModelImpl implements _LinksModel {
 
 abstract class _LinksModel implements LinksModel {
   const factory _LinksModel(
-          {final String? accountId,
-          final String? configId,
-          final String? name,
-          final bool? active,
-          final String? type,
-          final String? role,
-          final String? roleId,
-          final String? occupation,
-          final String? employeeNo,
-          final String? accountToken,
-          final String? hospitalId,
-          final String? createdAt,
-          final String? createdId,
-          final String? id,
-          final String? note,
-          final String? assistPref,
-          @JsonKey(name: 'RoleActions') final RoleActionsModel? roleActions,
-          @JsonKey(name: 'Hospitals') final HospitalModel? hospitals}) =
-      _$LinksModelImpl;
+      {@JsonKey(includeToJson: false) final String? accountId,
+      @JsonKey(includeToJson: false) final String? configId,
+      @JsonKey(includeToJson: false) final String? name,
+      final bool? active,
+      final String? type,
+      final String? role,
+      @JsonKey(includeToJson: false) final String? roleId,
+      @JsonKey(includeToJson: false) final String? occupation,
+      @JsonKey(includeToJson: false) final String? employeeNo,
+      @JsonKey(includeToJson: false) final String? accountToken,
+      @JsonKey(includeToJson: false) final String? hospitalId,
+      @JsonKey(includeToJson: false) final String? createdAt,
+      @JsonKey(includeToJson: false) final String? createdId,
+      @JsonKey(includeToJson: false) final String? id,
+      @JsonKey(includeToJson: false) final String? note,
+      @JsonKey(includeToJson: false) final String? assistPref,
+      @JsonKey(name: 'RoleActions', includeToJson: false)
+      final RoleActionsModel? roleActions,
+      @JsonKey(name: 'Hospitals', includeToJson: false)
+      final HospitalModel? hospitals}) = _$LinksModelImpl;
 
   factory _LinksModel.fromJson(Map<String, dynamic> json) =
       _$LinksModelImpl.fromJson;
 
   @override
+  @JsonKey(includeToJson: false)
   String? get accountId;
   @override
+  @JsonKey(includeToJson: false)
   String? get configId;
   @override
+  @JsonKey(includeToJson: false)
   String? get name;
   @override
   bool? get active;
@@ -532,30 +566,40 @@ abstract class _LinksModel implements LinksModel {
   @override
   String? get role;
   @override
+  @JsonKey(includeToJson: false)
   String? get roleId;
   @override
+  @JsonKey(includeToJson: false)
   String? get occupation;
   @override
+  @JsonKey(includeToJson: false)
   String? get employeeNo;
   @override
+  @JsonKey(includeToJson: false)
   String? get accountToken;
   @override
+  @JsonKey(includeToJson: false)
   String? get hospitalId;
   @override
+  @JsonKey(includeToJson: false)
   String? get createdAt;
   @override
+  @JsonKey(includeToJson: false)
   String? get createdId;
   @override
+  @JsonKey(includeToJson: false)
   String? get id;
   @override
+  @JsonKey(includeToJson: false)
   String? get note;
   @override
+  @JsonKey(includeToJson: false)
   String? get assistPref;
   @override
-  @JsonKey(name: 'RoleActions')
+  @JsonKey(name: 'RoleActions', includeToJson: false)
   RoleActionsModel? get roleActions;
   @override
-  @JsonKey(name: 'Hospitals')
+  @JsonKey(name: 'Hospitals', includeToJson: false)
   HospitalModel? get hospitals;
   @override
   @JsonKey(ignore: true)

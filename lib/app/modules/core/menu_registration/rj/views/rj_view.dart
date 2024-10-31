@@ -17,22 +17,10 @@ class RJView extends GetView<RJController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      // appBar: builderAppBar(context),
       body: builderBody(context),
       floatingActionButton: builderFAB(context),
     );
   }
-
-  // AppBar builderAppBar(BuildContext context) {
-  //   return AppBar(
-  //     title: const Text('Pendaftaran'),
-  //     centerTitle: true,
-  //     actions: [
-  //       builderActionFilter(context),
-  //     ],
-  //   );
-  // }
 
   Widget builderBody(BuildContext context) {
     final width = context.mediaQuerySize.width;
@@ -226,13 +214,6 @@ class RJView extends GetView<RJController> {
       },
     );
   }
-
-  // Widget builderActionFilter(BuildContext context) {
-  //   return Buttons.text(
-  //     onPressed: () => showFilter(context),
-  //     child: const Text('Filter'),
-  //   );
-  // }
 
   DropdownMenuEntry<String> dropdownLoading({
     required String label,

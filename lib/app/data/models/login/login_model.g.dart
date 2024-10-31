@@ -14,7 +14,7 @@ _$LoginModelImpl _$$LoginModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : PositionModel.fromJson(json['location'] as Map<String, dynamic>),
       isMobile: json['isMobile'] as bool? ?? true,
-      deviceName: json['deviceName'] as String?,
+      deviceName: json['deviceName'] as String? ?? '-',
       browserName: json['browserName'] as String? ?? '-',
     );
 

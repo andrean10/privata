@@ -26,7 +26,7 @@ class AddDoctorView extends GetView<AddDoctorController> {
         actions: [
           TextButton(
             onPressed: () {},
-            child: const Text('Simpan'),
+            child: const Text(ConstantsStrings.save),
           ),
           const SizedBox(width: 4),
         ],

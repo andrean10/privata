@@ -1,15 +1,11 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:privata/utils/constants_assets.dart';
 
-import '../../../../../../shared/shared_theme.dart';
 import '../../../../widgets/card/cards.dart';
-import '../controllers/profile_controller.dart';
+import '../controllers/setting_controller.dart';
 
-class ProfileView extends GetView<ProfileController> {
+class ProfileView extends GetView<SettingController> {
   const ProfileView({super.key});
 
   @override

@@ -186,7 +186,7 @@ class _$LoginModelImpl implements _LoginModel {
       required this.password,
       this.location,
       this.isMobile = true,
-      this.deviceName,
+      this.deviceName = '-',
       this.browserName = '-'});
 
   factory _$LoginModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -202,6 +202,7 @@ class _$LoginModelImpl implements _LoginModel {
   @JsonKey()
   final bool isMobile;
   @override
+  @JsonKey()
   final String? deviceName;
   @override
   @JsonKey()

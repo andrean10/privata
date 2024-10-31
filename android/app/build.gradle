@@ -28,8 +28,8 @@ if (flutterVersionName == null) {
 
 android {
     namespace = "com.assistid.privata"
-    compileSdk = flutter.compileSdkVersion
-    // compileSdk = 34
+    // compileSdk = flutter.compileSdkVersion
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

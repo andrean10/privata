@@ -5,6 +5,7 @@ import 'package:privata/app/helpers/text_helper.dart';
 import 'package:privata/app/modules/core/emr/controllers/search_procedure_controller.dart';
 import 'package:searchfield/searchfield.dart';
 
+import '../../../../../../utils/constants_strings.dart';
 import '../../../../../data/models/detail_rj/procedure/item_procedure/item_procedure_model.dart';
 
 import '../../../../widgets/buttons/buttons.dart';
@@ -165,7 +166,7 @@ class SearchProcedureDialog extends GetView<SearchProcedureController> {
                     ? controller.saveProcedures
                     : null,
                 state: controller.isLoading.value,
-                child: const Text('Simpan'),
+                child: const Text(ConstantsStrings.save),
               ),
             ),
           ],

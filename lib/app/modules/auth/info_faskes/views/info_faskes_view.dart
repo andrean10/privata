@@ -43,12 +43,11 @@ class InfoFaskesView extends GetView<InfoFaskesController> {
             PopupMenuItem(
               value: ConstantsStrings.logout,
               child: const Text(ConstantsStrings.logout),
-              onTap: () async {
-                final result = await Dialogs.logout(context: context);
-
-                if (result ?? false) {
-                  await controller.logOut();
-                }
+              onTap: () {
+                Dialogs.logout(
+                  context: context,
+                  initC: controller.initC,
+                );
               },
             )
           ],
@@ -228,7 +227,7 @@ class InfoFaskesView extends GetView<InfoFaskesController> {
           Buttons.filled(
             width: double.infinity,
             onPressed: controller.confirm,
-            child: const Text('Simpan'),
+            child: const Text(ConstantsStrings.save),
           ),
         ],
       ),
@@ -421,5 +420,4 @@ class InfoFaskesView extends GetView<InfoFaskesController> {
       ),
     );
   }
-
 }

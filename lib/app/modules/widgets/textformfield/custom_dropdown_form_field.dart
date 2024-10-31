@@ -102,7 +102,7 @@ class CustomDropdownFormField<T> extends StatelessWidget {
       initialSelection: initialSelection,
       controller: controller,
       focusNode: focusNode,
-      width: width ?? mediaWidth / 1.1,
+      // width: width ?? mediaWidth / 1.1,
       hintText: hintText ?? 'Pilih Item',
       helperText: helperText,
       dropdownMenuEntries: items,
