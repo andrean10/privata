@@ -226,6 +226,7 @@ class DashboardView extends GetView<DashboardController> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
+            flex: 2,
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final widget = Container(
@@ -266,11 +267,12 @@ class DashboardView extends GetView<DashboardController> {
           ),
           const SizedBox(height: 12),
           Expanded(
+            flex: 3,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  flex: 2,
+                  // flex: 2,
                   child: FittedBox(
                     alignment: Alignment.centerLeft,
                     child: AutoSizeText(
@@ -279,7 +281,7 @@ class DashboardView extends GetView<DashboardController> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: 32),
                 Expanded(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
@@ -297,7 +299,7 @@ class DashboardView extends GetView<DashboardController> {
                         child: Icon(
                           icon,
                           color: Colors.white,
-                          size: maxWidth * 0.3,
+                          size: maxWidth * 0.2,
                         ),
                       );
                     },
@@ -403,7 +405,7 @@ class DashboardView extends GetView<DashboardController> {
                         child: Icon(
                           icon,
                           color: iconColor ?? Colors.white,
-                          size: maxWidth * 0.3,
+                          size: maxWidth * 0.4,
                         ),
                       );
                     },
