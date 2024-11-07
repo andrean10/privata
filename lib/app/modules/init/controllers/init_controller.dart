@@ -1,41 +1,47 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:privata/app/modules/widgets/snackbar/snackbar.dart';
 import 'package:privata/services/auth/auth_connect.dart';
+import 'package:privata/services/init/init_connect.dart';
 
+import '../../../../shared/shared_enum.dart';
 import '../../../../utils/constants_keys.dart';
+import '../../../data/models/kconfigs/kconfigs_model.dart';
+import '../../../data/models/klinik/klinik_model.dart';
+import '../../../helpers/helper.dart';
 import '../../../routes/app_pages.dart';
-
-enum STATEPERMISSION { active, notActive, denied, deniedForever }
 
 class InitController extends GetxController {
   late final GetStorage _localStorage;
+
   late final AuthConnect authCn;
-  // late final FlutterSecureStorage sfStorage;
-  // late final FirebaseAuth _auth;
+  late final InitConnect _initCn;
+
   late final StreamSubscription<List<ConnectivityResult>>
       _subscriptionConnectivity;
+  // late final StreamSubscription<ServiceStatus> _subscriptionServiceStatus;
 
   GetStorage get localStorage => _localStorage;
 
-  // FirebaseAuth get auth => _auth;
+  String? _hospitalId;
+
+  KConfigsModel? kConfigs;
+  KlinikModel? klinik;
 
   final isConnectedInternet = true.obs;
   final isRedirectLogout = false.obs;
 
-  final logger = Logger(
-    printer: PrettyPrinter(
-      printTime: true,
-    ),
-  );
+  final logger = Logger(printer: PrettyPrinter(printTime: true));
 
   @override
   void onInit() {
@@ -46,11 +52,69 @@ class InitController extends GetxController {
   void _init() {
     _localStorage = GetStorage();
     _localStorage.writeIfNull(ConstantsKeys.isFirstUsingApp, true);
+    _hospitalId = localStorage.read<String>(ConstantsKeys.hospitalId);
+
     authCn = AuthConnect();
-    // _auth = FirebaseAuth.instance;
+    _initCn = InitConnect(_localStorage);
 
     _listenRedirectLogout();
     _listenConnectivity();
+    // _listenServiceStatus();
+
+    _initFetch();
+  }
+
+  //todo SOON
+  void _initFetch() async {
+    await _fetchKConfigs();
+    await _fetchDataKlinik();
+  }
+
+  Future<void> _fetchKConfigs() async {
+    try {
+      final filter = {
+        "where": {"hospitalId": _hospitalId}
+      };
+
+      final res = await _initCn.kConfigs(jsonEncode(filter));
+
+      if (res.isOk) {
+        final body = res.body as List<dynamic>;
+        kConfigs = KConfigsModel.fromJson(body.firstOrNull);
+      }
+    } on GetHttpException catch (e) {
+      logger.e('Error: $e');
+    }
+  }
+
+  Future<void> _fetchDataKlinik() async {
+    try {
+      final filter = {
+        "where": {"id": _hospitalId},
+        "include": [
+          {
+            "relation": "Prakteks",
+            "scope": {
+              "include": ["Dokters"],
+              "where": {
+                "isDelete": {"neq": true}
+              }
+            }
+          },
+          "MetodePembayarans",
+          "FasilitasRss"
+        ]
+      };
+
+      final res = await _initCn.dataKlinik(jsonEncode(filter));
+
+      if (res.isOk) {
+        final body = res.body as List<dynamic>;
+        klinik = KlinikModel.fromJson(body.firstOrNull);
+      }
+    } on GetHttpException catch (e) {
+      logger.e('Error : $e');
+    }
   }
 
   void _listenRedirectLogout() {
@@ -119,10 +183,18 @@ class InitController extends GetxController {
     });
   }
 
+  // void _listenServiceStatus() {
+  //   _subscriptionServiceStatus = Geolocator.getServiceStatusStream().listen(
+  //     (result) {
+  //       print('result service status = $result');
+  //     },
+  //   );
+  // }
+
   bool isUserFirstUsingApp() =>
       _localStorage.read<bool>(ConstantsKeys.isFirstUsingApp) ?? true;
 
-  Future<(Position?, STATEPERMISSION)> determinePosition() async {
+  Future<(Position?, StatePermission)> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -134,7 +206,7 @@ class InitController extends GetxController {
       // App to enable the location services.
 
       // return Future.error('Layanan lokasi tidak aktif');
-      return (null, STATEPERMISSION.notActive);
+      return (null, StatePermission.notActive);
     }
 
     permission = await Geolocator.checkPermission();
@@ -149,19 +221,21 @@ class InitController extends GetxController {
         // your App should show an explanatory UI now.
 
         // return Future.error('Perizinan lokasi di tolak');
-        return (null, STATEPERMISSION.denied);
+        return (null, StatePermission.denied);
       }
+
+      return (null, StatePermission.denied);
     }
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
       // return Future.error(
       //     'Izin lokasi ditolak secara permanen, kami tidak dapat meminta izin.');
-      return (null, STATEPERMISSION.deniedForever);
+      return (null, StatePermission.deniedForever);
     }
 
     const locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.high,
+      // accuracy: LocationAccuracy.high,
       distanceFilter: 100,
     );
 
@@ -171,7 +245,7 @@ class InitController extends GetxController {
       await Geolocator.getCurrentPosition(
         locationSettings: locationSettings,
       ),
-      STATEPERMISSION.active,
+      StatePermission.active,
     );
   }
 
@@ -272,6 +346,7 @@ class InitController extends GetxController {
   @override
   void onClose() {
     _subscriptionConnectivity.cancel();
+    // _subscriptionServiceStatus.cancel();
     super.onClose();
   }
 }

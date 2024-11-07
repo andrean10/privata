@@ -3,10 +3,9 @@ import 'package:get/get.dart';
 import 'package:privata/app/helpers/text_helper.dart';
 import 'package:privata/services/payment/payment_connect.dart';
 
+import '../../../../../../shared/shared_enum.dart';
 import '../../../../../routes/app_pages.dart';
 import '../../../../init/controllers/init_controller.dart';
-
-enum SubscriptionProduct { clinica, hospita, privata, pharma }
 
 class SubscribeController extends GetxController
     with GetTickerProviderStateMixin {

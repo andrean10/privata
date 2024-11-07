@@ -4,9 +4,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../shared/shared_enum.dart';
 import '../../../helpers/text_helper.dart';
-
-enum TypeDropDown { menu, dialog, modal, bottomSheet }
 
 class CustomDropdownTypeFormField<T> extends StatelessWidget {
   // final TextEditingController? controller;
@@ -58,6 +57,7 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
   // final Widget? leadingIcon;
   // final Widget? trailingIcon;
   final Widget? selectedTrailingIcon;
+  final TextStyle? titleTextStyle;
   final TextStyle? textStyle;
   // final ValueChanged<dynamic>? onSelected;
   // final int? Function(List<DropdownMenuEntry<dynamic>>, String)? searchCallback;
@@ -110,6 +110,7 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
     // this.trailingIcon,
     this.selectedTrailingIcon,
     this.errorText,
+    this.titleTextStyle,
     this.textStyle,
     // this.onSelected,
     // this.searchCallback,
@@ -135,12 +136,12 @@ class CustomDropdownTypeFormField<T> extends StatelessWidget {
                 highlight: '*',
                 highlightStyle:
                     textTheme.titleMedium!.copyWith(color: Colors.red),
-                defaultStyle: textTheme.titleMedium,
+                defaultStyle: titleTextStyle ?? textTheme.titleMedium,
               )
             else
               Text(
                 title,
-                style: theme.textTheme.titleMedium,
+                style: titleTextStyle ?? theme.textTheme.titleMedium,
                 maxLines: 1,
               ),
             const SizedBox(height: 8),

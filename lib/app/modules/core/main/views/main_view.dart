@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:privata/app/modules/core/rme/views/rme_view.dart';
+import 'package:privata/utils/constants_connect.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../shared/shared_theme.dart';
 import '../../../../../utils/constants_assets.dart';
@@ -26,7 +30,7 @@ class MainView extends GetView<MainController> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: controller.scaffoldKey,
-      appBar: builderAppBar(context),
+      appBar: _builderAppBar(context),
       body: Obx(
         () => IndexedStack(
           index: controller.currentIndex.value,
@@ -75,7 +79,7 @@ class MainView extends GetView<MainController> {
                     children: [
                       GestureDetector(
                         onTap: () => _showChangePicture(context),
-                        child: builderPicture(context),
+                        child: _builderPicture(context),
                       ),
                       const SizedBox(height: 2),
                       AutoSizeText(controller.email ?? '-'),
@@ -115,7 +119,7 @@ class MainView extends GetView<MainController> {
     );
   }
 
-  AppBar builderAppBar(BuildContext context) {
+  AppBar _builderAppBar(BuildContext context) {
     return AppBar(
       leading: IconButton(
         onPressed: () => controller.scaffoldKey.currentState?.openDrawer(),
@@ -130,14 +134,30 @@ class MainView extends GetView<MainController> {
     );
   }
 
-  Widget builderPicture(BuildContext context) {
+  Widget _builderPicture(BuildContext context) {
     final theme = context.theme;
 
     return Stack(
       children: [
-        const CircleAvatar(
-          foregroundImage: AssetImage(ConstantsAssets.imgDummyLogoClinic),
-          radius: 26,
+        CachedNetworkImage(
+          imageUrl:
+              '${ConstantsConnect.endPointImage}${ConstantsConnect.hospitalBucket}/${controller.initC.klinik?.logo}',
+          imageBuilder: (context, imageProvider) => CircleAvatar(
+            foregroundImage: imageProvider,
+            radius: 26,
+          ),
+          progressIndicatorBuilder: (context, url, progress) =>
+              Shimmer.fromColors(
+            baseColor: theme.colorScheme.onSurface,
+            highlightColor: theme.colorScheme.surface,
+            child: const CircleAvatar(radius: 26),
+          ),
+          errorWidget: (context, url, error) => const CircleAvatar(
+            foregroundImage: AssetImage(ConstantsAssets.imgDummyLogoClinic),
+            radius: 26,
+          ),
+          fit: BoxFit.cover,
+          errorListener: (value) => controller.initC.logger.e('Error: $value'),
         ),
         Positioned(
           right: 0,

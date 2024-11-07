@@ -5,6 +5,7 @@ import 'package:privata/app/modules/core/rme/controllers/rme_controller.dart';
 
 import '../../../../../shared/shared_theme.dart';
 import '../../../../../utils/constants_assets.dart';
+import '../../../widgets/buttons/buttons.dart';
 import '../../../widgets/card/cards.dart';
 import 'widgets/item_card_rme.dart';
 
@@ -13,21 +14,38 @@ class TodayRmeScreen extends GetView<RmeController> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final textTheme = context.textTheme;
-
     return RefreshIndicator.adaptive(
       onRefresh: () async {
         controller.fetchDataPatient(isRefresh: true);
       },
-      child: builderBody(textTheme, theme),
+      child: builderBody(context),
     );
   }
 
-  Widget builderBody(TextTheme textTheme, ThemeData theme) {
+  Widget builderBody(BuildContext context) {
+    final width = context.mediaQuerySize.width;
+    final theme = context.theme;
+    final textTheme = context.textTheme;
+
     return Obx(
       () {
         final appointments = controller.todayAppointment;
+
+        if (appointments.isEmpty) {
+          return _builderResponse(
+            context: context,
+            icon: Icons.sentiment_neutral_rounded,
+            iconColor: theme.colorScheme.primary,
+            descriptionText: 'Belum ada data yang didaftarkan hari ini',
+            // action: Buttons.filled(
+            //   width: width / 2,
+            //   onPressed: () {
+            //     controller.fetchDataPatient();
+            //   },
+            //   child: const Text('Coba Lagi'),
+            // ),
+          );
+        }
 
         var indexUmum = 0;
         // var queue = 0;
@@ -214,6 +232,36 @@ class TodayRmeScreen extends GetView<RmeController> {
             // ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _builderResponse({
+    required BuildContext context,
+    required IconData icon,
+    required Color iconColor,
+    required String descriptionText,
+    // required Widget action,
+  }) {
+    final textTheme = context.textTheme;
+
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: iconColor,
+            size: 38,
+          ),
+          const SizedBox(height: 12),
+          AutoSizeText(
+            descriptionText,
+            style: textTheme.titleMedium,
+          ),
+          // const SizedBox(height: 21),
+          // action,
+        ],
       ),
     );
   }

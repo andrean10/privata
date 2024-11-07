@@ -39,6 +39,12 @@
 	<string>This app requires access to the photo library.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
     <string>This app needs Bluetooth to function</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Need BLE permission</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Need Location permission</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need Location permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

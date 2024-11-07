@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 import 'package:privata/utils/constants_keys.dart';
 
-import '../../../helpers/helper.dart';
 import '../../../routes/app_pages.dart';
 
 class SplashController extends GetxController {

@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
+import 'package:privata/app/data/models/item_method_payment/item_payment_method_model.dart';
 import 'package:privata/app/data/models/patient/patient_model.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 import 'package:privata/services/rj/rj_connect.dart';
+import 'package:searchfield/src/searchfield.dart';
 
 import '../../../../../../services/doctor/doctor_connect.dart';
+import '../../../../../../shared/shared_enum.dart';
 import '../../../../../../utils/constants_keys.dart';
 import '../../../../../../utils/constants_strings.dart';
 import '../../../../../data/models/doctor/doctor_model.dart';
@@ -16,19 +19,9 @@ import '../../../../../data/models/location/location_model.dart';
 import '../../../../../data/models/rj/item_rj/patient/rj_patient_model.dart';
 import '../../../../../data/models/slot/slot_model.dart';
 import '../../../../../helpers/format_date_time.dart';
+import '../../../../../helpers/helper.dart';
 import '../../../../../helpers/text_helper.dart';
 import '../../../../widgets/snackbar/snackbar.dart';
-
-enum MethodPayment {
-  cash,
-  bpjsKesehatan,
-  bpjsKetenagakerjaan,
-  insurance,
-  company,
-  cardDebit,
-  cardCredit,
-  other
-}
 
 class VisitRegistrationController extends GetxController
     with StateMixin<RJPatientModel> {
@@ -38,6 +31,7 @@ class VisitRegistrationController extends GetxController
 
   RJPatientModel? detailDataPasien;
   List<DoctorModel> dataDoctor = [];
+  final dataSelectedFilterMetodePembayaran = <ItemPaymentMethodModel>[].obs;
 
   late final PatientModel args;
   late final String? hospitalId;
@@ -64,23 +58,23 @@ class VisitRegistrationController extends GetxController
   final darahSistolikC = TextEditingController();
   final darahDiastolikC = TextEditingController();
 
-  final namaPembayaranF = FocusNode();
-  final nomorPembayaranF = FocusNode();
-  final nomorHPF = FocusNode();
-  final emailF = FocusNode();
-  final lamaDurasiF = FocusNode();
-  final keluhanF = FocusNode();
-  final prosedurF = FocusNode();
-  final lajuPernapasanF = FocusNode();
-  final denyutNadiF = FocusNode();
-  final tinggiBadanF = FocusNode();
-  final beratBadanF = FocusNode();
-  final gulaDarahF = FocusNode();
-  final suhuTubuhF = FocusNode();
-  final lingkarPerutF = FocusNode();
-  final saturasiOksigenF = FocusNode();
-  final darahSistolikF = FocusNode();
-  final darahDiastolikF = FocusNode();
+  // final namaPembayaranF = FocusNode();
+  // final nomorPembayaranF = FocusNode();
+  // final nomorHPF = FocusNode();
+  // final emailF = FocusNode();
+  // final lamaDurasiF = FocusNode();
+  // final keluhanF = FocusNode();
+  // final prosedurF = FocusNode();
+  // final lajuPernapasanF = FocusNode();
+  // final denyutNadiF = FocusNode();
+  // final tinggiBadanF = FocusNode();
+  // final beratBadanF = FocusNode();
+  // final gulaDarahF = FocusNode();
+  // final suhuTubuhF = FocusNode();
+  // final lingkarPerutF = FocusNode();
+  // final saturasiOksigenF = FocusNode();
+  // final darahSistolikF = FocusNode();
+  // final darahDiastolikF = FocusNode();
 
   final penjamin = RxnString();
   final metodePembayaran = RxnString();
@@ -242,9 +236,11 @@ class VisitRegistrationController extends GetxController
 
   void onChangedPaymentMethod(String? value) {
     if (value != null) {
+      dataSelectedFilterMetodePembayaran.clear();
+
       metodePembayaran.value = value;
       selectedMetodePembayaran.value = switch (value.toLowerCase()) {
-        'tunai' => MethodPayment.cash,
+        'tunai' => MethodPayment.tunai,
         'bpjs kesehatan' => MethodPayment.bpjsKesehatan,
         'bpjs ketenagakerjaan' => MethodPayment.bpjsKetenagakerjaan,
         'asuransi' => MethodPayment.insurance,
@@ -294,25 +290,6 @@ class VisitRegistrationController extends GetxController
           default:
         }
       }
-    }
-  }
-
-  void setNameAndNumber() {}
-
-  void onChanged(String value, Map<String, Object?> item) {
-    if (item.containsKey('obs')) {
-      if (item['subType'] != 'date' || item['subType'] != 'time') {
-        final obs = item['obs'] as RxString;
-        final controller = item['controller'] as TextEditingController;
-        obs.value = controller.text;
-      }
-    }
-  }
-
-  void onChangedChecbox(bool? value, Map<String, Object?> item) {
-    final obs = item['obs'] as RxBool?;
-    if (obs != null) {
-      obs.value = value ?? false;
     }
   }
 
@@ -577,6 +554,34 @@ class VisitRegistrationController extends GetxController
     emailC.text = data.email ?? '';
   }
 
+  void onSearchMetodePembayaran(String filter) async {
+    // if (filter.isNotEmpty) {
+    final query = {
+      'type': metodePembayaran.value,
+      'name': filter,
+      'is_keyword': "true",
+    };
+
+    try {
+      final res = await _rjConn.getListMetodePembayaran(query);
+
+      if (res.isOk) {
+        final body = res.body;
+
+        if (body is List<dynamic>) {
+          dataSelectedFilterMetodePembayaran.value = body
+              .map(
+                (e) => ItemPaymentMethodModel.fromJson(e),
+              )
+              .toList();
+        }
+      }
+    } on GetHttpException catch (e) {
+      _initC.logger.e('Error: $e');
+    }
+    // }
+  }
+
   Future<void> postAppointment() async {
     final now = DateTime.now();
 
@@ -628,23 +633,23 @@ class VisitRegistrationController extends GetxController
       "medicineHistory": detailDataPasien?.medicineHistory ?? [],
     };
 
-    if (isShowVitalSign.value) {
-      final vitalSigns = {
-        "vitalSign": {
-          'bloodSugar': gulaDarahC.text,
-          'heartPulse': denyutNadiC.text,
-          'height': tinggiBadanC.text,
-          'weight': beratBadanC.text,
-          'lingkarPerut': lingkarPerutC.text,
-          'oxygenSaturation': saturasiOksigenC.text,
-          'repiratoryRate': lajuPernapasanC.text,
-          'sistole': darahSistolikC.text,
-          'diastole': darahDiastolikC.text,
-          'temperature': suhuTubuhC.text,
-        },
-      };
-      body.addAll(vitalSigns);
-    }
+    // if (isShowVitalSign.value) {
+    final vitalSigns = {
+      "vitalSign": {
+        'bloodSugar': gulaDarahC.text,
+        'heartPulse': denyutNadiC.text,
+        'height': tinggiBadanC.text,
+        'weight': beratBadanC.text,
+        'lingkarPerut': lingkarPerutC.text,
+        'oxygenSaturation': saturasiOksigenC.text,
+        'repiratoryRate': lajuPernapasanC.text,
+        'sistole': darahSistolikC.text,
+        'diastole': darahDiastolikC.text,
+        'temperature': suhuTubuhC.text,
+      },
+    };
+    body.addAll(vitalSigns);
+    // }
 
     try {
       final res = await _rjConn.createAppointment(body);
@@ -672,10 +677,6 @@ class VisitRegistrationController extends GetxController
     } finally {
       isLoading.value = false;
     }
-  }
-
-  int? searchNamaPembayaran(String query) {
-    return null;
   }
 
   void save() {

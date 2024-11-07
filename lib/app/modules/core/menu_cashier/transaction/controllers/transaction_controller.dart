@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-import '../../../../../data/db/drugs/drugs_model.dart';
+import '../../../../../data/db/drugs/drugs_db.dart';
 import '../../../../../data/db/user/users_model.dart';
 import '../../../../../routes/app_pages.dart';
 import '../../../../init/controllers/init_controller.dart';
@@ -13,8 +12,8 @@ class TransactionController extends GetxController {
   final itemPrice = RxNum(0);
   final totalPrice = RxNum(0);
 
-  final resultSearch = <DrugsModel>[].obs;
-  final listItemChoice = <DrugsModel>[].obs;
+  final resultSearch = <DrugsDB>[].obs;
+  final listItemChoice = <DrugsDB>[].obs;
 
   final searchC = TextEditingController();
   final unitC = TextEditingController();
@@ -26,13 +25,13 @@ class TransactionController extends GetxController {
   final isLoading = false.obs;
 
   final obat = [
-    DrugsModel(
+    DrugsDB(
       name: 'MYONAL TAB 50 MG',
       price: 7500,
       unit: 'tab',
       stock: 87,
     ),
-    DrugsModel(
+    DrugsDB(
       name: 'NEW TONIKUM BAYER LIQ 100 ML',
       price: 273,
       unit: 'botol',
@@ -56,7 +55,7 @@ class TransactionController extends GetxController {
     );
   }
 
-  void calculateTotalPrice(List<DrugsModel> value) {
+  void calculateTotalPrice(List<DrugsDB> value) {
     totalPrice.value = 0;
 
     for (var element in value) {
@@ -115,7 +114,7 @@ class TransactionController extends GetxController {
     }
   }
 
-  void addItem(DrugsModel product) {
+  void addItem(DrugsDB product) {
     final newProduct = product.copyWith(
       amountUnit: num.parse(unit.value),
     );
@@ -124,7 +123,7 @@ class TransactionController extends GetxController {
     clearUnit();
   }
 
-  void updateitem({required int index, required DrugsModel product}) {
+  void updateitem({required int index, required DrugsDB product}) {
     final newProduct = product.copyWith(
       amountUnit: num.parse(unit.value),
     );

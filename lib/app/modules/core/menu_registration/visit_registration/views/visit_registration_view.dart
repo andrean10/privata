@@ -6,13 +6,16 @@ import 'package:privata/app/helpers/text_helper.dart';
 import 'package:privata/app/helpers/validations.dart';
 import 'package:privata/app/modules/widgets/textformfield/custom_dropdown_type_form_field.dart';
 import 'package:privata/app/modules/widgets/textformfield/custom_textform_field.dart';
+import 'package:searchfield/searchfield.dart';
 
+import '../../../../../../shared/shared_enum.dart';
 import '../../../../../../utils/constants_strings.dart';
 import '../../../../../data/db/range/range_model.dart';
 import '../../../../../data/models/rj/item_rj/patient/rj_patient_model.dart';
 import '../../../../../helpers/helper.dart';
 import '../../../../widgets/buttons/buttons.dart';
 import '../../../../widgets/card/cards.dart';
+import '../../../../widgets/search/search_bars.dart';
 import '../../../../widgets/snackbar/snackbar.dart';
 import '../../../../widgets/textformfield/text_form_fields.dart';
 import '../controllers/visit_registration_controller.dart';
@@ -168,7 +171,6 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         title: 'Metode Pembayaran',
         isFilled: true,
         selectedItem: controller.metodePembayaran.value,
-        // items: (filter, props) => ConstantsStrings.dataMethodPayment,
         items: ConstantsStrings.dataMethodPayment,
         onChanged: controller.onChangedPaymentMethod,
         validator: (value) => Validation.formField(
@@ -188,18 +190,18 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
       var isVisibleSearch = false;
 
       switch (controller.selectedMetodePembayaran.value) {
-        case MethodPayment.bpjsKesehatan:
-          title = 'BPJS Kesehatan';
-          isVisible = true;
-          isVisibleSearch = false;
-          maxLength = 11;
-          break;
-        case MethodPayment.bpjsKetenagakerjaan:
-          title = 'BPJS Ketenagakerjaan';
-          isVisible = true;
-          isVisibleSearch = false;
-          maxLength = 11;
-          break;
+        // case MethodPayment.bpjsKesehatan:
+        //   title = 'BPJS Kesehatan';
+        //   isVisible = true;
+        //   isVisibleSearch = false;
+        //   maxLength = 11;
+        //   break;
+        // case MethodPayment.bpjsKetenagakerjaan:
+        //   title = 'BPJS Ketenagakerjaan';
+        //   isVisible = true;
+        //   isVisibleSearch = false;
+        //   maxLength = 11;
+        //   break;
         case MethodPayment.insurance:
           title = 'Asuransi';
           isVisible = true;
@@ -239,15 +241,25 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
               visible: isVisibleSearch,
               child: Container(
                 margin: const EdgeInsets.only(bottom: 18),
-                child: TextFormFields.search(
+                child: SearchBars.popup(
                   controller: controller.namaPembayaranC,
-                  focusNode: controller.namaPembayaranF,
-                  isRequired: true,
-                  title: 'Nama $title',
+                  context: Get.context!,
                   hintText: 'Cari $title',
-                  items: [],
-                  searchCallback: (_, query) =>
-                      controller.searchNamaPembayaran(query),
+                  suggestions: controller.dataSelectedFilterMetodePembayaran
+                      .map(
+                        (e) => SearchFieldListItem(
+                          e.nama ?? '',
+                          item: e,
+                          child: Text(e.nama ?? '-'),
+                        ),
+                      )
+                      .toList(),
+                  onSuggestionTap: (item) {},
+                  state: controller.namaPembayaran.value != null &&
+                      controller.namaPembayaran.value!.isNotEmpty,
+                  onSearchTextChanged: (filter) {
+                    controller.onSearchMetodePembayaran(filter);
+                  },
                 ),
               ),
             ),
@@ -255,7 +267,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
               margin: const EdgeInsets.only(bottom: 18),
               child: CustomTextFormField(
                 controller: controller.nomorPembayaranC,
-                focusNode: controller.nomorPembayaranF,
+                // focusNode: controller.nomorPembayaranF,
                 isRequired: true,
                 title: 'Nomor $title',
                 // hintText: 'Isi $title',
@@ -322,7 +334,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
 
       return CustomTextFormField(
         controller: controller.nomorHPC,
-        focusNode: controller.nomorHPF,
+        // focusNode: controller.nomorHPF,
         title: 'Nomor HP',
         // hintText: 'Isi Nomor HP',
         isFilled: true,
@@ -348,7 +360,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
 
         return CustomTextFormField(
           controller: controller.emailC,
-          focusNode: controller.emailF,
+          // focusNode: controller.emailF,
           title: 'Alamat Email',
           // hintText: 'Isi alamat email',
           isFilled: true,
@@ -569,7 +581,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
     return Obx(
       () => CustomTextFormField(
         controller: controller.lamaDurasiC,
-        focusNode: controller.lamaDurasiF,
+        // focusNode: controller.lamaDurasiF,
         title: 'Lama Durasi',
         // hintText: 'Isi Lama Durasi',
         helperText: 'Maks. ${controller.slot.value?.maxDuration ?? 0} menit',
@@ -599,7 +611,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
     return Obx(
       () => CustomTextFormField(
         controller: controller.keluhanC,
-        focusNode: controller.keluhanF,
+        // focusNode: controller.keluhanF,
         title: 'Keluhan',
         // hintText: 'Isi Keluhan',
         isFilled: true,
@@ -620,7 +632,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
     return Obx(
       () => CustomTextFormField(
         controller: controller.prosedurC,
-        focusNode: controller.prosedurF,
+        // focusNode: controller.prosedurF,
         title: 'Prosedur',
         // hintText: 'Isi Prosedur',
         isFilled: true,
@@ -659,9 +671,9 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
             builderRowVital(
               firstController: controller.lajuPernapasanC,
               secondController: controller.denyutNadiC,
-              firstFocusNode: controller.lajuPernapasanF,
-              secondFocusNode: controller.denyutNadiF,
-              nextFocus: controller.tinggiBadanF,
+              // firstFocusNode: controller.lajuPernapasanF,
+              // secondFocusNode: controller.denyutNadiF,
+              // nextFocus: controller.tinggiBadanF,
               firstTitle: 'Laju Pernapasan',
               secondTitle: 'Denyut Nadi',
               firstSuffixText: 'bpm',
@@ -683,9 +695,9 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
             builderRowVital(
               firstController: controller.tinggiBadanC,
               secondController: controller.beratBadanC,
-              firstFocusNode: controller.tinggiBadanF,
-              secondFocusNode: controller.beratBadanF,
-              nextFocus: controller.gulaDarahF,
+              // firstFocusNode: controller.tinggiBadanF,
+              // secondFocusNode: controller.beratBadanF,
+              // nextFocus: controller.gulaDarahF,
               firstTitle: 'Tinggi Badan',
               secondTitle: 'Berat Badan',
               firstSuffixText: 'cm',
@@ -707,9 +719,9 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
             builderRowVital(
               firstController: controller.gulaDarahC,
               secondController: controller.suhuTubuhC,
-              firstFocusNode: controller.gulaDarahF,
-              secondFocusNode: controller.suhuTubuhF,
-              nextFocus: controller.lingkarPerutF,
+              // firstFocusNode: controller.gulaDarahF,
+              // secondFocusNode: controller.suhuTubuhF,
+              // nextFocus: controller.lingkarPerutF,
               firstTitle: 'Gula Darah',
               secondTitle: 'Suhu Tubuh',
               firstSuffixText: 'mg/dL',
@@ -730,9 +742,9 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
             builderRowVital(
               firstController: controller.lingkarPerutC,
               secondController: controller.saturasiOksigenC,
-              firstFocusNode: controller.lingkarPerutF,
-              secondFocusNode: controller.saturasiOksigenF,
-              nextFocus: controller.darahSistolikF,
+              // firstFocusNode: controller.lingkarPerutF,
+              // secondFocusNode: controller.saturasiOksigenF,
+              // nextFocus: controller.darahSistolikF,
               firstTitle: 'Lingkar Perut',
               secondTitle: 'Saturasi Oksigen',
               firstSuffixText: 'cm',
@@ -753,8 +765,8 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
             builderRowVital(
               firstController: controller.darahSistolikC,
               secondController: controller.darahDiastolikC,
-              firstFocusNode: controller.darahSistolikF,
-              secondFocusNode: controller.darahDiastolikF,
+              // firstFocusNode: controller.darahSistolikF,
+              // secondFocusNode: controller.darahDiastolikF,
               firstTitle: 'Tekanan Darah Sistolik',
               secondTitle: 'Tekanan Darah Diastolik',
               firstSuffixText: 'mmHg',
@@ -781,8 +793,8 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
   Widget builderRowVital({
     required TextEditingController firstController,
     required TextEditingController secondController,
-    required FocusNode firstFocusNode,
-    required FocusNode secondFocusNode,
+    // required FocusNode firstFocusNode,
+    // required FocusNode secondFocusNode,
     required String firstTitle,
     required String secondTitle,
     int? firstMaxLength,
@@ -799,7 +811,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         Expanded(
           child: CustomTextFormField(
             controller: firstController,
-            focusNode: firstFocusNode,
+            // focusNode: firstFocusNode,
             title: firstTitle,
             // hintText: 'Isi ${firstTitle.toLowerCase()}',
             // hintMaxLines: 1,
@@ -811,6 +823,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
             validator: (value) => Validation.formField(
               value: value,
               titleField: TextHelper.capitalizeEachWords(firstTitle) ?? '',
+              isRequired: false,
               isNotZero: true,
               isNumericOnly: true,
               range: firstRangeValidation,
@@ -821,7 +834,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
         Expanded(
           child: CustomTextFormField(
             controller: secondController,
-            focusNode: secondFocusNode,
+            // focusNode: secondFocusNode,
             title: secondTitle,
             // hintText: 'Isi ${secondTitle.toLowerCase()}',
             // hintMaxLines: 1,
@@ -834,6 +847,7 @@ class VisitRegistrationView extends GetView<VisitRegistrationController> {
             validator: (value) => Validation.formField(
               value: value,
               titleField: TextHelper.capitalizeEachWords(secondTitle) ?? '',
+              isRequired: false,
               isNotZero: true,
               isNumericOnly: true,
               range: secondRangeValidation,

@@ -1164,8 +1164,8 @@ abstract class ConstantsStrings {
   // VERIFY OTP
   static const verifyOTP = 'Verifikasi OTP';
   static const verifyOTPBody =
-      'Masukkan kode verifikasi yang baru saja kami kirimkan melalui SMS ke nomor ';
-  static const verifyOTPRetry = 'Kirim Ulang SMS';
+      'Masukkan kode verifikasi yang baru saja kami kirimkan melalui whatsapp ke nomor ';
+  static const verifyOTPRetry = 'Kirim Ulang OTP';
   static const verifyOTPFailed = 'Kode otp tidak sesuai';
 
   // PREFERENSI PAGE
@@ -1470,8 +1470,8 @@ abstract class ConstantsStrings {
   // PENDAFTARAN KUNJUNGAN
   static const dataMethodPayment = [
     'Tunai',
-    'BPJS Kesehatan',
-    'BPJS Ketenagakerjaan',
+    // 'BPJS Kesehatan',
+    // 'BPJS Ketenagakerjaan',
     'Asuransi',
     'Perusahaan',
     'Kartu Debit',
@@ -1508,10 +1508,10 @@ abstract class ConstantsStrings {
     'Imunisasi (BCG)'
   ];
 
-  static const dummyDataMedicalPersonnel = [
-    'drs. Eka Sinta Aprilia',
-    'dr. Andrean Ramadhan',
-  ];
+  // static const dummyDataMedicalPersonnel = [
+  //   'drs. Eka Sinta Aprilia',
+  //   'dr. Andrean Ramadhan',
+  // ];
 
   // RESEP OBAT
   static const medicineName = 'Nama Obat';

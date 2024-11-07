@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:privata/app/data/db/drugs/drugs_model.dart';
+import 'package:privata/app/data/db/drugs/drugs_db.dart';
 import 'package:privata/app/helpers/text_helper.dart';
 import 'package:privata/shared/shared_theme.dart';
 import 'package:privata/utils/constants_assets.dart';
@@ -114,7 +114,10 @@ class TransactionView extends GetView<TransactionController> {
   }
 
   Row builderItemSearch(
-      DrugsModel element, TextTheme textTheme, ThemeData theme) {
+    DrugsDB element,
+    TextTheme textTheme,
+    ThemeData theme,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -327,7 +330,7 @@ class TransactionView extends GetView<TransactionController> {
   Future<bool?> showDialogUnit({
     required BuildContext context,
     required bool isEdit,
-    required DrugsModel product,
+    required DrugsDB product,
   }) async {
     final textTheme = context.textTheme;
 

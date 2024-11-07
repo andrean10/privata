@@ -11,6 +11,7 @@ import '../controllers/search_patient_controller.dart';
 
 class SearchPatientView extends GetView<SearchPatientController> {
   final bool isFromRME;
+
   const SearchPatientView({this.isFromRME = false, super.key});
 
   @override
@@ -46,6 +47,7 @@ class SearchPatientView extends GetView<SearchPatientController> {
       () => SearchBars.build(
         context: context,
         controller: controller.searchC,
+        focusNode: controller.searchF,
         hintText: 'Masukkan nama pasien',
         state: controller.search.value.isNotEmpty,
       ),

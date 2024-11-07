@@ -37,7 +37,7 @@ class AuthConnect extends GetConnect {
         }),
     );
   }
- 
+
   Future<Response> verifyOTP({
     required String authToken,
     required String otp,
@@ -45,7 +45,6 @@ class AuthConnect extends GetConnect {
     return post(
       'Masyarakats/verifyOtp',
       {'otp': otp},
-      
       headers: headers
         ..addAll({
           'Authorization': authToken,
@@ -53,9 +52,14 @@ class AuthConnect extends GetConnect {
     );
   }
 
-  
+  Future<Response> kConfigs({
+    required String token,
+    required String filter,
+  }) {
+    headers['Authorization'] = token;
 
-
+    return get('KConfigs', headers: headers, query: {'filter': filter});
+  }
 
   Future<Response> logout(String token) {
     headers['Authorization'] = token;

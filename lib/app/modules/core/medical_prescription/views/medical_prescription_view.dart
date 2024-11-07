@@ -23,23 +23,28 @@ class MedicalPrescriptionView extends GetView<MedicalPrescriptionController> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            builderHeader(),
-            const SizedBox(height: 24),
-            builderMedicineName(),
-            const SizedBox(height: 24),
-            builderAmountMedicine(theme),
-            const SizedBox(height: 24),
-            builderMedicineUnit(context),
-            const SizedBox(height: 24),
-            builderDrinkingRules(),
-            const Spacer(),
-            builderConfirm(),
-            const SizedBox(height: 44),
-          ],
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 24,
+        ),
+        child: Form(
+          key: controller.formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              builderHeader(),
+              const SizedBox(height: 24),
+              builderMedicineName(),
+              const SizedBox(height: 24),
+              builderAmountMedicine(theme),
+              const SizedBox(height: 24),
+              builderMedicineUnit(context),
+              const SizedBox(height: 24),
+              builderDrinkingRules(),
+              const Spacer(),
+              _builderConfirm(),
+            ],
+          ),
         ),
       ),
     );
@@ -159,11 +164,18 @@ class MedicalPrescriptionView extends GetView<MedicalPrescriptionController> {
     );
   }
 
-  Widget builderConfirm() {
-    return Buttons.filled(
-      width: double.infinity,
-      onPressed: controller.confirm,
-      child: const Text(ConstantsStrings.save),
-    );
+  Widget _builderConfirm() {
+    return Obx(() {
+      final isEnabled = controller.medicineName.value.isNotEmpty &&
+          controller.medicineUnit.value.isNotEmpty &&
+          controller.amountMedicine.value != 0 &&
+          controller.drinkingRules.value.isNotEmpty;
+
+      return Buttons.filled(
+        width: double.infinity,
+        onPressed: isEnabled ? controller.confirm : null,
+        child: const Text(ConstantsStrings.save),
+      );
+    });
   }
 }

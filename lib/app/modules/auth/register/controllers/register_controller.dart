@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:privata/app/data/models/links/links_model.dart';
-import 'package:privata/app/data/models/register/register_model.dart';
 
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 import 'package:privata/app/modules/widgets/snackbar/snackbar.dart';
 
+import '../../../../../shared/shared_enum.dart';
 import '../../../../../utils/constants_strings.dart';
 import '../../../../helpers/helper.dart';
 import '../../../../routes/app_pages.dart';
-
-enum Gender { male, female }
-
-enum NewRegistrationStatus { available, exist }
 
 class RegisterController extends GetxController {
   late final InitController _initC;
@@ -140,7 +136,7 @@ class RegisterController extends GetxController {
       };
 
       Helper.printPrettyJson(body);
-      
+
       final res = await _initC.authCn.register(body);
       final bodyRes = res.body;
 

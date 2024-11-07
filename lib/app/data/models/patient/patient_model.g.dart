@@ -17,6 +17,7 @@ _$PatientModelImpl _$$PatientModelImplFromJson(Map<String, dynamic> json) =>
       address: addressFromJson(json['address']),
       phone: json['phone'] as String?,
       id: json['id'] as String?,
+      id_: json['_id'] as String?,
     );
 
 Map<String, dynamic> _$$PatientModelImplToJson(_$PatientModelImpl instance) =>

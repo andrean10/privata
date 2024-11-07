@@ -83,7 +83,7 @@ class SearchProcedureDialog extends GetView<SearchProcedureController> {
           },
           onSearchTextChanged: controller.filterProcedures,
           onSuggestionTap: controller.selectedItem,
-          state: false,
+          state: true,
           isLoading: procedures.isEmpty,
           isShowEmpty: procedures.isEmpty,
         );
@@ -152,8 +152,7 @@ class SearchProcedureDialog extends GetView<SearchProcedureController> {
             Expanded(
               child: Obx(
                 () => AutoSizeText(
-                  TextHelper.formatRupiah(
-                          amount: controller.totalAmount.value),
+                  TextHelper.formatRupiah(amount: controller.totalAmount.value),
                   style: textTheme.titleLarge,
                 ),
               ),

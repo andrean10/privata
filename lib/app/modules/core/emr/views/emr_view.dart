@@ -57,9 +57,9 @@ class EmrView extends GetView<EmrController> {
                 builderRowVital(
                   firstController: controller.lajuPernapasanC,
                   secondController: controller.denyutNadiC,
-                  firstFocusNode: controller.lajuPernapasanF,
-                  secondFocusNode: controller.denyutNadiF,
-                  nextFocus: controller.tinggiBadanF,
+                  // firstFocusNode: controller.lajuPernapasanF,
+                  // secondFocusNode: controller.denyutNadiF,
+                  // nextFocus: controller.tinggiBadanF,
                   firstTitle: 'Laju Pernapasan',
                   secondTitle: 'Denyut Nadi',
                   firstSuffixText: 'bpm',
@@ -81,9 +81,9 @@ class EmrView extends GetView<EmrController> {
                 builderRowVital(
                   firstController: controller.tinggiBadanC,
                   secondController: controller.beratBadanC,
-                  firstFocusNode: controller.tinggiBadanF,
-                  secondFocusNode: controller.beratBadanF,
-                  nextFocus: controller.gulaDarahF,
+                  // firstFocusNode: controller.tinggiBadanF,
+                  // secondFocusNode: controller.beratBadanF,
+                  // nextFocus: controller.gulaDarahF,
                   firstTitle: 'Tinggi Badan',
                   secondTitle: 'Berat Badan',
                   firstSuffixText: 'cm',
@@ -105,9 +105,9 @@ class EmrView extends GetView<EmrController> {
                 builderRowVital(
                   firstController: controller.gulaDarahC,
                   secondController: controller.suhuTubuhC,
-                  firstFocusNode: controller.gulaDarahF,
-                  secondFocusNode: controller.suhuTubuhF,
-                  nextFocus: controller.lingkarPerutF,
+                  // firstFocusNode: controller.gulaDarahF,
+                  // secondFocusNode: controller.suhuTubuhF,
+                  // nextFocus: controller.lingkarPerutF,
                   firstTitle: 'Gula Darah',
                   secondTitle: 'Suhu Tubuh',
                   firstSuffixText: 'mg/dL',
@@ -128,9 +128,9 @@ class EmrView extends GetView<EmrController> {
                 builderRowVital(
                   firstController: controller.lingkarPerutC,
                   secondController: controller.saturasiOksigenC,
-                  firstFocusNode: controller.lingkarPerutF,
-                  secondFocusNode: controller.saturasiOksigenF,
-                  nextFocus: controller.darahSistolikF,
+                  // firstFocusNode: controller.lingkarPerutF,
+                  // secondFocusNode: controller.saturasiOksigenF,
+                  // nextFocus: controller.darahSistolikF,
                   firstTitle: 'Lingkar Perut',
                   secondTitle: 'Saturasi Oksigen',
                   firstSuffixText: 'cm',
@@ -151,8 +151,8 @@ class EmrView extends GetView<EmrController> {
                 builderRowVital(
                   firstController: controller.darahSistolikC,
                   secondController: controller.darahDiastolikC,
-                  firstFocusNode: controller.darahSistolikF,
-                  secondFocusNode: controller.darahDiastolikF,
+                  // firstFocusNode: controller.darahSistolikF,
+                  // secondFocusNode: controller.darahDiastolikF,
                   firstTitle: 'Sistolik',
                   secondTitle: 'Diastolik',
                   firstSuffixText: 'mmHg',
@@ -254,9 +254,8 @@ class EmrView extends GetView<EmrController> {
     return Obx(
       () => CustomTextFormField(
         controller: controller.keluhanC,
-        focusNode: controller.keluhanF,
+        // focusNode: controller.keluhanF,
         title: 'Keluhan',
-        // hintText: 'Isi Keluhan',
         isFilled: true,
         keyboardType: TextInputType.multiline,
         maxLines: 5,
@@ -273,8 +272,8 @@ class EmrView extends GetView<EmrController> {
   Widget builderRowVital({
     required TextEditingController firstController,
     required TextEditingController secondController,
-    required FocusNode firstFocusNode,
-    required FocusNode secondFocusNode,
+    // required FocusNode firstFocusNode,
+    // required FocusNode secondFocusNode,
     required String firstTitle,
     required String secondTitle,
     int? firstMaxLength,
@@ -291,7 +290,7 @@ class EmrView extends GetView<EmrController> {
         Expanded(
           child: CustomTextFormField(
             controller: firstController,
-            focusNode: firstFocusNode,
+            // focusNode: firstFocusNode,
             title: firstTitle,
             // hintText: 'Isi ${firstTitle.toLowerCase()}',
             // hintMaxLines: 1,
@@ -314,7 +313,7 @@ class EmrView extends GetView<EmrController> {
         Expanded(
           child: CustomTextFormField(
             controller: secondController,
-            focusNode: secondFocusNode,
+            // focusNode: secondFocusNode,
             title: secondTitle,
             // hintText: 'Isi ${secondTitle.toLowerCase()}',
             // hintMaxLines: 1,
@@ -545,7 +544,7 @@ class EmrView extends GetView<EmrController> {
               style: textTheme.titleMedium,
             ),
             IconButton(
-              onPressed: () => controller.showDrugsModal(context),
+              onPressed: controller.moveToMedicalPrescription,
               icon: const Icon(Icons.add_rounded),
               tooltip: 'Tambah Obat',
             ),
@@ -560,83 +559,127 @@ class EmrView extends GetView<EmrController> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final item = controller.itemsDrugs[index];
-                final name = item.medicineName ?? '-';
-                final quantity = item.quantity;
-                final unit = item.unit;
-                final cigna = item.cigna;
-                final basicFee = item.basicFee;
-                final totalFee = item.totalFee;
-                final writeBy = item.createdName;
-                final streakBy = item.streakName;
-                final date = FormatDateTime.dateToString(
-                  newPattern: 'dd MMMM yyyy HH:mm',
-                  value: item.createdAt,
-                );
-                final isStroke =
-                    item.streakId != null && item.streakName != null;
+                final item = controller.newItemsDrugs[index];
+                // final name = item.medicineName ?? '-';
+                // final quantity = item.quantity;
+                // final unit = item.unit;
+                // final cigna = item.cigna;
+                // final basicFee = item.basicFee;
+                // final totalFee = item.totalFee;
+                // final writeBy = item.createdName;
+                // final streakBy = item.streakName;
+                // final date = FormatDateTime.dateToString(
+                //   newPattern: 'dd MMMM yyyy HH:mm',
+                //   value: item.createdAt,
+                // );
+
+                // final isStroke =
+                //     item.streakId != null && item.streakName != null;
 
                 return ListTile(
-                  onTap: () => _showDialogInfo(
-                    context: context,
-                    title: 'Obat',
-                    name: name,
-                    quantity: quantity,
-                    unit: unit,
-                    cigna: cigna,
-                    basicFee: basicFee?.toInt(),
-                    totalFee: totalFee,
-                    writeBy: writeBy,
-                    streakBy: streakBy,
-                    date: date,
+                  title: Text(item.medicineName ?? '-'),
+                  titleTextStyle: textTheme.titleMedium,
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        '${item.quantity ?? '-'} ${item.unit ?? '-'} - (${item.rule ?? '-'})',
+                      ),
+                    ],
                   ),
+                  subtitleTextStyle: textTheme.bodyMedium,
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 8,
                     horizontal: 12,
                   ),
-                  title: Text(name),
-                  titleTextStyle: textTheme.titleMedium?.copyWith(
-                    decoration: isStroke ? TextDecoration.lineThrough : null,
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        TextHelper.formatRupiah(
-                          amount: totalFee,
-                          isCompact: false,
-                        ),
-                      ),
-                      if (cigna != null) ...[
-                        const SizedBox(height: 2),
-                        Text(cigna),
-                      ]
-                    ],
-                  ),
-                  subtitleTextStyle: textTheme.bodyMedium?.copyWith(
-                    decoration: isStroke ? TextDecoration.lineThrough : null,
-                  ),
-                  trailing: (!isStroke)
-                      ? IconButton(
-                          onPressed: () async {
-                            final state = await _showCrossAlertDialog(
-                              context: context,
-                              type: 'obat',
-                              description: name,
-                            );
+                  trailing: IconButton(
+                    onPressed: () async {
+                      final state = await _showCrossAlertDialog(
+                        context: context,
+                        type: 'obat',
+                        description: item.medicineName ?? '-',
+                        isStroke: false,
+                      );
 
-                            if (state != null) {
-                              if (state) {
-                                controller.strokeDrugs(index, item.id);
-                              }
-                            }
-                          },
-                          icon: const Icon(Icons.clear_rounded),
-                        )
-                      : null,
+                      if (state != null) {
+                        if (state) {
+                          controller.removeItemDrugs(index);
+                        }
+                      }
+                    },
+                    icon: const Icon(Icons.clear_rounded),
+                  ),
+                  onTap: () => _showDialogInfo(
+                    context: context,
+                    title: 'Obat',
+                    name: item.medicineName,
+                    quantity: item.quantity,
+                    writeBy: null,
+                    date: null,
+                  ),
                 );
+
+                // return ListTile(
+                //   onTap: () => _showDialogInfo(
+                //     context: context,
+                //     title: 'Obat',
+                //     name: name,
+                //     quantity: quantity,
+                //     unit: unit,
+                //     cigna: cigna,
+                //     basicFee: basicFee?.toInt(),
+                //     totalFee: totalFee,
+                //     writeBy: writeBy,
+                //     streakBy: streakBy,
+                //     date: date,
+                //   ),
+                //   contentPadding: const EdgeInsets.symmetric(
+                //     vertical: 8,
+                //     horizontal: 12,
+                //   ),
+                //   title: Text(name),
+                //   titleTextStyle: textTheme.titleMedium?.copyWith(
+                //     decoration: isStroke ? TextDecoration.lineThrough : null,
+                //   ),
+                //   subtitle: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Text(
+                //         TextHelper.formatRupiah(
+                //           amount: totalFee,
+                //           isCompact: false,
+                //         ),
+                //       ),
+                //       if (cigna != null) ...[
+                //         const SizedBox(height: 2),
+                //         Text(cigna),
+                //       ]
+                //     ],
+                //   ),
+                //   subtitleTextStyle: textTheme.bodyMedium?.copyWith(
+                //     decoration: isStroke ? TextDecoration.lineThrough : null,
+                //   ),
+                //   trailing: (!isStroke)
+                //       ? IconButton(
+                //           onPressed: () async {
+                //             final state = await _showCrossAlertDialog(
+                //               context: context,
+                //               type: 'obat',
+                //               description: name,
+                //             );
+
+                //             if (state != null) {
+                //               if (state) {
+                //                 controller.strokeDrugs(index, item.id);
+                //               }
+                //             }
+                //           },
+                //           icon: const Icon(Icons.clear_rounded),
+                //         )
+                //       : null,
+                // );
               },
-              itemCount: controller.itemsDrugs.length,
+              itemCount: controller.newItemsDrugs.length,
             ),
           ),
         ),
@@ -648,14 +691,15 @@ class EmrView extends GetView<EmrController> {
     required BuildContext context,
     required String type,
     required String description,
+    bool isStroke = true,
   }) async {
     return await Dialogs.alert(
       context: context,
       title: 'Perhatian',
       content: Text(
-        'Apakah anda yakin ingin mencoret $type $description ini ?',
+        'Apakah anda yakin ingin ${isStroke ? 'coret' : 'hapus'} $type $description ini ?',
       ),
-      textYes: 'Coret',
+      textYes: isStroke ? 'Coret' : 'Hapus',
     );
   }
 
@@ -822,7 +866,8 @@ class EmrView extends GetView<EmrController> {
         return Buttons.filled(
           width: double.infinity,
           state: controller.isLoading.value,
-          onPressed: isEnabledSave ? () => controller.save(context) : null,
+          // onPressed: isEnabledSave ? () => controller.save(context) : null,
+          onPressed: () => controller.save(context),
           child: const Text(ConstantsStrings.save),
         );
       },

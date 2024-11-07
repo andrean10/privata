@@ -51,6 +51,22 @@ abstract class Helper {
     print(prettyJson);
   }
 
+  static void logPrettyJson(Object json) {
+    final logger = Logger(
+      printer: PrettyPrinter(
+        methodCount: 0, // Menghilangkan metode debug stack
+        errorMethodCount: 0,
+        colors: false,
+        printEmojis: false,
+        printTime: false,
+      ),
+    );
+    const encoder = JsonEncoder.withIndent('  ');
+    String prettyJson = encoder.convert(json);
+    logger.i(prettyJson);
+  }
+  
+  
   static Future<XFile?> pickFile(ImageSource source) async {
     try {
       final xFile = await ImagePicker().pickImage(source: source);

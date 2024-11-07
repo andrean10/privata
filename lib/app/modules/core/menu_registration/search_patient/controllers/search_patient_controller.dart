@@ -19,6 +19,8 @@ class SearchPatientController extends GetxController
 
   final searchC = TextEditingController();
 
+  final searchF = FocusNode();
+
   final search = ''.obs;
 
   final resultSearch = <PatientModel>[].obs;

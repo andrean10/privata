@@ -28,6 +28,27 @@ mixin _$CashierModel {
   PatientModel? get patients => throw _privateConstructorUsedError;
   @JsonKey(name: 'Items')
   List<CashierItemModel>? get items => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Payments')
+  List<PaymentModel>? get payments => throw _privateConstructorUsedError;
+  String? get patientName => throw _privateConstructorUsedError;
+  String? get patientId => throw _privateConstructorUsedError;
+  String? get mrId => throw _privateConstructorUsedError;
+  String? get mrNo => throw _privateConstructorUsedError;
+  int? get discount => throw _privateConstructorUsedError;
+  int? get baseFee => throw _privateConstructorUsedError;
+  int? get paidFee => throw _privateConstructorUsedError;
+  int? get subTotalFee => throw _privateConstructorUsedError;
+  int? get creditFee => throw _privateConstructorUsedError;
+  int? get totalTaxFee => throw _privateConstructorUsedError;
+  String? get code => throw _privateConstructorUsedError; // code invoice
+  String? get createdAt => throw _privateConstructorUsedError;
+  String? get createdId => throw _privateConstructorUsedError;
+  String? get createdName => throw _privateConstructorUsedError;
+  bool? get isBpjs => throw _privateConstructorUsedError;
+  bool? get isOutcome => throw _privateConstructorUsedError;
+  bool? get isOnlyPOS => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int? get fixTotalFee => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,7 +67,26 @@ abstract class $CashierModelCopyWith<$Res> {
       String? status,
       int? totalFee,
       @JsonKey(name: 'Patients') PatientModel? patients,
-      @JsonKey(name: 'Items') List<CashierItemModel>? items});
+      @JsonKey(name: 'Items') List<CashierItemModel>? items,
+      @JsonKey(name: 'Payments') List<PaymentModel>? payments,
+      String? patientName,
+      String? patientId,
+      String? mrId,
+      String? mrNo,
+      int? discount,
+      int? baseFee,
+      int? paidFee,
+      int? subTotalFee,
+      int? creditFee,
+      int? totalTaxFee,
+      String? code,
+      String? createdAt,
+      String? createdId,
+      String? createdName,
+      bool? isBpjs,
+      bool? isOutcome,
+      bool? isOnlyPOS,
+      @JsonKey(includeFromJson: false, includeToJson: false) int? fixTotalFee});
 
   $PatientModelCopyWith<$Res>? get patients;
 }
@@ -69,6 +109,25 @@ class _$CashierModelCopyWithImpl<$Res, $Val extends CashierModel>
     Object? totalFee = freezed,
     Object? patients = freezed,
     Object? items = freezed,
+    Object? payments = freezed,
+    Object? patientName = freezed,
+    Object? patientId = freezed,
+    Object? mrId = freezed,
+    Object? mrNo = freezed,
+    Object? discount = freezed,
+    Object? baseFee = freezed,
+    Object? paidFee = freezed,
+    Object? subTotalFee = freezed,
+    Object? creditFee = freezed,
+    Object? totalTaxFee = freezed,
+    Object? code = freezed,
+    Object? createdAt = freezed,
+    Object? createdId = freezed,
+    Object? createdName = freezed,
+    Object? isBpjs = freezed,
+    Object? isOutcome = freezed,
+    Object? isOnlyPOS = freezed,
+    Object? fixTotalFee = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -91,6 +150,82 @@ class _$CashierModelCopyWithImpl<$Res, $Val extends CashierModel>
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as List<CashierItemModel>?,
+      payments: freezed == payments
+          ? _value.payments
+          : payments // ignore: cast_nullable_to_non_nullable
+              as List<PaymentModel>?,
+      patientName: freezed == patientName
+          ? _value.patientName
+          : patientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      patientId: freezed == patientId
+          ? _value.patientId
+          : patientId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mrId: freezed == mrId
+          ? _value.mrId
+          : mrId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mrNo: freezed == mrNo
+          ? _value.mrNo
+          : mrNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      discount: freezed == discount
+          ? _value.discount
+          : discount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      baseFee: freezed == baseFee
+          ? _value.baseFee
+          : baseFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      paidFee: freezed == paidFee
+          ? _value.paidFee
+          : paidFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      subTotalFee: freezed == subTotalFee
+          ? _value.subTotalFee
+          : subTotalFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      creditFee: freezed == creditFee
+          ? _value.creditFee
+          : creditFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      totalTaxFee: freezed == totalTaxFee
+          ? _value.totalTaxFee
+          : totalTaxFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdId: freezed == createdId
+          ? _value.createdId
+          : createdId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdName: freezed == createdName
+          ? _value.createdName
+          : createdName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isBpjs: freezed == isBpjs
+          ? _value.isBpjs
+          : isBpjs // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isOutcome: freezed == isOutcome
+          ? _value.isOutcome
+          : isOutcome // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isOnlyPOS: freezed == isOnlyPOS
+          ? _value.isOnlyPOS
+          : isOnlyPOS // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      fixTotalFee: freezed == fixTotalFee
+          ? _value.fixTotalFee
+          : fixTotalFee // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -120,7 +255,26 @@ abstract class _$$CashierModelImplCopyWith<$Res>
       String? status,
       int? totalFee,
       @JsonKey(name: 'Patients') PatientModel? patients,
-      @JsonKey(name: 'Items') List<CashierItemModel>? items});
+      @JsonKey(name: 'Items') List<CashierItemModel>? items,
+      @JsonKey(name: 'Payments') List<PaymentModel>? payments,
+      String? patientName,
+      String? patientId,
+      String? mrId,
+      String? mrNo,
+      int? discount,
+      int? baseFee,
+      int? paidFee,
+      int? subTotalFee,
+      int? creditFee,
+      int? totalTaxFee,
+      String? code,
+      String? createdAt,
+      String? createdId,
+      String? createdName,
+      bool? isBpjs,
+      bool? isOutcome,
+      bool? isOnlyPOS,
+      @JsonKey(includeFromJson: false, includeToJson: false) int? fixTotalFee});
 
   @override
   $PatientModelCopyWith<$Res>? get patients;
@@ -142,6 +296,25 @@ class __$$CashierModelImplCopyWithImpl<$Res>
     Object? totalFee = freezed,
     Object? patients = freezed,
     Object? items = freezed,
+    Object? payments = freezed,
+    Object? patientName = freezed,
+    Object? patientId = freezed,
+    Object? mrId = freezed,
+    Object? mrNo = freezed,
+    Object? discount = freezed,
+    Object? baseFee = freezed,
+    Object? paidFee = freezed,
+    Object? subTotalFee = freezed,
+    Object? creditFee = freezed,
+    Object? totalTaxFee = freezed,
+    Object? code = freezed,
+    Object? createdAt = freezed,
+    Object? createdId = freezed,
+    Object? createdName = freezed,
+    Object? isBpjs = freezed,
+    Object? isOutcome = freezed,
+    Object? isOnlyPOS = freezed,
+    Object? fixTotalFee = freezed,
   }) {
     return _then(_$CashierModelImpl(
       id: freezed == id
@@ -164,6 +337,82 @@ class __$$CashierModelImplCopyWithImpl<$Res>
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
               as List<CashierItemModel>?,
+      payments: freezed == payments
+          ? _value._payments
+          : payments // ignore: cast_nullable_to_non_nullable
+              as List<PaymentModel>?,
+      patientName: freezed == patientName
+          ? _value.patientName
+          : patientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      patientId: freezed == patientId
+          ? _value.patientId
+          : patientId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mrId: freezed == mrId
+          ? _value.mrId
+          : mrId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mrNo: freezed == mrNo
+          ? _value.mrNo
+          : mrNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      discount: freezed == discount
+          ? _value.discount
+          : discount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      baseFee: freezed == baseFee
+          ? _value.baseFee
+          : baseFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      paidFee: freezed == paidFee
+          ? _value.paidFee
+          : paidFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      subTotalFee: freezed == subTotalFee
+          ? _value.subTotalFee
+          : subTotalFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      creditFee: freezed == creditFee
+          ? _value.creditFee
+          : creditFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      totalTaxFee: freezed == totalTaxFee
+          ? _value.totalTaxFee
+          : totalTaxFee // ignore: cast_nullable_to_non_nullable
+              as int?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdId: freezed == createdId
+          ? _value.createdId
+          : createdId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdName: freezed == createdName
+          ? _value.createdName
+          : createdName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isBpjs: freezed == isBpjs
+          ? _value.isBpjs
+          : isBpjs // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isOutcome: freezed == isOutcome
+          ? _value.isOutcome
+          : isOutcome // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isOnlyPOS: freezed == isOnlyPOS
+          ? _value.isOnlyPOS
+          : isOnlyPOS // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      fixTotalFee: freezed == fixTotalFee
+          ? _value.fixTotalFee
+          : fixTotalFee // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -176,8 +425,28 @@ class _$CashierModelImpl implements _CashierModel {
       this.status,
       this.totalFee,
       @JsonKey(name: 'Patients') this.patients,
-      @JsonKey(name: 'Items') final List<CashierItemModel>? items})
-      : _items = items;
+      @JsonKey(name: 'Items') final List<CashierItemModel>? items,
+      @JsonKey(name: 'Payments') final List<PaymentModel>? payments,
+      this.patientName,
+      this.patientId,
+      this.mrId,
+      this.mrNo,
+      this.discount,
+      this.baseFee,
+      this.paidFee,
+      this.subTotalFee,
+      this.creditFee,
+      this.totalTaxFee,
+      this.code,
+      this.createdAt,
+      this.createdId,
+      this.createdName,
+      this.isBpjs,
+      this.isOutcome,
+      this.isOnlyPOS,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.fixTotalFee})
+      : _items = items,
+        _payments = payments;
 
   factory _$CashierModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CashierModelImplFromJson(json);
@@ -203,9 +472,59 @@ class _$CashierModelImpl implements _CashierModel {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<PaymentModel>? _payments;
+  @override
+  @JsonKey(name: 'Payments')
+  List<PaymentModel>? get payments {
+    final value = _payments;
+    if (value == null) return null;
+    if (_payments is EqualUnmodifiableListView) return _payments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final String? patientName;
+  @override
+  final String? patientId;
+  @override
+  final String? mrId;
+  @override
+  final String? mrNo;
+  @override
+  final int? discount;
+  @override
+  final int? baseFee;
+  @override
+  final int? paidFee;
+  @override
+  final int? subTotalFee;
+  @override
+  final int? creditFee;
+  @override
+  final int? totalTaxFee;
+  @override
+  final String? code;
+// code invoice
+  @override
+  final String? createdAt;
+  @override
+  final String? createdId;
+  @override
+  final String? createdName;
+  @override
+  final bool? isBpjs;
+  @override
+  final bool? isOutcome;
+  @override
+  final bool? isOnlyPOS;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final int? fixTotalFee;
+
   @override
   String toString() {
-    return 'CashierModel(id: $id, status: $status, totalFee: $totalFee, patients: $patients, items: $items)';
+    return 'CashierModel(id: $id, status: $status, totalFee: $totalFee, patients: $patients, items: $items, payments: $payments, patientName: $patientName, patientId: $patientId, mrId: $mrId, mrNo: $mrNo, discount: $discount, baseFee: $baseFee, paidFee: $paidFee, subTotalFee: $subTotalFee, creditFee: $creditFee, totalTaxFee: $totalTaxFee, code: $code, createdAt: $createdAt, createdId: $createdId, createdName: $createdName, isBpjs: $isBpjs, isOutcome: $isOutcome, isOnlyPOS: $isOnlyPOS, fixTotalFee: $fixTotalFee)';
   }
 
   @override
@@ -219,13 +538,69 @@ class _$CashierModelImpl implements _CashierModel {
                 other.totalFee == totalFee) &&
             (identical(other.patients, patients) ||
                 other.patients == patients) &&
-            const DeepCollectionEquality().equals(other._items, _items));
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            const DeepCollectionEquality().equals(other._payments, _payments) &&
+            (identical(other.patientName, patientName) ||
+                other.patientName == patientName) &&
+            (identical(other.patientId, patientId) ||
+                other.patientId == patientId) &&
+            (identical(other.mrId, mrId) || other.mrId == mrId) &&
+            (identical(other.mrNo, mrNo) || other.mrNo == mrNo) &&
+            (identical(other.discount, discount) ||
+                other.discount == discount) &&
+            (identical(other.baseFee, baseFee) || other.baseFee == baseFee) &&
+            (identical(other.paidFee, paidFee) || other.paidFee == paidFee) &&
+            (identical(other.subTotalFee, subTotalFee) ||
+                other.subTotalFee == subTotalFee) &&
+            (identical(other.creditFee, creditFee) ||
+                other.creditFee == creditFee) &&
+            (identical(other.totalTaxFee, totalTaxFee) ||
+                other.totalTaxFee == totalTaxFee) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.createdId, createdId) ||
+                other.createdId == createdId) &&
+            (identical(other.createdName, createdName) ||
+                other.createdName == createdName) &&
+            (identical(other.isBpjs, isBpjs) || other.isBpjs == isBpjs) &&
+            (identical(other.isOutcome, isOutcome) ||
+                other.isOutcome == isOutcome) &&
+            (identical(other.isOnlyPOS, isOnlyPOS) ||
+                other.isOnlyPOS == isOnlyPOS) &&
+            (identical(other.fixTotalFee, fixTotalFee) ||
+                other.fixTotalFee == fixTotalFee));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, status, totalFee, patients,
-      const DeepCollectionEquality().hash(_items));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        status,
+        totalFee,
+        patients,
+        const DeepCollectionEquality().hash(_items),
+        const DeepCollectionEquality().hash(_payments),
+        patientName,
+        patientId,
+        mrId,
+        mrNo,
+        discount,
+        baseFee,
+        paidFee,
+        subTotalFee,
+        creditFee,
+        totalTaxFee,
+        code,
+        createdAt,
+        createdId,
+        createdName,
+        isBpjs,
+        isOutcome,
+        isOnlyPOS,
+        fixTotalFee
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -243,12 +618,31 @@ class _$CashierModelImpl implements _CashierModel {
 
 abstract class _CashierModel implements CashierModel {
   const factory _CashierModel(
-          {@JsonKey(name: '_id') final String? id,
-          final String? status,
-          final int? totalFee,
-          @JsonKey(name: 'Patients') final PatientModel? patients,
-          @JsonKey(name: 'Items') final List<CashierItemModel>? items}) =
-      _$CashierModelImpl;
+      {@JsonKey(name: '_id') final String? id,
+      final String? status,
+      final int? totalFee,
+      @JsonKey(name: 'Patients') final PatientModel? patients,
+      @JsonKey(name: 'Items') final List<CashierItemModel>? items,
+      @JsonKey(name: 'Payments') final List<PaymentModel>? payments,
+      final String? patientName,
+      final String? patientId,
+      final String? mrId,
+      final String? mrNo,
+      final int? discount,
+      final int? baseFee,
+      final int? paidFee,
+      final int? subTotalFee,
+      final int? creditFee,
+      final int? totalTaxFee,
+      final String? code,
+      final String? createdAt,
+      final String? createdId,
+      final String? createdName,
+      final bool? isBpjs,
+      final bool? isOutcome,
+      final bool? isOnlyPOS,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final int? fixTotalFee}) = _$CashierModelImpl;
 
   factory _CashierModel.fromJson(Map<String, dynamic> json) =
       _$CashierModelImpl.fromJson;
@@ -266,6 +660,46 @@ abstract class _CashierModel implements CashierModel {
   @override
   @JsonKey(name: 'Items')
   List<CashierItemModel>? get items;
+  @override
+  @JsonKey(name: 'Payments')
+  List<PaymentModel>? get payments;
+  @override
+  String? get patientName;
+  @override
+  String? get patientId;
+  @override
+  String? get mrId;
+  @override
+  String? get mrNo;
+  @override
+  int? get discount;
+  @override
+  int? get baseFee;
+  @override
+  int? get paidFee;
+  @override
+  int? get subTotalFee;
+  @override
+  int? get creditFee;
+  @override
+  int? get totalTaxFee;
+  @override
+  String? get code;
+  @override // code invoice
+  String? get createdAt;
+  @override
+  String? get createdId;
+  @override
+  String? get createdName;
+  @override
+  bool? get isBpjs;
+  @override
+  bool? get isOutcome;
+  @override
+  bool? get isOnlyPOS;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int? get fixTotalFee;
   @override
   @JsonKey(ignore: true)
   _$$CashierModelImplCopyWith<_$CashierModelImpl> get copyWith =>

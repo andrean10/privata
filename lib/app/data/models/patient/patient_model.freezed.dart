@@ -28,6 +28,8 @@ mixin _$PatientModel {
   AddressModel? get address => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id', includeToJson: false)
+  String? get id_ => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +50,8 @@ abstract class $PatientModelCopyWith<$Res> {
       List<PHModel>? ph,
       @JsonKey(fromJson: addressFromJson) AddressModel? address,
       String? phone,
-      String? id});
+      String? id,
+      @JsonKey(name: '_id', includeToJson: false) String? id_});
 
   $AddressModelCopyWith<$Res>? get address;
 }
@@ -73,6 +76,7 @@ class _$PatientModelCopyWithImpl<$Res, $Val extends PatientModel>
     Object? address = freezed,
     Object? phone = freezed,
     Object? id = freezed,
+    Object? id_ = freezed,
   }) {
     return _then(_value.copyWith(
       nama: freezed == nama
@@ -102,6 +106,10 @@ class _$PatientModelCopyWithImpl<$Res, $Val extends PatientModel>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      id_: freezed == id_
+          ? _value.id_
+          : id_ // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -134,7 +142,8 @@ abstract class _$$PatientModelImplCopyWith<$Res>
       List<PHModel>? ph,
       @JsonKey(fromJson: addressFromJson) AddressModel? address,
       String? phone,
-      String? id});
+      String? id,
+      @JsonKey(name: '_id', includeToJson: false) String? id_});
 
   @override
   $AddressModelCopyWith<$Res>? get address;
@@ -158,6 +167,7 @@ class __$$PatientModelImplCopyWithImpl<$Res>
     Object? address = freezed,
     Object? phone = freezed,
     Object? id = freezed,
+    Object? id_ = freezed,
   }) {
     return _then(_$PatientModelImpl(
       nama: freezed == nama
@@ -188,6 +198,10 @@ class __$$PatientModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      id_: freezed == id_
+          ? _value.id_
+          : id_ // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -202,7 +216,8 @@ class _$PatientModelImpl implements _PatientModel {
       final List<PHModel>? ph,
       @JsonKey(fromJson: addressFromJson) this.address,
       this.phone,
-      this.id})
+      this.id,
+      @JsonKey(name: '_id', includeToJson: false) this.id_})
       : _ph = ph;
 
   factory _$PatientModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -231,10 +246,13 @@ class _$PatientModelImpl implements _PatientModel {
   final String? phone;
   @override
   final String? id;
+  @override
+  @JsonKey(name: '_id', includeToJson: false)
+  final String? id_;
 
   @override
   String toString() {
-    return 'PatientModel(nama: $nama, gender: $gender, tanggalLahir: $tanggalLahir, ph: $ph, address: $address, phone: $phone, id: $id)';
+    return 'PatientModel(nama: $nama, gender: $gender, tanggalLahir: $tanggalLahir, ph: $ph, address: $address, phone: $phone, id: $id, id_: $id_)';
   }
 
   @override
@@ -249,13 +267,14 @@ class _$PatientModelImpl implements _PatientModel {
             const DeepCollectionEquality().equals(other._ph, _ph) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.id_, id_) || other.id_ == id_));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, nama, gender, tanggalLahir,
-      const DeepCollectionEquality().hash(_ph), address, phone, id);
+      const DeepCollectionEquality().hash(_ph), address, phone, id, id_);
 
   @JsonKey(ignore: true)
   @override
@@ -273,13 +292,15 @@ class _$PatientModelImpl implements _PatientModel {
 
 abstract class _PatientModel implements PatientModel {
   const factory _PatientModel(
-      {final String? nama,
-      final int? gender,
-      final String? tanggalLahir,
-      final List<PHModel>? ph,
-      @JsonKey(fromJson: addressFromJson) final AddressModel? address,
-      final String? phone,
-      final String? id}) = _$PatientModelImpl;
+          {final String? nama,
+          final int? gender,
+          final String? tanggalLahir,
+          final List<PHModel>? ph,
+          @JsonKey(fromJson: addressFromJson) final AddressModel? address,
+          final String? phone,
+          final String? id,
+          @JsonKey(name: '_id', includeToJson: false) final String? id_}) =
+      _$PatientModelImpl;
 
   factory _PatientModel.fromJson(Map<String, dynamic> json) =
       _$PatientModelImpl.fromJson;
@@ -299,6 +320,9 @@ abstract class _PatientModel implements PatientModel {
   String? get phone;
   @override
   String? get id;
+  @override
+  @JsonKey(name: '_id', includeToJson: false)
+  String? get id_;
   @override
   @JsonKey(ignore: true)
   _$$PatientModelImplCopyWith<_$PatientModelImpl> get copyWith =>

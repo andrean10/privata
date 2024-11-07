@@ -20,6 +20,7 @@ import '../../../../../../data/models/region/regency/regency_model.dart';
 import '../../../../../../data/models/region/village/village_model.dart';
 import '../../../../../../data/server/patient/patient_server.dart';
 import '../../../../../../helpers/format_date_time.dart';
+import '../../../../../../helpers/helper.dart';
 import '../../../../../../routes/app_pages.dart';
 import '../../../../../widgets/snackbar/snackbar.dart';
 
@@ -132,8 +133,6 @@ class NewPatientController extends GetxController {
     }
   }
 
-  // void nextFocus(FocusNode node) => node.nextFocus();
-
   void setDate(DateTime value) {
     birthDateC.text = FormatDateTime.dateToString(
       newPattern: 'dd MMMM yyyy',
@@ -165,10 +164,12 @@ class NewPatientController extends GetxController {
       final query = {'filter': jsonEncode(filter)};
       final res = await _rjCn.getCodeNewMR(query);
 
+      Helper.printPrettyJson(res.body);
+
       if (res.isOk) {
         final body = res.body;
-        final codeMR = body['nextInsertedMr'] as String;
-        noMRC.text = codeMR;
+        final codeMR = body['nextInsertedMr'] as String?;
+        noMRC.text = TextHelper.splitMRCode(codeMR); //* SUDAH FIX DEP
       } else {
         _initC.handleError(status: res.status);
       }
@@ -387,6 +388,8 @@ class NewPatientController extends GetxController {
       );
 
       final res = await _rjCn.createPatient(body.toJson());
+
+      Helper.printPrettyJson(res.body);
 
       if (res.isOk) {
         Snackbar.success(

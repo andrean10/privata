@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/data/db/practice_schedule/practice_schedule_model.dart';
 import 'package:privata/utils/constants_strings.dart';
 
+import '../../../../../../../shared/shared_enum.dart';
 import '../../../../../../helpers/format_date_time.dart';
 import '../../../../../init/controllers/init_controller.dart';
 

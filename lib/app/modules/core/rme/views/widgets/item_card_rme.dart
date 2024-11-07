@@ -6,11 +6,11 @@ import 'package:privata/app/modules/core/rme/controllers/rme_controller.dart';
 import '../../../../../../../shared/shared_theme.dart';
 import '../../../../../../../utils/constants_assets.dart';
 import '../../../../../../../utils/constants_strings.dart';
+import '../../../../../../shared/shared_enum.dart';
 import '../../../../../helpers/format_date_time.dart';
 import '../../../../../helpers/helper.dart';
 import '../../../../widgets/card/cards.dart';
 import '../../../../widgets/dialog/dialogs.dart';
-import '../../../menu_registration/rj/controllers/rj_controller.dart';
 import '../../../menu_registration/rj/views/widget/builder_dropdown_state.dart';
 
 class ItemCardRME extends GetView<RmeController> {

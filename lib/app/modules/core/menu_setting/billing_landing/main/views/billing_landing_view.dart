@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:privata/app/modules/core/menu_setting/billing_landing/main/views/state/billing_state_screen.dart';
 import 'package:privata/app/modules/core/menu_setting/billing_landing/main/views/empty/billing_empty_screen.dart';
 
+import '../../../../../../../shared/shared_enum.dart';
 import '../controllers/billing_landing_controller.dart';
 
 class BillingLandingView extends GetView<BillingLandingController> {

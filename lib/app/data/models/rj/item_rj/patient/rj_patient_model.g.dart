@@ -24,7 +24,6 @@ _$RJPatientModelImpl _$$RJPatientModelImplFromJson(Map<String, dynamic> json) =>
       phone: json['phone'] as String?,
       email: json['email'] as String?,
       education: json['education'] as String?,
-      isShareMr: json['isShareMr'] as bool?,
       noKTP: json['noKTP'] as String?,
       paymentMethod: (json['paymentMethod'] as List<dynamic>?)
           ?.map((e) => PaymentMethodModel.fromJson(e as Map<String, dynamic>))
@@ -35,8 +34,6 @@ _$RJPatientModelImpl _$$RJPatientModelImplFromJson(Map<String, dynamic> json) =>
       createdAt: json['created_at'] as String?,
       createdId: json['created_id'] as String?,
       updatedAt: json['updated_at'] as String?,
-      isNew: json['isNew'] as bool?,
-      isDeleted: json['isDeleted'] as bool?,
       id: json['id'] as String?,
       idUsers: (json['id_users'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -51,12 +48,9 @@ _$RJPatientModelImpl _$$RJPatientModelImplFromJson(Map<String, dynamic> json) =>
       allergicHistory: (json['allergicHistory'] as List<dynamic>?)
           ?.map((e) => AllergicHistoryModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      medicineHistory: (json['medicineHistory'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      medicineHistory: json['medicineHistory'] as List<dynamic>?,
       isTemporary: json['isTemporary'] as bool?,
       isMedicaboo: json['is_medicaboo'] as bool?,
-      isOA: json['isOA'] as bool?,
       patientIhsId: json['patientIhsId'] as String?,
       profilePicture: json['profilePicture'] as String?,
     );
@@ -78,15 +72,12 @@ Map<String, dynamic> _$$RJPatientModelImplToJson(
       'phone': instance.phone,
       'email': instance.email,
       'education': instance.education,
-      'isShareMr': instance.isShareMr,
       'noKTP': instance.noKTP,
       'paymentMethod': instance.paymentMethod,
       'family': instance.family,
       'created_at': instance.createdAt,
       'created_id': instance.createdId,
       'updated_at': instance.updatedAt,
-      'isNew': instance.isNew,
-      'isDeleted': instance.isDeleted,
       'id': instance.id,
       'id_users': instance.idUsers,
       'ihsId': instance.ihsId,
@@ -98,7 +89,6 @@ Map<String, dynamic> _$$RJPatientModelImplToJson(
       'medicineHistory': instance.medicineHistory,
       'isTemporary': instance.isTemporary,
       'is_medicaboo': instance.isMedicaboo,
-      'isOA': instance.isOA,
       'patientIhsId': instance.patientIhsId,
       'profilePicture': instance.profilePicture,
     };

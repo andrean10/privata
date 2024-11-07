@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:privata/app/modules/widgets/buttons/buttons.dart';
+
+import '../../../../shared/shared_enum.dart';
 
 class CustomButton extends StatelessWidget {
   final ButtonType type;

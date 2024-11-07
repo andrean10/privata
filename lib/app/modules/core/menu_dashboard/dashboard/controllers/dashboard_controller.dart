@@ -8,7 +8,7 @@ import 'package:privata/app/modules/core/main/controllers/main_controller.dart';
 import 'package:privata/services/dashboard/dashboard_connect.dart';
 import 'package:privata/utils/constants_keys.dart';
 
-enum AppointmentStatus { all, waiting, engaged }
+import '../../../../../../shared/shared_enum.dart';
 
 class DashboardController extends GetxController {
   late final InitController _initC;
@@ -60,6 +60,7 @@ class DashboardController extends GetxController {
       },
     );
 
+
     fetchAllData();
   }
 
@@ -73,6 +74,7 @@ class DashboardController extends GetxController {
     _fetchCashierQueue(isAll: false);
   }
 
+  
   void _fetchIncome() async {
     if (_hospitalId == null) return;
 
@@ -124,6 +126,7 @@ class DashboardController extends GetxController {
     final params = <String, dynamic>{};
 
     if (status == AppointmentStatus.all) {
+      params.clear();
       params.addAll({
         'date': today,
         'rumahSakitId': _hospitalId,
@@ -140,6 +143,7 @@ class DashboardController extends GetxController {
         ]
       });
     } else {
+      params.clear();
       params.addAll({
         'date': today,
         'rumahSakitId': _hospitalId,

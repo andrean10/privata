@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
@@ -13,6 +14,7 @@ class SettingController extends GetxController {
 
   String? name;
   String? email;
+  
 
   final menuProfile = [
     MenuModel(
@@ -46,6 +48,8 @@ class SettingController extends GetxController {
 
     name = _initC.localStorage.read<String>(ConstantsKeys.createdName);
     email = _initC.localStorage.read<String>(ConstantsKeys.email);
+
+    
   }
 
   void _init() {

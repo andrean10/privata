@@ -76,4 +76,10 @@ class RJConnect extends GetConnect {
         'SatuSehats/location/list/$hospitalId',
         headers: headers,
       );
+
+  Future<Response> getListMetodePembayaran(Map<String, dynamic> query) => get(
+        'MetodePembayarans/getList',
+        headers: headers,
+        query: query,
+      );
 }

@@ -27,17 +27,24 @@ class CashierConnect extends GetConnect {
         query: query,
       );
 
-  // Future<Response> getListByDoctor(Map<String, dynamic> query) => get(
-  //       'Janjis/getJanjiListByHospitalPracticeAndDates',
-  //       headers: headers,
-  //       query: query,
-  //     );
 
-  // Future<Response> getPracticeAvailable(Map<String, dynamic> query) => get(
-  //       'Janjis/getPracticeAvailable',
-  //       headers: headers,
-  //       query: query,
-  //     );
+  Future<Response> getPriceList(Map<String, dynamic> query) => get(
+        'KTxes/getPriceList',
+        headers: headers,
+        query: query,
+      );
+
+  Future<Response> getNoInvoice(String filter) => get(
+        'KTxes',
+        headers: headers,
+        query: {'filter': query},
+      );
+
+  Future<Response> payForTransaction(Map<String, dynamic> body) => put(
+        'KTxes/pay',
+        body,
+        headers: headers,
+      );
 
   // Future<Response> searchPatient(Map<String, dynamic> query) => get(
   //       'Pasiens/getPasienListByKeywordV2',

@@ -8,7 +8,8 @@ class CurrencyInputFormatter extends TextInputFormatter {
     if (newValue.text.isEmpty) return newValue.copyWith(text: 'Rp. ');
 
     final int selectionIndex = newValue.selection.end;
-    final number = int.parse(newValue.text.replaceAll(RegExp(r'[^0-9]'), ''));
+    final number =
+        int.tryParse(newValue.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
 
     final formatted = TextHelper.formatRupiah(
       amount: number,

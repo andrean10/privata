@@ -16,7 +16,11 @@ class PatientModel with _$PatientModel {
     @JsonKey(fromJson: addressFromJson) AddressModel? address,
     String? phone,
     String? id,
-
+    @JsonKey(
+      name: '_id',
+      includeToJson: false,
+    )
+    String? id_,
   }) = _PatientModel;
 
   factory PatientModel.fromJson(Map<String, Object?> json) =>

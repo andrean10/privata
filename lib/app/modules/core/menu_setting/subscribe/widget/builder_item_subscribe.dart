@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/helpers/text_helper.dart';
 
+import '../../../../../../shared/shared_enum.dart';
 import '../../../../../../shared/shared_theme.dart';
 import '../../../../widgets/textformfield/text_form_fields.dart';
 import '../controllers/subscribe_controller.dart';

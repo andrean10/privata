@@ -9,7 +9,6 @@ import '../../../../../../services/cashier/cashier_connect.dart';
 import '../../../../../../utils/constants_keys.dart';
 import '../../../../../data/models/cashier/cashier_model.dart';
 import '../../../../../helpers/format_date_time.dart';
-import '../../../../../helpers/helper.dart';
 import '../../../../../routes/app_pages.dart';
 
 class CashierController extends GetxController
@@ -19,6 +18,8 @@ class CashierController extends GetxController
   late final CashierConnect _cashierConn;
 
   late final String? hospitalId;
+
+  List<CashierModel>? dataCashier;
 
   // controller
   final startDateC = TextEditingController();
@@ -48,7 +49,7 @@ class CashierController extends GetxController
     hospitalId = _initC.localStorage.read<String>(ConstantsKeys.hospitalId);
 
     _initText();
-    _initFetch();
+    initFetch();
   }
 
   void _initText() {
@@ -61,7 +62,7 @@ class CashierController extends GetxController
     endDateC.text = now;
   }
 
-  void _initFetch() {
+  void initFetch() {
     fetchCashier();
   }
 
@@ -112,11 +113,13 @@ class CashierController extends GetxController
         final body = res.body;
 
         if (res.isOk) {
-          if (body != null && body is List<dynamic>) {
-            final data = body.map((e) => CashierModel.fromJson(e)).toList();
-            change(data, status: RxStatus.success());
-          } else {
-            change(null, status: RxStatus.empty());
+          if (body != null) {
+            if (body is List<dynamic> && body.isNotEmpty) {
+              dataCashier = body.map((e) => CashierModel.fromJson(e)).toList();
+              change(dataCashier, status: RxStatus.success());
+            } else {
+              change(null, status: RxStatus.empty());
+            }
           }
         } else {
           _initC.handleError(status: res.status);
@@ -132,12 +135,33 @@ class CashierController extends GetxController
     }
   }
 
-  void moveToPage(bool state) {
-    if (state) {
+  Future<void> moveToPaymentDetail({
+    required bool isPaid,
+    required int index,
+    required CashierModel itemData,
+  }) async {
+    if (isPaid) {
+      Get.toNamed(
+        Routes.PAYMENT_RECEIPT,
+        arguments: itemData,
+      );
     } else {
-      Get.toNamed(Routes.TRANSACTION);
+      final state = await Get.toNamed(
+        Routes.PAYMENT_DETAILS,
+        arguments: itemData,
+      );
+
+      if (state != null && state!) {
+        // update data dan ubah status jadi lunas
+        final updateItemData = itemData.copyWith.call(status: 'paid off');
+        dataCashier?[index] = updateItemData;
+        change(dataCashier, status: RxStatus.success());
+      }
     }
   }
+
+  //! Nanti ditambahkan
+  // void moveToAddTransaction() => Get.toNamed(Routes.TRANSACTION);
 
   bool onNotification(ScrollNotification notification) {
     if (notification is ScrollStartNotification) {

@@ -1,11 +1,11 @@
-class DrugsModel {
+class DrugsDB {
   final String name;
   final num price;
   final String unit;
   final num? amountUnit;
   final num stock;
 
-  DrugsModel({
+  DrugsDB({
     required this.name,
     required this.price,
     required this.unit,
@@ -14,14 +14,14 @@ class DrugsModel {
   });
 
   // copyWith
-  DrugsModel copyWith({
+  DrugsDB copyWith({
     final String? name,
     final num? price,
     final String? unit,
     final num? amountUnit,
     final num? stock,
   }) {
-    return DrugsModel(
+    return DrugsDB(
       name: name ?? this.name,
       price: price ?? this.price,
       unit: unit ?? this.unit,

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/data/models/doctor/doctor_model.dart';
@@ -31,69 +32,6 @@ class BuilderDropdownState extends GetView<RJController> {
     required this.item,
     required this.status,
   });
-
-  DropdownMenuEntry<String> dropdownLoading({
-    required String label,
-    required bool isLoading,
-  }) {
-    return DropdownMenuEntry(
-      value: '',
-      label: label,
-      labelWidget: Buttons.text(
-        width: double.infinity,
-        state: isLoading,
-        onPressed: () {
-          // tambahkan currentlimit
-          controller.currentTotalLimitDoctor.value += 10;
-          controller.isLoadingMoreDoctor.value = true;
-        },
-        child: const Text(
-          'Load More',
-          style: TextStyle(fontSize: 12),
-        ),
-      ),
-      enabled: false,
-    );
-  }
-
-  List<DropdownMenuEntry<SlotModel?>> builderItemDropdownSlot({
-    required bool isLoading,
-    required List<SlotModel> data,
-  }) {
-    if (isLoading) {
-      return [
-        const DropdownMenuEntry(
-          value: null,
-          label: 'loading',
-          labelWidget: Center(child: CircularProgressIndicator.adaptive()),
-          enabled: false,
-        )
-      ];
-    }
-
-    if (data.isNotEmpty) {
-      return controller.dataSlotDoctor.map(
-        (item) {
-          final startTime = FormatDateTime.time(value: item.start);
-          final endTime = FormatDateTime.time(value: item.end);
-          final timeFormat = '$startTime - $endTime WIB';
-
-          return DropdownMenuEntry(
-            value: item,
-            label: timeFormat,
-          );
-        },
-      ).toList();
-    }
-
-    return [
-      const DropdownMenuEntry(
-        value: null,
-        label: 'Slot waktu belum ada',
-        enabled: false,
-      )
-    ];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +99,7 @@ class BuilderDropdownState extends GetView<RJController> {
 
     return DropdownButton(
       value: data.value.toLowerCase(),
-      hint: const Text('Pilih Status'),
+      hint: const AutoSizeText('Pilih Status'),
       padding: const EdgeInsets.symmetric(horizontal: 8),
       borderRadius: BorderRadius.circular(32),
       isExpanded: true,
@@ -174,13 +112,18 @@ class BuilderDropdownState extends GetView<RJController> {
             child: Obx(
               () => controller.isLoadingChangeState.value &&
                       controller.idSelected.value == item.id
-                  ? const CircularProgressIndicator.adaptive()
-                  : Text(
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator.adaptive(),
+                    )
+                  : AutoSizeText(
                       TextHelper.capitalizeEachWords(status.value) ?? '',
                       style: textTheme.bodyMedium?.copyWith(
                         color: status.color,
                         fontWeight: SharedTheme.semiBold,
                       ),
+                      maxLines: 1,
                     ),
             ),
           );
@@ -214,7 +157,7 @@ class BuilderDropdownState extends GetView<RJController> {
                     .fetchDoctor(controller.currentTotalLimitDoctor.value);
 
                 Dialogs.fullScreen(
-                  context: context,
+                  context: Get.context!,
                   title: 'Reschedule Appointment',
                   actions: [
                     Buttons.text(
@@ -527,7 +470,7 @@ class BuilderDropdownState extends GetView<RJController> {
                         TextFormFields.dropdown(
                           controller: controller.reasonCancellationC,
                           title: 'Penyebab',
-                          isExpanded: false,
+                          isExpanded: true,
                           isFilled: false,
                           isEnableSearch: true,
                           isLabel: true,
@@ -597,5 +540,68 @@ class BuilderDropdownState extends GetView<RJController> {
         }
       },
     );
+  }
+
+  DropdownMenuEntry<String> dropdownLoading({
+    required String label,
+    required bool isLoading,
+  }) {
+    return DropdownMenuEntry(
+      value: '',
+      label: label,
+      labelWidget: Buttons.text(
+        width: double.infinity,
+        state: isLoading,
+        onPressed: () {
+          // tambahkan currentlimit
+          controller.currentTotalLimitDoctor.value += 10;
+          controller.isLoadingMoreDoctor.value = true;
+        },
+        child: const Text(
+          'Load More',
+          style: TextStyle(fontSize: 12),
+        ),
+      ),
+      enabled: false,
+    );
+  }
+
+  List<DropdownMenuEntry<SlotModel?>> builderItemDropdownSlot({
+    required bool isLoading,
+    required List<SlotModel> data,
+  }) {
+    if (isLoading) {
+      return [
+        const DropdownMenuEntry(
+          value: null,
+          label: 'loading',
+          labelWidget: Center(child: CircularProgressIndicator.adaptive()),
+          enabled: false,
+        )
+      ];
+    }
+
+    if (data.isNotEmpty) {
+      return controller.dataSlotDoctor.map(
+        (item) {
+          final startTime = FormatDateTime.time(value: item.start);
+          final endTime = FormatDateTime.time(value: item.end);
+          final timeFormat = '$startTime - $endTime WIB';
+
+          return DropdownMenuEntry(
+            value: item,
+            label: timeFormat,
+          );
+        },
+      ).toList();
+    }
+
+    return [
+      const DropdownMenuEntry(
+        value: null,
+        label: 'Slot waktu belum ada',
+        enabled: false,
+      )
+    ];
   }
 }

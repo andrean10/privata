@@ -102,6 +102,7 @@ class TimelineEmrView extends GetView<TimelineEmrController> {
         final objective = doctorNotes?.firstOrNull?.objective;
         final assessment = doctorNotes?.firstOrNull?.assessment?.join(',\n');
         final plans = doctorNotes?.firstOrNull?.plan?.join();
+        final otherNotes = doctorNotes?.firstOrNull?.freeText;
 
         return Cards.filled(
           context: context,
@@ -203,7 +204,23 @@ class TimelineEmrView extends GetView<TimelineEmrController> {
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       child: AutoSizeText(
-                        (plans != null && plans.isNotEmpty) ? plans : na,
+                        (plans != null && plans.isNotEmpty)
+                            ? plans
+                            : na,
+                        style: textTheme.labelMedium,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    AutoSizeText(
+                      'Catatan Lainnya',
+                      style: textTheme.titleSmall?.copyWith(
+                        fontWeight: SharedTheme.bold,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      child: AutoSizeText(
+                        otherNotes ?? na,
                         style: textTheme.labelMedium,
                       ),
                     ),
@@ -224,39 +241,39 @@ class TimelineEmrView extends GetView<TimelineEmrController> {
     required List<String>? objective,
   }) {
     if (objective != null && objective.isNotEmpty) {
-      const na = 'N/A';
-      final mappingObjectives = objective.asMap().map(
-            (key, value) => MapEntry(
-              key,
-              '${switch (key) {
-                0 => 'Laju Pernapasan',
-                1 => 'Denyut Nadi',
-                2 => 'Tinggi Badan',
-                3 => 'Berat Badan',
-                4 => 'Gula Darah',
-                5 => 'Suhu Tubuh',
-                6 => 'Lingkar Perut',
-                7 => 'Saturasi Oksigen',
-                8 => 'Sistolik',
-                9 => 'Diastolik',
-                _ => '',
-              }} : ${value.isEmpty ? na : value} ${switch (key) {
-                0 => ' bpm',
-                1 => ' hbpm',
-                2 => ' cm',
-                3 => ' kg',
-                4 => ' mg/dL',
-                5 => ' °C',
-                6 => ' cm',
-                7 => ' SpO2',
-                8 => ' mmHg',
-                9 => ' mmHg',
-                _ => '-',
-              }}',
-            ),
-          );
+      // const na = 'N/A';
+      // final mappingObjectives = objective.asMap().map(
+      //       (key, value) => MapEntry(
+      //         key,
+      //         '${switch (key) {
+      //           0 => 'Laju Pernapasan',
+      //           1 => 'Denyut Nadi',
+      //           2 => 'Tinggi Badan',
+      //           3 => 'Berat Badan',
+      //           4 => 'Gula Darah',
+      //           5 => 'Suhu Tubuh',
+      //           6 => 'Lingkar Perut',
+      //           7 => 'Saturasi Oksigen',
+      //           8 => 'Sistolik',
+      //           9 => 'Diastolik',
+      //           _ => '',
+      //         }} : ${value.isEmpty ? na : value} ${switch (key) {
+      //           0 => ' bpm',
+      //           1 => ' hbpm',
+      //           2 => ' cm',
+      //           3 => ' kg',
+      //           4 => ' mg/dL',
+      //           5 => ' °C',
+      //           6 => ' cm',
+      //           7 => ' SpO2',
+      //           8 => ' mmHg',
+      //           9 => ' mmHg',
+      //           _ => '-',
+      //         }}',
+      //       ),
+      //     );
 
-      final formatObjective = mappingObjectives.values.join('\n');
+      final formatObjective = objective.join('\n');
 
       return AutoSizeText(
         formatObjective,

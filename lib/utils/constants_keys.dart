@@ -8,6 +8,7 @@ abstract class ConstantsKeys {
   static const configId = 'config_id';
   static const linkId = 'link_id';
   static const hospitalId = 'hospital_id';
+  static const pharmacyId = 'pharmacy_id';
   static const createdId = 'created_id';
   static const createdName = 'created_name';
   static const email = 'email';
@@ -17,4 +18,6 @@ abstract class ConstantsKeys {
   static const isPref = 'is_pref';
 
   static const paymentToken = 'payment_token';
+
+  static const printer = 'printer';
 }

@@ -151,6 +151,4 @@ class VerifyOtpController extends GetxController {
       );
 
   void _moveToPreferences() => Get.offAllNamed(Routes.PREFERENCES);
-
-  void _moveToLogin() => Get.offAllNamed(Routes.LOGIN);
 }

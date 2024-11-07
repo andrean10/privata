@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       title: ConstantsKeys.appName,
       theme: SharedTheme.lightThemeMaterial,
       darkTheme: SharedTheme.darkThemeMaterial,
-      // themeMode: ThemeMode.dark,
+      // themeMode: ThemeMode.system,
       initialBinding: InitBinding(),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,

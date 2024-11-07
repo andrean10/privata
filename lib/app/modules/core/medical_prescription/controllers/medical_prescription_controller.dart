@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 
+import '../../../../data/models/drugs/drugs_model.dart';
+
 class MedicalPrescriptionController extends GetxController {
   late final InitController _initC;
 
@@ -18,8 +20,6 @@ class MedicalPrescriptionController extends GetxController {
   final medicineUnit = ''.obs;
   final drinkingRules = ''.obs;
   final amountMedicine = 0.obs;
-
-  final isLoading = false.obs;
 
   @override
   void onInit() {
@@ -61,11 +61,18 @@ class MedicalPrescriptionController extends GetxController {
       return;
     }
 
-    isLoading.value = true;
-
     FocusScope.of(Get.context!).unfocus();
 
-    await Future.delayed(3.seconds);
-    isLoading.value = false;
+    _saveMedical();
+  }
+
+  void _saveMedical() {
+    final result = DrugsModel(
+      medicineName: medicineName.value,
+      quantity: amountMedicine.value,
+      unit: medicineUnit.value,
+      rule: drinkingRules.value,
+    );
+    Get.back(result: result);
   }
 }

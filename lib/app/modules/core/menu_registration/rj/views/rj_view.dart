@@ -37,8 +37,8 @@ class RJView extends GetView<RJController> {
           (state) {
             final data = state as List<ItemRJModel>;
 
-            var indexUmum = 0;
-            var indexSpesialisSaraf = 0;
+            // var indexUmum = 0;
+            // var indexSpesialisSaraf = 0;
             var queue = 0;
 
             return ListView.builder(
@@ -48,24 +48,25 @@ class RJView extends GetView<RJController> {
               ),
               itemBuilder: (context, index) {
                 final item = data[index];
-                final poli =
-                    item.poli.toString().toLowerCase().replaceAll(' ', '_');
+                //! poli hanya 1
+                // final poli =
+                //     item.poli.toString().toLowerCase().replaceAll(' ', '_');
 
                 Widget builder;
                 Widget content;
 
                 //! queue masih akan di perbaiki nanti
-                switch (poli) {
-                  case 'umum':
-                    indexUmum = (index + 1);
-                    queue = indexUmum;
-                    break;
-                  case 'spesialis_saraf':
-                    indexSpesialisSaraf += 1;
-                    queue = indexSpesialisSaraf;
-                    break;
-                  default:
-                }
+                // switch (poli) {
+                //   case 'umum':
+                //     indexUmum = (index + 1);
+                //     queue = indexUmum;
+                //     break;
+                //   case 'spesialis_saraf':
+                //     indexSpesialisSaraf += 1;
+                //     queue = indexSpesialisSaraf;
+                //     break;
+                //   default:
+                // }
 
                 // content card
                 if (item.status == 'failed') {
@@ -75,7 +76,7 @@ class RJView extends GetView<RJController> {
                     margin: const EdgeInsets.only(bottom: 8),
                     child: ItemCardRJ(
                       index: index,
-                      queue: queue,
+                      queue: index + 1,
                       item: item,
                     ),
                   );
@@ -174,13 +175,13 @@ class RJView extends GetView<RJController> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 FloatingActionButton.extended(
-                  heroTag: 'new_patient',
+                  heroTag: 'newPatientRJTag',
                   onPressed: controller.moveToNewPatient,
                   label: const Text('Pasien Baru'),
                 ),
                 const SizedBox(height: 12),
                 FloatingActionButton.extended(
-                  heroTag: 'regist_patient',
+                  heroTag: 'registPatientRJTag',
                   onPressed: () =>
                       controller.moveToSearchPatientOrAddDoctor(context),
                   label: const Text('Pendaftaran Kunjungan'),

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
@@ -22,8 +21,6 @@ import '../../../../../helpers/helper.dart';
 import '../../../../../routes/app_pages.dart';
 import '../../../../widgets/dialog/dialogs.dart';
 import '../../../../widgets/snackbar/snackbar.dart';
-
-enum RJStatus { succeed, engaged, booked, waiting, failed }
 
 class RJController extends GetxController with StateMixin<dynamic> {
   late final InitController _initC;
@@ -110,7 +107,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
     _initDate();
     _initTextFieldListener();
     _initListener();
-    _initFetch();
+    initFetch();
   }
 
   void _initDate() {
@@ -190,7 +187,7 @@ class RJController extends GetxController with StateMixin<dynamic> {
     );
   }
 
-  void _initFetch() {
+  void initFetch() {
     fetchDataPatient();
     fetchDoctor(currentTotalLimitDoctor.value);
   }
@@ -531,13 +528,13 @@ class RJController extends GetxController with StateMixin<dynamic> {
           'date': date,
           'sendall': true,
           'isMobile': true,
-          // 'or': [
-          //   {'status': 'booked'},
-          //   {'status': 'succeed'},
-          //   {'status': 'waiting'},
-          //   {'status': 'engaged'},
-          //   {'status': 'failed'},
-          // ],
+          'or': [
+            {'status': 'booked'},
+            {'status': 'succeed'},
+            {'status': 'waiting'},
+            {'status': 'engaged'},
+            // {'status': 'failed'},
+          ],
         };
 
         final query = {
@@ -722,10 +719,16 @@ class RJController extends GetxController with StateMixin<dynamic> {
     if (itemRJ != null) {
       final state = await Get.toNamed(Routes.EMR, arguments: itemRJ);
 
+      print('index item pasien = $index');
+      print('state from moveToEMR = $state');
+
       if (state != null) {
         if (state) {
           final updateItem = itemRJ.copyWith.call(status: 'succeed');
+          Helper.printPrettyJson(updateItem);
           itemsData[index] = updateItem;
+
+          change(itemsData, status: RxStatus.success());
         }
       }
     } else {

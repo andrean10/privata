@@ -1,12 +1,26 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_thermal_printer/flutter_thermal_printer.dart';
+import 'package:flutter_thermal_printer/utils/printer.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
+import 'package:image/image.dart';
+import 'package:privata/app/modules/widgets/snackbar/snackbar.dart';
+
+import '../../../../../../utils/constants_assets.dart';
+import '../../../../../../utils/constants_keys.dart';
+import '../../../../../helpers/helper.dart';
 
 class PrinterSettingsController extends GetxController {
   late final InitController _initC;
+
+  final flutterThermalPrinterPlugin = FlutterThermalPrinter.instance;
+
+  Printer? printer;
 
   final bluetoothDevices = RxSet<ScanResult>();
 
@@ -15,6 +29,9 @@ class PrinterSettingsController extends GetxController {
 
   final namePrinter = '-'.obs;
   final isChecked = false.obs;
+
+  final isLoadingTestPrint = false.obs;
+  final isloadingDisconnectPrinter = false.obs;
 
   late final StreamSubscription<BluetoothAdapterState> _subsribeState;
   StreamSubscription<List<ScanResult>>? subscribeScanResult;
@@ -37,6 +54,12 @@ class PrinterSettingsController extends GetxController {
   }
 
   Future<void> _initBluetooth() async {
+    final dataPrinter = _initC.localStorage.read<String>(ConstantsKeys.printer);
+    if (dataPrinter != null) {
+      printer = Printer.fromJson(jsonDecode(dataPrinter));
+      Helper.printPrettyJson(printer?.toJson() ?? '');
+    }
+
     try {
       if (await FlutterBluePlus.isSupported == false) {
         return;
@@ -145,6 +168,76 @@ class PrinterSettingsController extends GetxController {
   void onTapPrinter(ScanResult? result) {
     namePrinter.value = result?.advertisementData.advName ?? '-';
     Get.back();
+  }
+
+  void testPrinter() async {
+    isLoadingTestPrint.value = true;
+
+    try {
+      final profile = await CapabilityProfile.load();
+      final generator = Generator(PaperSize.mm58, profile);
+      generator.setGlobalFont(PosFontType.fontB);
+      List<int> bytes = [];
+
+      final dataImg = await rootBundle.load(ConstantsAssets.icAssistBadge);
+      final imgBytes = dataImg.buffer.asUint8List();
+      // final image = decodeImage(imgBytes);
+      final cmd = Command()
+        ..decodeImage(imgBytes)
+        ..copyResize(width: 120);
+      final image = await cmd.getImage();
+
+      if (image != null) {
+        bytes += generator.image(
+          image,
+          align: PosAlign.center,
+        );
+      }
+
+      bytes += generator.text(
+        "Assist.id",
+        styles: const PosStyles(
+          bold: true,
+          align: PosAlign.center,
+          width: PosTextSize.size2,
+          // height: PosTextSize.size2,
+        ),
+      );
+
+      bytes += generator.cut();
+
+      if (printer != null) {
+        await flutterThermalPrinterPlugin.printData(
+          printer!,
+          bytes,
+          longData: true,
+        );
+      }
+    } catch (e) {
+      _initC.logger.e('Error: $e');
+    } finally {
+      isLoadingTestPrint.value = false;
+    }
+  }
+
+  Future<void> disconnectedPrinter() async {
+    if (printer != null) {
+      isloadingDisconnectPrinter.value = true;
+
+      try {
+        await flutterThermalPrinterPlugin.disconnect(printer!);
+        await _initC.localStorage.remove(ConstantsKeys.printer);
+        
+        Snackbar.success(
+          context: Get.context!,
+          content: 'Berhasil terputus dengan printer',
+        );
+      } catch (e) {
+        _initC.logger.e('Error: $e');
+      } finally {
+        isloadingDisconnectPrinter.value = false;
+      }
+    }
   }
 
   @override

@@ -1,10 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:get/get.dart';
 import 'package:privata/app/data/models/cashier/cashier_model.dart';
-import 'package:privata/app/helpers/helper.dart';
 
 import '../../../../../../utils/constants_strings.dart';
 import '../../../../../helpers/text_helper.dart';
@@ -20,7 +18,7 @@ class CashierView extends GetView<CashierController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: builderBody(context),
-      floatingActionButton: builderFAB(),
+      // floatingActionButton: builderFAB(),
     );
   }
 
@@ -42,6 +40,7 @@ class CashierView extends GetView<CashierController> {
             ),
             itemBuilder: (context, index) => builderItem(
               context: context,
+              index: index,
               data: state[index],
             ),
             itemCount: state!.length,
@@ -97,16 +96,46 @@ class CashierView extends GetView<CashierController> {
 
   Widget builderItem({
     required BuildContext context,
+    required int index,
     required CashierModel data,
   }) {
     final textTheme = context.textTheme;
     final nama = data.patients?.nama;
     final items = data.items;
     final info = items?.mapMany((item) => [item.name ?? '-']).join(', ');
-    final price = data.totalFee;
+    // check harga per items
+    final totalPrice = items?.fold(
+      0,
+      (previousValue, element) {
+        final baseFee = element.baseFee;
+        final totalFee = element.totalFee;
+        final quantity = element.quantity ?? 0;
+
+        if (baseFee != null) {
+          return previousValue + (baseFee * quantity);
+        }
+
+        if (totalFee != null) {
+          return previousValue + (totalFee * quantity);
+        }
+
+        return previousValue;
+      },
+    );
 
     return Cards.elevated(
+      inPadding: EdgeInsets.zero,
       child: ListTile(
+        onTap: () {
+          final newData = data.copyWith.call(
+            fixTotalFee: totalPrice,
+          );
+          controller.moveToPaymentDetail(
+            isPaid: data.status == 'paid off',
+            index: index,
+            itemData: newData,
+          );
+        },
         isThreeLine: true,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,14 +173,14 @@ class CashierView extends GetView<CashierController> {
             const SizedBox(height: 6),
             AutoSizeText(
               info ?? '-',
-              // maxLines: 3,
+              maxLines: 3,
               minFontSize: textTheme.bodyMedium?.fontSize ?? 14,
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 4),
             AutoSizeText(
               TextHelper.formatRupiah(
-                amount: price,
+                amount: totalPrice,
                 isCompact: false,
               ),
               style: textTheme.labelLarge,
@@ -161,23 +190,27 @@ class CashierView extends GetView<CashierController> {
             ),
           ],
         ),
-        contentPadding: EdgeInsets.zero,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 16,
+        ),
       ),
     );
   }
 
-  Widget builderFAB() {
-    return Obx(
-      () => FloatingActionButton(
-        onPressed: () => controller.moveToPage(false),
-        child: const Icon(Icons.add_rounded),
-      ).animate(target: controller.isFabVisible.value ? 0 : 1).moveX(
-            begin: 0,
-            end: 500,
-            curve: Curves.easeInBack,
-          ),
-    );
-  }
+  // Widget builderFAB() {
+  //   return Obx(
+  //     () => FloatingActionButton(
+  //       heroTag: 'cashierTag',
+  //       onPressed: controller.moveToAddTransaction,
+  //       child: const Icon(Icons.add_rounded),
+  //     ).animate(target: controller.isFabVisible.value ? 0 : 1).moveX(
+  //           begin: 0,
+  //           end: 500,
+  //           curve: Curves.easeInBack,
+  //         ),
+  //   );
+  // }
 
   Widget _builderResponse({
     required BuildContext context,

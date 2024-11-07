@@ -1,21 +1,22 @@
-import 'dart:developer';
+import 'dart:convert';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
+import 'package:privata/app/data/models/kconfigs/kconfigs_model.dart';
 import 'package:privata/app/data/models/login/login_model.dart';
 import 'package:privata/app/data/models/login/response/response_login_model.dart';
-import 'package:privata/app/helpers/helper.dart';
 
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
-import 'package:privata/app/modules/widgets/buttons/buttons.dart';
 import 'package:privata/app/modules/widgets/snackbar/snackbar.dart';
 
+import '../../../../../shared/shared_enum.dart';
 import '../../../../../utils/constants_keys.dart';
 import '../../../../../utils/constants_strings.dart';
 import '../../../../data/models/location/position/position_model.dart';
+import '../../../../helpers/helper.dart';
 import '../../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
@@ -59,31 +60,34 @@ class LoginController extends GetxController {
   Future<void> _fetchLocation() async {
     final record = await _initC.determinePosition();
 
-    if (record.$2 != STATEPERMISSION.active) {
+    if (record.$2 == StatePermission.notActive) {
       String? content;
       String? label;
       Function()? onPressed;
 
       switch (record.$2) {
-        case STATEPERMISSION.notActive:
+        case StatePermission.notActive:
           content = 'Layanan lokasi tidak aktif';
           label = 'Aktifkan';
           onPressed = () async {
             final state = await Geolocator.openLocationSettings();
-            if (state) {
+            final isLocationEnabled =
+                await Geolocator.isLocationServiceEnabled();
+
+            if (state && isLocationEnabled) {
               await _fetchLocation();
             }
             print('state openLocationSettings = $state');
           };
           break;
-        case STATEPERMISSION.denied:
+        case StatePermission.denied:
           content = 'Perizinan lokasi di tolak';
           label = 'Izinkan';
           onPressed = () async {
             await Geolocator.requestPermission();
           };
           break;
-        case STATEPERMISSION.deniedForever:
+        case StatePermission.deniedForever:
           content = 'Izin lokasi ditolak secara permanen';
           label = 'Buka Pengaturan';
           onPressed = () async {
@@ -97,6 +101,7 @@ class LoginController extends GetxController {
         default:
       }
 
+      Snackbar.close(Get.context!);
       Snackbar.failed(
         context: Get.context!,
         content: content,
@@ -197,13 +202,28 @@ class LoginController extends GetxController {
 
         if (body != null) {
           final resLogin = ResponseLoginModel.fromJson(body);
-          final isPhoneVerified = resLogin.user?.isPhoneVerified ?? false;
-          final isPref = resLogin.user?.links?.first.assistPref != null;
-          await _saveLoginToPreferences(resLogin);
 
-          // Helper.printPrettyJson(resLogin.toJson());
+          final filter = {
+            "where": {"hospitalId": resLogin.user?.links?.first.hospitalId}
+          };
 
-          _moveToDashboard();
+          final resKConfigs = await _initC.authCn.kConfigs(
+            token: '${resLogin.id}',
+            filter: jsonEncode(filter),
+          );
+
+          if (resKConfigs.isOk) {
+            final body = resKConfigs.body as List<dynamic>;
+            final kConfigs = KConfigsModel.fromJson(body.firstOrNull);
+
+            Helper.printPrettyJson(kConfigs.toJson());
+
+            await _saveLoginToPreferences(
+              dataLogin: resLogin,
+              dataKConfigs: kConfigs,
+            );
+            _moveToDashboard();
+          }
 
           // if (!isPhoneVerified) {
           //   _moveToVerifyPhone();
@@ -230,24 +250,29 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> _saveLoginToPreferences(ResponseLoginModel res) async {
+  Future<void> _saveLoginToPreferences({
+    required ResponseLoginModel dataLogin,
+    required KConfigsModel dataKConfigs,
+  }) async {
     //todo disini untuk ganti klinik nanti ya
     _initC.localStorage
-      ..write(ConstantsKeys.authToken, res.id)
-      ..write(ConstantsKeys.createdId, res.user?.id)
-      ..write(ConstantsKeys.createdName, res.user?.nama)
-      ..write(ConstantsKeys.email, res.user?.email)
-      ..write(ConstantsKeys.configId, res.user?.links?.firstOrNull?.configId)
+      ..write(ConstantsKeys.authToken, dataLogin.id)
+      ..write(ConstantsKeys.createdId, dataLogin.user?.id)
+      ..write(ConstantsKeys.createdName, dataLogin.user?.nama)
+      ..write(ConstantsKeys.email, dataLogin.user?.email)
+      ..write(
+          ConstantsKeys.configId, dataLogin.user?.links?.firstOrNull?.configId)
       ..write(
         ConstantsKeys.hospitalId,
-        res.user?.links?.firstOrNull?.hospitalId,
+        dataLogin.user?.links?.firstOrNull?.hospitalId,
       )
-      ..write(ConstantsKeys.linkId, res.user?.links?.firstOrNull?.id)
-      ..write(ConstantsKeys.phone, res.user?.hp)
-      ..write(ConstantsKeys.isVerifiedPhone, res.user?.isPhoneVerified)
+      ..write(ConstantsKeys.pharmacyId, dataKConfigs.pharmacyAccount)
+      ..write(ConstantsKeys.linkId, dataLogin.user?.links?.firstOrNull?.id)
+      ..write(ConstantsKeys.phone, dataLogin.user?.hp)
+      ..write(ConstantsKeys.isVerifiedPhone, dataLogin.user?.isPhoneVerified)
       ..write(
         ConstantsKeys.isPref,
-        res.user?.links?.firstOrNull?.assistPref != null,
+        dataLogin.user?.links?.firstOrNull?.assistPref != null,
       );
   }
 

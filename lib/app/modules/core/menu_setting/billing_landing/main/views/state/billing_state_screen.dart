@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:privata/app/modules/core/menu_setting/billing_landing/main/controllers/billing_landing_controller.dart';
 import 'package:privata/shared/shared_theme.dart';
 
+import '../../../../../../../../shared/shared_enum.dart';
 import '../../../../../../widgets/buttons/buttons.dart';
 import '../../widget/builder_state_billing_system.dart';
 

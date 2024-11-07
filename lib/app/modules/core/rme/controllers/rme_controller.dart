@@ -96,7 +96,7 @@ class RmeController extends GetxController with GetTickerProviderStateMixin {
     hospitalId = _initC.localStorage.read<String>(ConstantsKeys.hospitalId);
 
     _initTextC();
-    _initFetch();
+    // initFetch();
 
     // listen connected internet
     debounce(
@@ -111,7 +111,7 @@ class RmeController extends GetxController with GetTickerProviderStateMixin {
     searchC.addListener(setSearch);
   }
 
-  void _initFetch() {
+  void initFetch() {
     fetchDataPatient();
   }
 
@@ -227,29 +227,7 @@ class RmeController extends GetxController with GetTickerProviderStateMixin {
             todayAppointment[index] = updateItem;
             break;
           case 'reschedule':
-            // final formatDate = FormatDateTime.stringToDateTime(
-            //   newPattern: 'yyyy-MM-dd',
-            //   value: todayAppointment[index].date,
-            // )?.day;
-
-            // final isSameDate = selectedDateFilter.value.day ==
-            //     selectedDateReschedule.value.day;
-
-            // if (isSameDate) {
-            //   final formatEstimateTime =
-            //       FormatDateTime.convertTimeToInt(timeRescheduleC.text);
-
-            //   print('debug: formatEstimateTime = $formatEstimateTime');
-
-            //   final updateItem = todayAppointment[index].copyWith(
-            //     consultPlanDuration: durationRescheduleC.text,
-            //     estimateTime: formatEstimateTime,
-            //     doctorName: doctorRescheduleC.text,
-            //   );
-            //   todayAppointment[index] = updateItem;
-            // } else {
             todayAppointment.removeAt(index);
-            // }
 
             Get.back(result: true);
             break;
@@ -326,6 +304,12 @@ class RmeController extends GetxController with GetTickerProviderStateMixin {
           'date': date,
           'sendall': true,
           'isMobile': true,
+          "or": [
+            {"status": "booked"},
+            {"status": "succeed"},
+            {"status": "waiting"},
+            {"status": "engaged"}
+          ]
         };
 
         final query = {

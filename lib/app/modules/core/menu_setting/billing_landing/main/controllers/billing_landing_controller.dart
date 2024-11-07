@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
 import 'package:privata/app/modules/init/controllers/init_controller.dart';
 
+import '../../../../../../../shared/shared_enum.dart';
 import '../../../../../../data/db/transaction/transaction_model.dart';
 import '../../../../../../routes/app_pages.dart';
-
-enum BillingState { active, inActive, notyet, empty }
 
 class BillingLandingController extends GetxController {
   late final InitController _initC;

@@ -23,7 +23,9 @@ mixin _$DoctorNotesModel {
   List<String>? get subjective => throw _privateConstructorUsedError;
   List<String>? get objective => throw _privateConstructorUsedError;
   List<String>? get plan => throw _privateConstructorUsedError;
-  List<String>? get assessment => throw _privateConstructorUsedError;
+  List<String>? get assessment =>
+      throw _privateConstructorUsedError; // @JsonKey(fromJson: freeTextFromJson) List<DrugsModel>? freeText,
+  String? get freeText => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +43,8 @@ abstract class $DoctorNotesModelCopyWith<$Res> {
       {List<String>? subjective,
       List<String>? objective,
       List<String>? plan,
-      List<String>? assessment});
+      List<String>? assessment,
+      String? freeText});
 }
 
 /// @nodoc
@@ -61,6 +64,7 @@ class _$DoctorNotesModelCopyWithImpl<$Res, $Val extends DoctorNotesModel>
     Object? objective = freezed,
     Object? plan = freezed,
     Object? assessment = freezed,
+    Object? freeText = freezed,
   }) {
     return _then(_value.copyWith(
       subjective: freezed == subjective
@@ -79,6 +83,10 @@ class _$DoctorNotesModelCopyWithImpl<$Res, $Val extends DoctorNotesModel>
           ? _value.assessment
           : assessment // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      freeText: freezed == freeText
+          ? _value.freeText
+          : freeText // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -95,7 +103,8 @@ abstract class _$$DoctorNotesModelImplCopyWith<$Res>
       {List<String>? subjective,
       List<String>? objective,
       List<String>? plan,
-      List<String>? assessment});
+      List<String>? assessment,
+      String? freeText});
 }
 
 /// @nodoc
@@ -113,6 +122,7 @@ class __$$DoctorNotesModelImplCopyWithImpl<$Res>
     Object? objective = freezed,
     Object? plan = freezed,
     Object? assessment = freezed,
+    Object? freeText = freezed,
   }) {
     return _then(_$DoctorNotesModelImpl(
       subjective: freezed == subjective
@@ -131,6 +141,10 @@ class __$$DoctorNotesModelImplCopyWithImpl<$Res>
           ? _value._assessment
           : assessment // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      freeText: freezed == freeText
+          ? _value.freeText
+          : freeText // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -142,7 +156,8 @@ class _$DoctorNotesModelImpl implements _DoctorNotesModel {
       {final List<String>? subjective,
       final List<String>? objective,
       final List<String>? plan,
-      final List<String>? assessment})
+      final List<String>? assessment,
+      this.freeText})
       : _subjective = subjective,
         _objective = objective,
         _plan = plan,
@@ -191,9 +206,13 @@ class _$DoctorNotesModelImpl implements _DoctorNotesModel {
     return EqualUnmodifiableListView(value);
   }
 
+// @JsonKey(fromJson: freeTextFromJson) List<DrugsModel>? freeText,
+  @override
+  final String? freeText;
+
   @override
   String toString() {
-    return 'DoctorNotesModel(subjective: $subjective, objective: $objective, plan: $plan, assessment: $assessment)';
+    return 'DoctorNotesModel(subjective: $subjective, objective: $objective, plan: $plan, assessment: $assessment, freeText: $freeText)';
   }
 
   @override
@@ -207,7 +226,9 @@ class _$DoctorNotesModelImpl implements _DoctorNotesModel {
                 .equals(other._objective, _objective) &&
             const DeepCollectionEquality().equals(other._plan, _plan) &&
             const DeepCollectionEquality()
-                .equals(other._assessment, _assessment));
+                .equals(other._assessment, _assessment) &&
+            (identical(other.freeText, freeText) ||
+                other.freeText == freeText));
   }
 
   @JsonKey(ignore: true)
@@ -217,7 +238,8 @@ class _$DoctorNotesModelImpl implements _DoctorNotesModel {
       const DeepCollectionEquality().hash(_subjective),
       const DeepCollectionEquality().hash(_objective),
       const DeepCollectionEquality().hash(_plan),
-      const DeepCollectionEquality().hash(_assessment));
+      const DeepCollectionEquality().hash(_assessment),
+      freeText);
 
   @JsonKey(ignore: true)
   @override
@@ -239,7 +261,8 @@ abstract class _DoctorNotesModel implements DoctorNotesModel {
       {final List<String>? subjective,
       final List<String>? objective,
       final List<String>? plan,
-      final List<String>? assessment}) = _$DoctorNotesModelImpl;
+      final List<String>? assessment,
+      final String? freeText}) = _$DoctorNotesModelImpl;
 
   factory _DoctorNotesModel.fromJson(Map<String, dynamic> json) =
       _$DoctorNotesModelImpl.fromJson;
@@ -252,6 +275,8 @@ abstract class _DoctorNotesModel implements DoctorNotesModel {
   List<String>? get plan;
   @override
   List<String>? get assessment;
+  @override // @JsonKey(fromJson: freeTextFromJson) List<DrugsModel>? freeText,
+  String? get freeText;
   @override
   @JsonKey(ignore: true)
   _$$DoctorNotesModelImplCopyWith<_$DoctorNotesModelImpl> get copyWith =>

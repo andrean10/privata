@@ -38,8 +38,8 @@ mixin _$RJPatientModel {
   String? get phone => throw _privateConstructorUsedError;
   String? get email =>
       throw _privateConstructorUsedError; // @JsonKey(name: 'id_ext') String? idExt,
-  String? get education => throw _privateConstructorUsedError;
-  bool? get isShareMr => throw _privateConstructorUsedError;
+  String? get education =>
+      throw _privateConstructorUsedError; // bool? isShareMr,
   String? get noKTP => throw _privateConstructorUsedError;
   List<PaymentMethodModel>? get paymentMethod =>
       throw _privateConstructorUsedError;
@@ -50,9 +50,8 @@ mixin _$RJPatientModel {
   @JsonKey(name: 'created_id')
   String? get createdId => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
-  String? get updatedAt => throw _privateConstructorUsedError;
-  bool? get isNew => throw _privateConstructorUsedError;
-  bool? get isDeleted => throw _privateConstructorUsedError;
+  String? get updatedAt => throw _privateConstructorUsedError; // bool? isNew,
+// bool? isDeleted,
   String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'id_users')
   List<String>? get idUsers => throw _privateConstructorUsedError;
@@ -64,11 +63,10 @@ mixin _$RJPatientModel {
   List<String>? get medicalHistory => throw _privateConstructorUsedError;
   List<AllergicHistoryModel>? get allergicHistory =>
       throw _privateConstructorUsedError; // List<MedicalHistoryFamily>? medicalHistoryFamily,
-  List<String>? get medicineHistory => throw _privateConstructorUsedError;
+  List<dynamic>? get medicineHistory => throw _privateConstructorUsedError;
   bool? get isTemporary => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_medicaboo')
-  bool? get isMedicaboo => throw _privateConstructorUsedError;
-  bool? get isOA => throw _privateConstructorUsedError;
+  bool? get isMedicaboo => throw _privateConstructorUsedError; // bool? isOA,
   String? get patientIhsId => throw _privateConstructorUsedError;
   String? get profilePicture => throw _privateConstructorUsedError;
 
@@ -99,15 +97,12 @@ abstract class $RJPatientModelCopyWith<$Res> {
       String? phone,
       String? email,
       String? education,
-      bool? isShareMr,
       String? noKTP,
       List<PaymentMethodModel>? paymentMethod,
       List<FamilyModel>? family,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'created_id') String? createdId,
       @JsonKey(name: 'updated_at') String? updatedAt,
-      bool? isNew,
-      bool? isDeleted,
       String? id,
       @JsonKey(name: 'id_users') List<String>? idUsers,
       String? ihsId,
@@ -116,10 +111,9 @@ abstract class $RJPatientModelCopyWith<$Res> {
       String? motherName,
       List<String>? medicalHistory,
       List<AllergicHistoryModel>? allergicHistory,
-      List<String>? medicineHistory,
+      List<dynamic>? medicineHistory,
       bool? isTemporary,
       @JsonKey(name: 'is_medicaboo') bool? isMedicaboo,
-      bool? isOA,
       String? patientIhsId,
       String? profilePicture});
 
@@ -153,15 +147,12 @@ class _$RJPatientModelCopyWithImpl<$Res, $Val extends RJPatientModel>
     Object? phone = freezed,
     Object? email = freezed,
     Object? education = freezed,
-    Object? isShareMr = freezed,
     Object? noKTP = freezed,
     Object? paymentMethod = freezed,
     Object? family = freezed,
     Object? createdAt = freezed,
     Object? createdId = freezed,
     Object? updatedAt = freezed,
-    Object? isNew = freezed,
-    Object? isDeleted = freezed,
     Object? id = freezed,
     Object? idUsers = freezed,
     Object? ihsId = freezed,
@@ -173,7 +164,6 @@ class _$RJPatientModelCopyWithImpl<$Res, $Val extends RJPatientModel>
     Object? medicineHistory = freezed,
     Object? isTemporary = freezed,
     Object? isMedicaboo = freezed,
-    Object? isOA = freezed,
     Object? patientIhsId = freezed,
     Object? profilePicture = freezed,
   }) {
@@ -234,10 +224,6 @@ class _$RJPatientModelCopyWithImpl<$Res, $Val extends RJPatientModel>
           ? _value.education
           : education // ignore: cast_nullable_to_non_nullable
               as String?,
-      isShareMr: freezed == isShareMr
-          ? _value.isShareMr
-          : isShareMr // ignore: cast_nullable_to_non_nullable
-              as bool?,
       noKTP: freezed == noKTP
           ? _value.noKTP
           : noKTP // ignore: cast_nullable_to_non_nullable
@@ -262,14 +248,6 @@ class _$RJPatientModelCopyWithImpl<$Res, $Val extends RJPatientModel>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String?,
-      isNew: freezed == isNew
-          ? _value.isNew
-          : isNew // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isDeleted: freezed == isDeleted
-          ? _value.isDeleted
-          : isDeleted // ignore: cast_nullable_to_non_nullable
-              as bool?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -305,7 +283,7 @@ class _$RJPatientModelCopyWithImpl<$Res, $Val extends RJPatientModel>
       medicineHistory: freezed == medicineHistory
           ? _value.medicineHistory
           : medicineHistory // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<dynamic>?,
       isTemporary: freezed == isTemporary
           ? _value.isTemporary
           : isTemporary // ignore: cast_nullable_to_non_nullable
@@ -313,10 +291,6 @@ class _$RJPatientModelCopyWithImpl<$Res, $Val extends RJPatientModel>
       isMedicaboo: freezed == isMedicaboo
           ? _value.isMedicaboo
           : isMedicaboo // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isOA: freezed == isOA
-          ? _value.isOA
-          : isOA // ignore: cast_nullable_to_non_nullable
               as bool?,
       patientIhsId: freezed == patientIhsId
           ? _value.patientIhsId
@@ -365,15 +339,12 @@ abstract class _$$RJPatientModelImplCopyWith<$Res>
       String? phone,
       String? email,
       String? education,
-      bool? isShareMr,
       String? noKTP,
       List<PaymentMethodModel>? paymentMethod,
       List<FamilyModel>? family,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'created_id') String? createdId,
       @JsonKey(name: 'updated_at') String? updatedAt,
-      bool? isNew,
-      bool? isDeleted,
       String? id,
       @JsonKey(name: 'id_users') List<String>? idUsers,
       String? ihsId,
@@ -382,10 +353,9 @@ abstract class _$$RJPatientModelImplCopyWith<$Res>
       String? motherName,
       List<String>? medicalHistory,
       List<AllergicHistoryModel>? allergicHistory,
-      List<String>? medicineHistory,
+      List<dynamic>? medicineHistory,
       bool? isTemporary,
       @JsonKey(name: 'is_medicaboo') bool? isMedicaboo,
-      bool? isOA,
       String? patientIhsId,
       String? profilePicture});
 
@@ -418,15 +388,12 @@ class __$$RJPatientModelImplCopyWithImpl<$Res>
     Object? phone = freezed,
     Object? email = freezed,
     Object? education = freezed,
-    Object? isShareMr = freezed,
     Object? noKTP = freezed,
     Object? paymentMethod = freezed,
     Object? family = freezed,
     Object? createdAt = freezed,
     Object? createdId = freezed,
     Object? updatedAt = freezed,
-    Object? isNew = freezed,
-    Object? isDeleted = freezed,
     Object? id = freezed,
     Object? idUsers = freezed,
     Object? ihsId = freezed,
@@ -438,7 +405,6 @@ class __$$RJPatientModelImplCopyWithImpl<$Res>
     Object? medicineHistory = freezed,
     Object? isTemporary = freezed,
     Object? isMedicaboo = freezed,
-    Object? isOA = freezed,
     Object? patientIhsId = freezed,
     Object? profilePicture = freezed,
   }) {
@@ -499,10 +465,6 @@ class __$$RJPatientModelImplCopyWithImpl<$Res>
           ? _value.education
           : education // ignore: cast_nullable_to_non_nullable
               as String?,
-      isShareMr: freezed == isShareMr
-          ? _value.isShareMr
-          : isShareMr // ignore: cast_nullable_to_non_nullable
-              as bool?,
       noKTP: freezed == noKTP
           ? _value.noKTP
           : noKTP // ignore: cast_nullable_to_non_nullable
@@ -527,14 +489,6 @@ class __$$RJPatientModelImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String?,
-      isNew: freezed == isNew
-          ? _value.isNew
-          : isNew // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isDeleted: freezed == isDeleted
-          ? _value.isDeleted
-          : isDeleted // ignore: cast_nullable_to_non_nullable
-              as bool?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -570,7 +524,7 @@ class __$$RJPatientModelImplCopyWithImpl<$Res>
       medicineHistory: freezed == medicineHistory
           ? _value._medicineHistory
           : medicineHistory // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<dynamic>?,
       isTemporary: freezed == isTemporary
           ? _value.isTemporary
           : isTemporary // ignore: cast_nullable_to_non_nullable
@@ -578,10 +532,6 @@ class __$$RJPatientModelImplCopyWithImpl<$Res>
       isMedicaboo: freezed == isMedicaboo
           ? _value.isMedicaboo
           : isMedicaboo // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isOA: freezed == isOA
-          ? _value.isOA
-          : isOA // ignore: cast_nullable_to_non_nullable
               as bool?,
       patientIhsId: freezed == patientIhsId
           ? _value.patientIhsId
@@ -613,15 +563,12 @@ class _$RJPatientModelImpl implements _RJPatientModel {
       this.phone,
       this.email,
       this.education,
-      this.isShareMr,
       this.noKTP,
       final List<PaymentMethodModel>? paymentMethod,
       final List<FamilyModel>? family,
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'created_id') this.createdId,
       @JsonKey(name: 'updated_at') this.updatedAt,
-      this.isNew,
-      this.isDeleted,
       this.id,
       @JsonKey(name: 'id_users') final List<String>? idUsers,
       this.ihsId,
@@ -630,10 +577,9 @@ class _$RJPatientModelImpl implements _RJPatientModel {
       this.motherName,
       final List<String>? medicalHistory,
       final List<AllergicHistoryModel>? allergicHistory,
-      final List<String>? medicineHistory,
+      final List<dynamic>? medicineHistory,
       this.isTemporary,
       @JsonKey(name: 'is_medicaboo') this.isMedicaboo,
-      this.isOA,
       this.patientIhsId,
       this.profilePicture})
       : _ph = ph,
@@ -688,8 +634,7 @@ class _$RJPatientModelImpl implements _RJPatientModel {
 // @JsonKey(name: 'id_ext') String? idExt,
   @override
   final String? education;
-  @override
-  final bool? isShareMr;
+// bool? isShareMr,
   @override
   final String? noKTP;
   final List<PaymentMethodModel>? _paymentMethod;
@@ -722,10 +667,8 @@ class _$RJPatientModelImpl implements _RJPatientModel {
   @override
   @JsonKey(name: 'updated_at')
   final String? updatedAt;
-  @override
-  final bool? isNew;
-  @override
-  final bool? isDeleted;
+// bool? isNew,
+// bool? isDeleted,
   @override
   final String? id;
   final List<String>? _idUsers;
@@ -769,10 +712,10 @@ class _$RJPatientModelImpl implements _RJPatientModel {
   }
 
 // List<MedicalHistoryFamily>? medicalHistoryFamily,
-  final List<String>? _medicineHistory;
+  final List<dynamic>? _medicineHistory;
 // List<MedicalHistoryFamily>? medicalHistoryFamily,
   @override
-  List<String>? get medicineHistory {
+  List<dynamic>? get medicineHistory {
     final value = _medicineHistory;
     if (value == null) return null;
     if (_medicineHistory is EqualUnmodifiableListView) return _medicineHistory;
@@ -785,8 +728,7 @@ class _$RJPatientModelImpl implements _RJPatientModel {
   @override
   @JsonKey(name: 'is_medicaboo')
   final bool? isMedicaboo;
-  @override
-  final bool? isOA;
+// bool? isOA,
   @override
   final String? patientIhsId;
   @override
@@ -794,7 +736,7 @@ class _$RJPatientModelImpl implements _RJPatientModel {
 
   @override
   String toString() {
-    return 'RJPatientModel(nama: $nama, gender: $gender, tanggalLahir: $tanggalLahir, ph: $ph, religion: $religion, birthPlace: $birthPlace, addressDomicile: $addressDomicile, address: $address, status: $status, job: $job, bloodType: $bloodType, phone: $phone, email: $email, education: $education, isShareMr: $isShareMr, noKTP: $noKTP, paymentMethod: $paymentMethod, family: $family, createdAt: $createdAt, createdId: $createdId, updatedAt: $updatedAt, isNew: $isNew, isDeleted: $isDeleted, id: $id, idUsers: $idUsers, ihsId: $ihsId, hp: $hp, isGenerateMrCode: $isGenerateMrCode, motherName: $motherName, medicalHistory: $medicalHistory, allergicHistory: $allergicHistory, medicineHistory: $medicineHistory, isTemporary: $isTemporary, isMedicaboo: $isMedicaboo, isOA: $isOA, patientIhsId: $patientIhsId, profilePicture: $profilePicture)';
+    return 'RJPatientModel(nama: $nama, gender: $gender, tanggalLahir: $tanggalLahir, ph: $ph, religion: $religion, birthPlace: $birthPlace, addressDomicile: $addressDomicile, address: $address, status: $status, job: $job, bloodType: $bloodType, phone: $phone, email: $email, education: $education, noKTP: $noKTP, paymentMethod: $paymentMethod, family: $family, createdAt: $createdAt, createdId: $createdId, updatedAt: $updatedAt, id: $id, idUsers: $idUsers, ihsId: $ihsId, hp: $hp, isGenerateMrCode: $isGenerateMrCode, motherName: $motherName, medicalHistory: $medicalHistory, allergicHistory: $allergicHistory, medicineHistory: $medicineHistory, isTemporary: $isTemporary, isMedicaboo: $isMedicaboo, patientIhsId: $patientIhsId, profilePicture: $profilePicture)';
   }
 
   @override
@@ -822,8 +764,6 @@ class _$RJPatientModelImpl implements _RJPatientModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.education, education) ||
                 other.education == education) &&
-            (identical(other.isShareMr, isShareMr) ||
-                other.isShareMr == isShareMr) &&
             (identical(other.noKTP, noKTP) || other.noKTP == noKTP) &&
             const DeepCollectionEquality()
                 .equals(other._paymentMethod, _paymentMethod) &&
@@ -834,9 +774,6 @@ class _$RJPatientModelImpl implements _RJPatientModel {
                 other.createdId == createdId) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.isNew, isNew) || other.isNew == isNew) &&
-            (identical(other.isDeleted, isDeleted) ||
-                other.isDeleted == isDeleted) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._idUsers, _idUsers) &&
             (identical(other.ihsId, ihsId) || other.ihsId == ihsId) &&
@@ -855,7 +792,6 @@ class _$RJPatientModelImpl implements _RJPatientModel {
                 other.isTemporary == isTemporary) &&
             (identical(other.isMedicaboo, isMedicaboo) ||
                 other.isMedicaboo == isMedicaboo) &&
-            (identical(other.isOA, isOA) || other.isOA == isOA) &&
             (identical(other.patientIhsId, patientIhsId) ||
                 other.patientIhsId == patientIhsId) &&
             (identical(other.profilePicture, profilePicture) ||
@@ -880,15 +816,12 @@ class _$RJPatientModelImpl implements _RJPatientModel {
         phone,
         email,
         education,
-        isShareMr,
         noKTP,
         const DeepCollectionEquality().hash(_paymentMethod),
         const DeepCollectionEquality().hash(_family),
         createdAt,
         createdId,
         updatedAt,
-        isNew,
-        isDeleted,
         id,
         const DeepCollectionEquality().hash(_idUsers),
         ihsId,
@@ -900,7 +833,6 @@ class _$RJPatientModelImpl implements _RJPatientModel {
         const DeepCollectionEquality().hash(_medicineHistory),
         isTemporary,
         isMedicaboo,
-        isOA,
         patientIhsId,
         profilePicture
       ]);
@@ -936,15 +868,12 @@ abstract class _RJPatientModel implements RJPatientModel {
       final String? phone,
       final String? email,
       final String? education,
-      final bool? isShareMr,
       final String? noKTP,
       final List<PaymentMethodModel>? paymentMethod,
       final List<FamilyModel>? family,
       @JsonKey(name: 'created_at') final String? createdAt,
       @JsonKey(name: 'created_id') final String? createdId,
       @JsonKey(name: 'updated_at') final String? updatedAt,
-      final bool? isNew,
-      final bool? isDeleted,
       final String? id,
       @JsonKey(name: 'id_users') final List<String>? idUsers,
       final String? ihsId,
@@ -953,10 +882,9 @@ abstract class _RJPatientModel implements RJPatientModel {
       final String? motherName,
       final List<String>? medicalHistory,
       final List<AllergicHistoryModel>? allergicHistory,
-      final List<String>? medicineHistory,
+      final List<dynamic>? medicineHistory,
       final bool? isTemporary,
       @JsonKey(name: 'is_medicaboo') final bool? isMedicaboo,
-      final bool? isOA,
       final String? patientIhsId,
       final String? profilePicture}) = _$RJPatientModelImpl;
 
@@ -995,9 +923,7 @@ abstract class _RJPatientModel implements RJPatientModel {
   String? get email;
   @override // @JsonKey(name: 'id_ext') String? idExt,
   String? get education;
-  @override
-  bool? get isShareMr;
-  @override
+  @override // bool? isShareMr,
   String? get noKTP;
   @override
   List<PaymentMethodModel>? get paymentMethod;
@@ -1012,11 +938,8 @@ abstract class _RJPatientModel implements RJPatientModel {
   @override
   @JsonKey(name: 'updated_at')
   String? get updatedAt;
-  @override
-  bool? get isNew;
-  @override
-  bool? get isDeleted;
-  @override
+  @override // bool? isNew,
+// bool? isDeleted,
   String? get id;
   @override
   @JsonKey(name: 'id_users')
@@ -1034,15 +957,13 @@ abstract class _RJPatientModel implements RJPatientModel {
   @override
   List<AllergicHistoryModel>? get allergicHistory;
   @override // List<MedicalHistoryFamily>? medicalHistoryFamily,
-  List<String>? get medicineHistory;
+  List<dynamic>? get medicineHistory;
   @override
   bool? get isTemporary;
   @override
   @JsonKey(name: 'is_medicaboo')
   bool? get isMedicaboo;
-  @override
-  bool? get isOA;
-  @override
+  @override // bool? isOA,
   String? get patientIhsId;
   @override
   String? get profilePicture;

@@ -14,7 +14,7 @@ class PreferencesController extends GetxController {
 
   InitController get initC => _initC;
 
-  String? _configId;
+  String? _linkId;
 
   // final longClinicOperatingC = TextEditingController();
   // final numberVisitorC = TextEditingController();
@@ -42,7 +42,7 @@ class PreferencesController extends GetxController {
     }
 
     _onboardingConn = OnBoardingConnect(_initC);
-    _configId = _initC.localStorage.read<String>(ConstantsKeys.configId);
+    _linkId = _initC.localStorage.read<String>(ConstantsKeys.linkId);
 
     // _initListener();
   }
@@ -75,7 +75,7 @@ class PreferencesController extends GetxController {
       "7": isActiveStock.value,
       "8": isActiveStock.value,
       "12": numberVisitor.value,
-      "configAccountId": _configId
+      "configAccountId": _linkId
     };
 
     Helper.printPrettyJson(body);

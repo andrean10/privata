@@ -337,6 +337,55 @@ class NewPatientView extends GetView<NewPatientController> {
     );
   }
 
+  Widget builderNoKTP() {
+    return Obx(
+      () => TextFormFields.outlined(
+        controller: controller.noKTPC,
+        focusNode: controller.noKTPF,
+        title: ConstantsStrings.noKTP,
+        hintText: ConstantsStrings.hintNoKTP,
+        suffixIconState: controller.noKTP.value.isNotEmpty,
+        keyboardType: TextInputType.number,
+        maxLength: 16,
+        validator: (value) => Validation.formField(
+          value: value,
+          titleField: ConstantsStrings.noKTP,
+          isRequired: false,
+          isNumericOnly: true,
+          minLengthChar: 16,
+        ),
+      ),
+    );
+  }
+
+  Widget builderGender(TextTheme textTheme) {
+    return Obx(
+      () => TextFormFields.dropdown(
+        controller: controller.genderC,
+        // focusNode: controller.genderF,
+        isRequired: true,
+        title: ConstantsStrings.gender,
+        isExpanded: true,
+        isFilled: false,
+        items: ConstantsStrings.dataGender
+            .map(
+              (item) => DropdownMenuEntry(
+                value: item,
+                label: item,
+                enabled: controller.gender.value != item,
+              ),
+            )
+            .toList(),
+        textStyle: textTheme.titleMedium,
+        isEnableSearch: false,
+        onSelected: (value) => controller.selectedItemDropdown(
+          obs: controller.gender,
+          value: value,
+        ),
+      ),
+    );
+  }
+
   Widget builderProvince(TextTheme textTheme) {
     return Obx(
       () => TextFormFields.dropdown(
@@ -445,10 +494,6 @@ class NewPatientView extends GetView<NewPatientController> {
         hintText: ConstantsStrings.hintAddress,
         suffixIconState: controller.address.value.isNotEmpty,
         keyboardType: TextInputType.streetAddress,
-        validator: (value) => Validation.formField(
-          value: value,
-          titleField: ConstantsStrings.address,
-        ),
       ),
     );
   }
@@ -466,6 +511,7 @@ class NewPatientView extends GetView<NewPatientController> {
         validator: (value) => Validation.formField(
           value: value,
           titleField: ConstantsStrings.email,
+          isRequired: false,
           isEmail: true,
         ),
       ),
@@ -490,7 +536,6 @@ class NewPatientView extends GetView<NewPatientController> {
           isRequired: false,
           minLengthChar: 5,
         ),
-        // onFieldSubmitted: (_) => controller.nextFocus(controller.placeBirthF),
       ),
     );
   }
@@ -509,58 +554,9 @@ class NewPatientView extends GetView<NewPatientController> {
         validator: (value) => Validation.formField(
           value: value,
           titleField: ConstantsStrings.noPhone,
+          isRequired: false,
           isNumericOnly: true,
           minLengthChar: 11,
-        ),
-        // onFieldSubmitted: (_) => controller.nextFocus(controller.placeBirthF),
-      ),
-    );
-  }
-
-  Widget builderNoKTP() {
-    return Obx(
-      () => TextFormFields.outlined(
-        controller: controller.noKTPC,
-        focusNode: controller.noKTPF,
-        title: ConstantsStrings.noKTP,
-        hintText: ConstantsStrings.hintNoKTP,
-        suffixIconState: controller.noKTP.value.isNotEmpty,
-        keyboardType: TextInputType.number,
-        maxLength: 16,
-        validator: (value) => Validation.formField(
-          value: value,
-          isRequired: false,
-          titleField: ConstantsStrings.noKTP,
-          isNumericOnly: true,
-          minLengthChar: 16,
-        ),
-      ),
-    );
-  }
-
-  Widget builderGender(TextTheme textTheme) {
-    return Obx(
-      () => TextFormFields.dropdown(
-        controller: controller.genderC,
-        // focusNode: controller.genderF,
-        isRequired: true,
-        title: ConstantsStrings.gender,
-        isExpanded: true,
-        isFilled: false,
-        items: ConstantsStrings.dataGender
-            .map(
-              (item) => DropdownMenuEntry(
-                value: item,
-                label: item,
-                enabled: controller.gender.value != item,
-              ),
-            )
-            .toList(),
-        textStyle: textTheme.titleMedium,
-        isEnableSearch: false,
-        onSelected: (value) => controller.selectedItemDropdown(
-          obs: controller.gender,
-          value: value,
         ),
       ),
     );

@@ -7,4 +7,12 @@ abstract class ConstantsConnect {
       'https://www.emsifa.com/api-wilayah-indonesia/api/';
   static const endPointMidtransTest =
       'https://app.sandbox.midtrans.com/snap/v1/transactions/';
+
+  // IMAGE
+  static const endPointImage = 'https://s3-ap-southeast-1.amazonaws.com/';
+  static const tempImageBucket = 'upload-test-v2'; 
+  static const hospitalBucket = 'public-medicaboo'; // gambar dan file rumah sakit
+  static const doctorBucket = 'public-doctor'; // gambar dokter
+  static const signatureBucket = 'public-signature'; // gambar ttd
+  static const mrBucket = 'kamarmedis-mr'; // semua file
 }

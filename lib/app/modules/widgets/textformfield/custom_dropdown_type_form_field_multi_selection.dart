@@ -4,14 +4,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../shared/shared_enum.dart';
 import '../../../helpers/text_helper.dart';
-
-enum TypeDropDown {
-  menu,
-  dialog,
-  modal,
-  bottomSheet,
-}
 
 class CustomDropdownTypeFormFieldMultiSelection<T> extends StatelessWidget {
   final FocusNode? focusNode;

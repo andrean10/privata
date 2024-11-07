@@ -29,7 +29,7 @@ class PrinterSettingsView extends GetView<PrinterSettingsController> {
                   () => builderItemMenu(
                     context: context,
                     title: 'Printer yang terhubung',
-                    body: controller.namePrinter.value,
+                    body: controller.printer?.name ?? '-',
                     isEnabled: controller.isBluetoothOn.value,
                     onTap: () async {
                       showDialogBluetooth(context: context);
@@ -41,7 +41,8 @@ class PrinterSettingsView extends GetView<PrinterSettingsController> {
                     context: context,
                     title: 'Cetak struk tes',
                     isEnabled: controller.isBluetoothOn.value,
-                    onTap: () {},
+                    isLoading: controller.isLoadingTestPrint.value,
+                    onTap: controller.testPrinter,
                   ),
                 ),
                 Obx(
@@ -49,7 +50,8 @@ class PrinterSettingsView extends GetView<PrinterSettingsController> {
                     context: context,
                     title: 'Putuskan hubungan dengan printer',
                     isEnabled: controller.isBluetoothOn.value,
-                    onTap: () {},
+                    isLoading: controller.isloadingDisconnectPrinter.value,
+                    onTap: controller.disconnectedPrinter,
                   ),
                 ),
               ],
@@ -111,12 +113,14 @@ class PrinterSettingsView extends GetView<PrinterSettingsController> {
     Widget? trailing,
     bool? isEnabled,
     Function()? onTap,
+    bool? isLoading,
   }) {
     final theme = context.theme;
     final textTheme = context.textTheme;
 
-    final textThemeTitle =
-        textTheme.titleSmall?.copyWith(fontWeight: SharedTheme.medium);
+    final textThemeTitle = textTheme.titleSmall?.copyWith(
+      fontWeight: SharedTheme.medium,
+    );
 
     return ListTile(
       title: Text(title),
@@ -128,7 +132,17 @@ class PrinterSettingsView extends GetView<PrinterSettingsController> {
           : textThemeTitle,
       subtitle: (body != null) ? Text(body) : null,
       subtitleTextStyle: textThemeTitle,
-      trailing: trailing,
+      trailing: (isLoading != null)
+          ? (isLoading)
+              ? const SizedBox(
+                  width: 21,
+                  height: 21,
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : null
+          : (trailing != null)
+              ? trailing
+              : null,
       contentPadding: const EdgeInsets.symmetric(horizontal: 24),
       shape: Border.all(color: theme.dividerColor.withOpacity(0.3)),
       enabled: isEnabled ?? true,

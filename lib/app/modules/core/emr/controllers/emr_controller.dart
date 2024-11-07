@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
-import 'package:privata/app/data/models/detail_rj/prescriptions/prescriptions_model.dart';
 import 'package:privata/app/data/models/detail_rj/procedure/procedure_model.dart';
 import 'package:privata/app/data/models/rj/item_rj/item_rj_model.dart';
 import 'package:privata/app/helpers/helper.dart';
@@ -15,20 +12,16 @@ import 'package:privata/services/timeline/emr_connect.dart';
 import 'package:privata/utils/constants_keys.dart';
 
 import '../../../../../services/status/status_connect.dart';
-import '../../../../../utils/constants_strings.dart';
 import '../../../../data/models/detail_rj/detail_rj_model.dart';
 import '../../../../data/models/detail_rj/diagnoses/diagnoses_model.dart';
 import '../../../../data/models/detail_rj/diagnoses/item_diagnoses/item_diagnoses_model.dart';
 import '../../../../data/models/detail_rj/diagnoses/item_name_diagnoses/item_name_diagnoses_model.dart';
 import '../../../../data/models/detail_rj/procedure/item_procedure/item_procedure_model.dart';
+import '../../../../data/models/drugs/drugs_model.dart';
 import '../../../../helpers/text_helper.dart';
-import '../../../../helpers/validations.dart';
 import '../../../../routes/app_pages.dart';
-import '../../../widgets/buttons/buttons.dart';
 import '../../../widgets/dialog/dialogs.dart';
-import '../../../widgets/modal/modals.dart';
 import '../../../widgets/snackbar/snackbar.dart';
-import '../../../widgets/textformfield/custom_textform_field.dart';
 
 class EmrController extends GetxController with StateMixin<DetailRJModel?> {
   late final InitController _initC;
@@ -66,18 +59,18 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
   final satuanObatC = TextEditingController(text: 'unit');
   final cignaC = TextEditingController(text: '-');
 
-  final keluhanF = FocusNode();
-  final lajuPernapasanF = FocusNode();
-  final denyutNadiF = FocusNode();
-  final tinggiBadanF = FocusNode();
-  final beratBadanF = FocusNode();
-  final gulaDarahF = FocusNode();
-  final suhuTubuhF = FocusNode();
-  final lingkarPerutF = FocusNode();
-  final saturasiOksigenF = FocusNode();
-  final darahSistolikF = FocusNode();
-  final darahDiastolikF = FocusNode();
-  final obatF = FocusNode();
+  // final keluhanF = FocusNode();
+  // final lajuPernapasanF = FocusNode();
+  // final denyutNadiF = FocusNode();
+  // final tinggiBadanF = FocusNode();
+  // final beratBadanF = FocusNode();
+  // final gulaDarahF = FocusNode();
+  // final suhuTubuhF = FocusNode();
+  // final lingkarPerutF = FocusNode();
+  // final saturasiOksigenF = FocusNode();
+  // final darahSistolikF = FocusNode();
+  // final darahDiastolikF = FocusNode();
+  // final obatF = FocusNode();
 
   // DRUGS MODAL FOCUS NODE
   final namaObatF = FocusNode();
@@ -111,7 +104,8 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
   final itemsProcedures = <ProcedureModel>[].obs;
   final selectedItemsProcedures = RxList<ItemProcedureModel>();
 
-  final itemsDrugs = <PrescriptionsModel>[].obs;
+  // final itemsDrugs = <PrescriptionsModel>[].obs;
+  final newItemsDrugs = <DrugsModel>[].obs;
 
   final totalAmountDrugs = 0.obs;
 
@@ -205,28 +199,33 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
         selectedItemsProcedures.value = formatSelectedProcedures;
       }
 
-      // DRUGS
-      if (detailData!.prescriptions != null) {
-        itemsDrugs.value = detailData!.prescriptions!;
-      }
+      //! DRUGS - tidak digunakan untuk sekarang
+      // if (detailData!.prescriptions != null) {
+      //   itemsDrugs.value = detailData!.prescriptions!;
+      // }
     }
 
+    // VITAL SIGNS
     final vitalSign = detailData?.vitalSigns?.firstOrNull;
     _textC(keluhanC, data.complaint);
-    _textC(lajuPernapasanC, vitalSign?.repiratoryRate.toString());
-    _textC(denyutNadiC, vitalSign?.heartPulse.toString());
-    _textC(tinggiBadanC, vitalSign?.height.toString());
-    _textC(beratBadanC, vitalSign?.weight.toString());
-    _textC(gulaDarahC, vitalSign?.bloodSugar.toString());
-    _textC(suhuTubuhC, vitalSign?.temperature.toString());
-    _textC(lingkarPerutC, vitalSign?.lingkarPerut.toString());
-    _textC(saturasiOksigenC, vitalSign?.oxygenSaturation.toString());
-    _textC(darahSistolikC, vitalSign?.sistole.toString());
-    _textC(darahDiastolikC, vitalSign?.diastole.toString());
+    _textVitalSignC(lajuPernapasanC, vitalSign?.repiratoryRate.toString());
+    _textVitalSignC(denyutNadiC, vitalSign?.heartPulse.toString());
+    _textVitalSignC(tinggiBadanC, vitalSign?.height.toString());
+    _textVitalSignC(beratBadanC, vitalSign?.weight.toString());
+    _textVitalSignC(gulaDarahC, vitalSign?.bloodSugar.toString());
+    _textVitalSignC(suhuTubuhC, vitalSign?.temperature.toString());
+    _textVitalSignC(lingkarPerutC, vitalSign?.lingkarPerut.toString());
+    _textVitalSignC(saturasiOksigenC, vitalSign?.oxygenSaturation.toString());
+    _textVitalSignC(darahSistolikC, vitalSign?.sistole.toString());
+    _textVitalSignC(darahDiastolikC, vitalSign?.diastole.toString());
   }
 
   void _textC(TextEditingController ctr, String? value) =>
       ctr.text = value ?? '';
+
+  void _textVitalSignC(TextEditingController ctr, String? value) {
+    if (value != null && !value.contains('0')) ctr.text = value;
+  }
 
   void _initWorker() {
     everAll(
@@ -449,38 +448,39 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
     }
   }
 
-  void strokeDrugs(int i, String? id) async {
-    final body = <String, dynamic>{
-      "streakId": idUser,
-      "streakName": name,
-    };
+  //! Tidak digunakan untuk sekarang
+  // void strokeDrugs(int i, String? id) async {
+  //   final body = <String, dynamic>{
+  //     "streakId": idUser,
+  //     "streakName": name,
+  //   };
 
-    try {
-      Dialogs.loading(context: Get.context!);
+  //   try {
+  //     Dialogs.loading(context: Get.context!);
 
-      final res = await _emrConn.coretDrugs(id: id ?? '', body: body);
+  //     final res = await _emrConn.coretDrugs(id: id ?? '', body: body);
 
-      if (res.isOk) {
-        List<PrescriptionsModel> formatData = List.from(itemsDrugs);
-        formatData[i] = formatData.elementAt(i).copyWith.call(
-              streakId: idUser,
-              streakName: name,
-            );
-        itemsDrugs.value = formatData;
+  //     if (res.isOk) {
+  //       List<PrescriptionsModel> formatData = List.from(itemsDrugs);
+  //       formatData[i] = formatData.elementAt(i).copyWith.call(
+  //             streakId: idUser,
+  //             streakName: name,
+  //           );
+  //       itemsDrugs.value = formatData;
 
-        Snackbar.success(
-          context: Get.context!,
-          content: 'Obat berhasil dicoret',
-        );
-      } else {
-        _initC.handleError(status: res.status);
-      }
-    } on GetHttpException catch (e) {
-      _initC.logger.e('Error: $e');
-    } finally {
-      Get.back();
-    }
-  }
+  //       Snackbar.success(
+  //         context: Get.context!,
+  //         content: 'Obat berhasil dicoret',
+  //       );
+  //     } else {
+  //       _initC.handleError(status: res.status);
+  //     }
+  //   } on GetHttpException catch (e) {
+  //     _initC.logger.e('Error: $e');
+  //   } finally {
+  //     Get.back();
+  //   }
+  // }
 
   void _countTotalAmountDrugs() {
     totalAmountDrugs.value = 0;
@@ -499,10 +499,10 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
     }
 
     FocusScope.of(context).unfocus();
-    _saveComplaint(context);
+    _processData(context);
   }
 
-  void _saveComplaint(BuildContext context) async {
+  void _processData(BuildContext context) async {
     isLoading.value = true;
     final now = DateTime.now().toUtc().toString();
 
@@ -534,21 +534,29 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
       "appointId": detailData?.appointId,
       "mrId": detailData?.id,
       "createdAt": now,
-      "objective": [
-        lajuPernapasan.value,
-        denyutNadi.value,
-        tinggiBadan.value,
-        beratBadan.value,
-        gulaDarah.value,
-        suhuTubuh.value,
-        lingkarPerut.value,
-        saturasiOksigen.value,
-        darahSistolik.value,
-        darahDiastolik.value,
-      ],
       "subjective": [keluhan.value],
-      "freeText": ""
+      "objective": [
+        'Laju Pernapasan : ${lajuPernapasan.value.isNotEmpty ? '${lajuPernapasan.value} bpm' : 'N/A'} ',
+        'Denyut Nadi : ${denyutNadi.value.isNotEmpty ? '${denyutNadi.value} hbpm' : 'N/A'} ',
+        'Tinggi Badan : ${tinggiBadan.value.isNotEmpty ? '${tinggiBadan.value} kg' : 'N/A'} ',
+        'Berat Badan : ${beratBadan.value.isNotEmpty ? '${beratBadan.value} cm' : 'N/A'} ',
+        'Gula Darah : ${gulaDarah.value.isNotEmpty ? '${gulaDarah.value} mg/dL' : 'N/A'} ',
+        'Suhu Tubuh : ${suhuTubuh.value.isNotEmpty ? '${suhuTubuh.value}°C' : 'N/A'} ',
+        'Lingkaran Perut : ${lingkarPerut.value.isNotEmpty ? '${lingkarPerut.value} cm' : 'N/A'} ',
+        'Saturasi Oksigen : ${saturasiOksigen.value.isNotEmpty ? '${saturasiOksigen.value} SpO2' : 'N/A'} ',
+        'Darah Sistolik : ${darahSistolik.value.isNotEmpty ? '${darahSistolik.value} mmHg' : 'N/A'} ',
+        'Darah Diastolik : ß${darahDiastolik.value.isNotEmpty ? '${darahDiastolik.value} mmHg' : 'N/A'} ',
+      ],
     };
+
+    final dataDrugs = newItemsDrugs
+        .map(
+          (element) =>
+              '${element.medicineName}, ${element.quantity} ${element.unit} (${element.rule})',
+        )
+        .toList();
+    final formatDataDrugs = dataDrugs.join(',\n');
+    bodyDoctorNotes['freeText'] = formatDataDrugs;
 
     if (itemsDiagnoses.isNotEmpty) {
       // filter dulu diagnosa yang tidak di coret yang diambil
@@ -585,24 +593,24 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
       plans.addAllIf(procedures.isNotEmpty, procedures);
     }
 
-    // filter dulu obat yang tidak di coret yang diambil
-    if (itemsDrugs.isNotEmpty) {
-      final filterDrugsNotStroke = itemsDrugs
-          .where((value) => value.streakId == null && value.streakName == null)
-          .toList();
+    //! filter dulu obat yang tidak di coret yang diambil - tidak digunakan
+    // if (itemsDrugs.isNotEmpty) {
+    //   final filterDrugsNotStroke = itemsDrugs
+    //       .where((value) => value.streakId == null && value.streakName == null)
+    //       .toList();
 
-      final procedures = filterDrugsNotStroke
-          .map((item) =>
-              '${item.quantity ?? '0'} ${item.medicineName ?? '-'} (${item.cigna ?? '-'}) -> ${TextHelper.formatRupiah(
-                amount: item.basicFee,
-                isCompact: false,
-              )} \n')
-          .toSet()
-          .toList();
+    //   final drugs = filterDrugsNotStroke
+    //       .map((item) =>
+    //           '${item.quantity ?? '0'} ${item.medicineName ?? '-'} (${item.cigna ?? '-'}) -> ${TextHelper.formatRupiah(
+    //             amount: item.basicFee,
+    //             isCompact: false,
+    //           )} \n')
+    //       .toSet()
+    //       .toList();
 
-      plans.add('Obat \n');
-      plans.addAllIf(procedures.isNotEmpty, procedures);
-    }
+    //   plans.add('Obat \n');
+    //   plans.addAllIf(drugs.isNotEmpty, drugs);
+    // }
 
     bodyDoctorNotes['plan'] = plans;
 
@@ -675,6 +683,8 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
                 content: 'Status Pendaftaran Selesai',
               );
               Get.back(result: true);
+
+              print('appointment diubah ke status sukses');
             }
           } else {
             Get.back();
@@ -695,62 +705,62 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
     }
   }
 
-  void _saveDrugs() async {
-    isLoading.value = true;
+  // void _saveDrugs() async {
+  //   isLoading.value = true;
 
-    final body = [
-      {
-        "appointId": detailData?.appointId,
-        "basicFee": price.value,
-        "category": "Lainnya",
-        "cigna": cigna.value,
-        "hospitalId": hospitalId,
-        "isDb": false,
-        "isPriceLock": false,
-        "isSatuSehatPrivata": false,
-        "medicineName": namaObat.value,
-        "mrId": detailData?.id,
-        "mrNo": detailData?.mrNo,
-        "patientId": detailData?.patientId,
-        "practiceId": detailData?.practiceId,
-        "quantity": int.tryParse(quantity.value) ?? 0,
-        "totalFee": totalAmountDrugs.value,
-        "unit": satuanObat.value,
-        "kfa": {},
-        "depotId": '5edef56b8ed2cf6eee59bb31',
-      }
-    ];
+  //   final body = [
+  //     {
+  //       "appointId": detailData?.appointId,
+  //       "basicFee": price.value,
+  //       "category": "Lainnya",
+  //       "cigna": cigna.value,
+  //       "hospitalId": hospitalId,
+  //       "isDb": false,
+  //       "isPriceLock": false,
+  //       "isSatuSehatPrivata": false,
+  //       "medicineName": namaObat.value,
+  //       "mrId": detailData?.id,
+  //       "mrNo": detailData?.mrNo,
+  //       "patientId": detailData?.patientId,
+  //       "practiceId": detailData?.practiceId,
+  //       "quantity": int.tryParse(quantity.value) ?? 0,
+  //       "totalFee": totalAmountDrugs.value,
+  //       "unit": satuanObat.value,
+  //       "kfa": {},
+  //       "depotId": '5edef56b8ed2cf6eee59bb31',
+  //     }
+  //   ];
 
-    try {
-      final res = await _emrConn.saveDrugs(body);
+  //   try {
+  //     final res = await _emrConn.saveDrugs(body);
 
-      if (res.isOk) {
-        final body = res.body;
+  //     if (res.isOk) {
+  //       final body = res.body;
 
-        if (body is Map<String, dynamic>) {
-          final data = body['data'] as List<dynamic>;
-          final map = data.map((e) => PrescriptionsModel.fromJson(e)).toList();
+  //       if (body is Map<String, dynamic>) {
+  //         final data = body['data'] as List<dynamic>;
+  //         final map = data.map((e) => PrescriptionsModel.fromJson(e)).toList();
 
-          List<PrescriptionsModel> newItem = List.from(itemsDrugs);
-          newItem.add(map.first); // data pertama
-          itemsDrugs.value = newItem;
-          Get.back();
-        }
+  //         List<PrescriptionsModel> newItem = List.from(itemsDrugs);
+  //         newItem.add(map.first); // data pertama
+  //         itemsDrugs.value = newItem;
+  //         Get.back();
+  //       }
 
-        _clearFormObat();
-        Snackbar.success(
-          context: Get.context!,
-          content: 'Obat berhasil ditambahkan',
-        );
-      } else {
-        _initC.handleError(status: res.status);
-      }
-    } on GetHttpException catch (e) {
-      _initC.logger.e('Error: $e');
-    } finally {
-      isLoading.value = false;
-    }
-  }
+  //       _clearFormObat();
+  //       Snackbar.success(
+  //         context: Get.context!,
+  //         content: 'Obat berhasil ditambahkan',
+  //       );
+  //     } else {
+  //       _initC.handleError(status: res.status);
+  //     }
+  //   } on GetHttpException catch (e) {
+  //     _initC.logger.e('Error: $e');
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
 
   void showProcedureDialog() async {
     final data = await Get.toNamed(
@@ -770,210 +780,225 @@ class EmrController extends GetxController with StateMixin<DetailRJModel?> {
     }
   }
 
-  void showDrugsModal(BuildContext context) async {
-    final textTheme = context.textTheme;
+  // void showDrugsModal(BuildContext context) async {
+  //   final textTheme = context.textTheme;
 
-    Modals.bottomSheet(
-      context: context,
-      content: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 16,
-        ),
-        child: _builderDrugsForm(),
-      ),
-      actions: Row(
-        children: [
-          Expanded(
-            child: Obx(
-              () => AutoSizeText(
-                '${TextHelper.formatRupiah(
-                  amount: totalAmountDrugs.value,
-                )} / ${satuanObat.value}',
-                style: textTheme.titleLarge,
-              ),
-            ),
-          ),
-          Obx(
-            () {
-              var isEnabledSave = false;
+  //   Modals.bottomSheet(
+  //     context: context,
+  //     content: Container(
+  //       padding: const EdgeInsets.symmetric(
+  //         horizontal: 8,
+  //         vertical: 16,
+  //       ),
+  //       child: _builderDrugsForm(),
+  //     ),
+  //     actions: Row(
+  //       children: [
+  //         Expanded(
+  //           child: Obx(
+  //             () => AutoSizeText(
+  //               '${TextHelper.formatRupiah(
+  //                 amount: totalAmountDrugs.value,
+  //               )} / ${satuanObat.value}',
+  //               style: textTheme.titleLarge,
+  //             ),
+  //           ),
+  //         ),
+  //         Obx(
+  //           () {
+  //             var isEnabledSave = false;
 
-              if (isLoading.value ||
-                  (namaObat.value.isNotEmpty &&
-                      quantity.value.isNotEmpty &&
-                      price.value.isNotEmpty &&
-                      satuanObat.value.isNotEmpty)) {
-                isEnabledSave = true;
-              }
+  //             if (isLoading.value ||
+  //                 (namaObat.value.isNotEmpty &&
+  //                     quantity.value.isNotEmpty &&
+  //                     price.value.isNotEmpty &&
+  //                     satuanObat.value.isNotEmpty)) {
+  //               isEnabledSave = true;
+  //             }
 
-              return Buttons.filled(
-                onPressed: isEnabledSave
-                    ? () async {
-                        final state = await Dialogs.alert(
-                          context: context,
-                          title: 'Perhatian',
-                          content: const Text(
-                            'Apakah anda yakin ingin menambahkan data obat ini ?',
-                          ),
-                        );
+  //             return Buttons.filled(
+  //               onPressed: isEnabledSave
+  //                   ? () async {
+  //                       final state = await Dialogs.alert(
+  //                         context: context,
+  //                         title: 'Perhatian',
+  //                         content: const Text(
+  //                           'Apakah anda yakin ingin menambahkan data obat ini ?',
+  //                         ),
+  //                       );
 
-                        if (state != null) {
-                          if (state) {
-                            _saveDrugs();
-                          }
-                        }
-                      }
-                    : null,
-                state: isLoading.value,
-                child: const Text(ConstantsStrings.save),
-              );
-            },
-          ),
-        ],
-      ),
-    );
+  //                       if (state != null) {
+  //                         if (state) {
+  //                           _saveDrugs();
+  //                         }
+  //                       }
+  //                     }
+  //                   : null,
+  //               state: isLoading.value,
+  //               child: const Text(ConstantsStrings.save),
+  //             );
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
 
-    // final data = await Get.toNamed(
-    //   Routes.DRUGS_DIALOG,
-    //   arguments: detailData,
-    // );
+  //   // final data = await Get.toNamed(
+  //   //   Routes.DRUGS_DIALOG,
+  //   //   arguments: detailData,
+  //   // );
 
-    // if (data != null && data is List<ProcedureModel>) {
-    //   // selectedItemsProcedures.value = data;
+  //   // if (data != null && data is List<ProcedureModel>) {
+  //   //   // selectedItemsProcedures.value = data;
 
-    //   // set to view
-    //   List<ProcedureModel> dataProcedure = List.from(itemsProcedures);
-    //   dataProcedure.addAll(data);
-    //   itemsProcedures.value = dataProcedure;
-    // }
+  //   //   // set to view
+  //   //   List<ProcedureModel> dataProcedure = List.from(itemsProcedures);
+  //   //   dataProcedure.addAll(data);
+  //   //   itemsProcedures.value = dataProcedure;
+  //   // }
+  // }
+
+  //todo Percobaan
+  void moveToMedicalPrescription() async {
+    final result = await Get.toNamed(Routes.MEDICAL_PRESCRIPTION);
+
+    if (result != null) {
+      if (result is DrugsModel) {
+        final listData = List<DrugsModel>.from(newItemsDrugs);
+        listData.add(result);
+        newItemsDrugs.value = listData;
+      }
+    }
   }
 
-  Widget _builderDrugsForm() {
-    return Form(
-      key: formDrugsKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Obx(
-            () => CustomTextFormField(
-              controller: namaObatC,
-              focusNode: namaObatF,
-              title: 'Nama Obat',
-              isFilled: true,
-              isRequired: true,
-              suffixIconState: namaObat.value.isNotEmpty,
-              validator: (value) => Validation.formField(
-                titleField: 'Nama Obat',
-                value: value,
-                isRequired: true,
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: CustomTextFormField(
-                  controller: quantityC,
-                  focusNode: quantityF,
-                  title: 'Quantity',
-                  isFilled: true,
-                  isNumericOnly: true,
-                  keyboardType: TextInputType.number,
-                  isRequired: true,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  validator: (value) => Validation.formField(
-                    titleField: 'Quantity',
-                    value: value,
-                    isNotZero: true,
-                    isNumericOnly: true,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Obx(
-                  () => CustomTextFormField(
-                    controller: priceC,
-                    focusNode: priceF,
-                    title: 'Harga',
-                    isRequired: true,
-                    isFilled: true,
-                    isNumericOnly: true,
-                    suffixIconState: price.value.isNotEmpty,
-                    validator: (value) => Validation.formField(
-                      titleField: 'Harga',
-                      value: value,
-                      isRequired: true,
-                      isNotZero: true,
-                      isNumericOnly: true,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Obx(
-                  () => CustomTextFormField(
-                    controller: satuanObatC,
-                    focusNode: satuanObatF,
-                    title: 'Satuan Obat',
-                    isRequired: true,
-                    isFilled: true,
-                    suffixIconState: satuanObat.value.isNotEmpty,
-                    validator: (value) => Validation.formField(
-                      titleField: 'Satuan Obat',
-                      value: value,
-                      isRequired: true,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Obx(
-                  () => CustomTextFormField(
-                    controller: cignaC,
-                    focusNode: cignaF,
-                    title: 'Cigna',
-                    helperText:
-                        'Ketik - (strip) untuk menandakan tidak ada signatura',
-                    helperMaxLines: 3,
-                    isFilled: true,
-                    suffixIconState: cigna.value.isNotEmpty,
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
+  // Widget _builderDrugsForm() {
+  //   return Form(
+  //     key: formDrugsKey,
+  //     child: Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         Obx(
+  //           () => CustomTextFormField(
+  //             controller: namaObatC,
+  //             focusNode: namaObatF,
+  //             title: 'Nama Obat',
+  //             isFilled: true,
+  //             isRequired: true,
+  //             suffixIconState: namaObat.value.isNotEmpty,
+  //             validator: (value) => Validation.formField(
+  //               titleField: 'Nama Obat',
+  //               value: value,
+  //               isRequired: true,
+  //             ),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 16),
+  //         Row(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Expanded(
+  //               child: CustomTextFormField(
+  //                 controller: quantityC,
+  //                 focusNode: quantityF,
+  //                 title: 'Quantity',
+  //                 isFilled: true,
+  //                 isNumericOnly: true,
+  //                 keyboardType: TextInputType.number,
+  //                 isRequired: true,
+  //                 inputFormatters: [
+  //                   FilteringTextInputFormatter.digitsOnly,
+  //                 ],
+  //                 validator: (value) => Validation.formField(
+  //                   titleField: 'Quantity',
+  //                   value: value,
+  //                   isNotZero: true,
+  //                   isNumericOnly: true,
+  //                 ),
+  //               ),
+  //             ),
+  //             const SizedBox(width: 16),
+  //             Expanded(
+  //               child: Obx(
+  //                 () => CustomTextFormField(
+  //                   controller: priceC,
+  //                   focusNode: priceF,
+  //                   title: 'Harga',
+  //                   isRequired: true,
+  //                   isFilled: true,
+  //                   isNumericOnly: true,
+  //                   suffixIconState: price.value.isNotEmpty,
+  //                   validator: (value) => Validation.formField(
+  //                     titleField: 'Harga',
+  //                     value: value,
+  //                     isRequired: true,
+  //                     isNotZero: true,
+  //                     isNumericOnly: true,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(height: 16),
+  //         Row(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Expanded(
+  //               child: Obx(
+  //                 () => CustomTextFormField(
+  //                   controller: satuanObatC,
+  //                   focusNode: satuanObatF,
+  //                   title: 'Satuan Obat',
+  //                   isRequired: true,
+  //                   isFilled: true,
+  //                   suffixIconState: satuanObat.value.isNotEmpty,
+  //                   validator: (value) => Validation.formField(
+  //                     titleField: 'Satuan Obat',
+  //                     value: value,
+  //                     isRequired: true,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //             const SizedBox(width: 16),
+  //             Expanded(
+  //               child: Obx(
+  //                 () => CustomTextFormField(
+  //                   controller: cignaC,
+  //                   focusNode: cignaF,
+  //                   title: 'Cigna',
+  //                   helperText:
+  //                       'Ketik - (strip) untuk menandakan tidak ada signatura',
+  //                   helperMaxLines: 3,
+  //                   isFilled: true,
+  //                   suffixIconState: cigna.value.isNotEmpty,
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   void moveToTimelineEMR() => Get.toNamed(
         Routes.TIMELINE_EMR,
         arguments: data,
       );
 
-  void _clearFormObat() {
-    namaObatC.clear();
-    quantityC.clear();
-    priceC.clear();
-    satuanObatC.clear();
-    cignaC.clear();
-    namaObat.value = '';
-    quantity.value = '';
-    price.value = '';
-    satuanObat.value = '';
-    cigna.value = '';
-  }
+  // void _clearFormObat() {
+  //   namaObatC.clear();
+  //   quantityC.clear();
+  //   priceC.clear();
+  //   satuanObatC.clear();
+  //   cignaC.clear();
+  //   namaObat.value = '';
+  //   quantity.value = '';
+  //   price.value = '';
+  //   satuanObat.value = '';
+  //   cigna.value = '';
+  // }
+
+  void removeItemDrugs(int index) => newItemsDrugs.removeAt(index);
 }

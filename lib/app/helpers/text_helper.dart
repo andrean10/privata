@@ -93,6 +93,16 @@ abstract class TextHelper {
     return formattedAmount;
   }
 
+  static int parseRupiah(String? formattedAmount) {
+    if (formattedAmount == null) return 0;
+
+    // Hilangkan simbol "Rp" dan tanda baca lainnya
+    final cleanedString = formattedAmount.replaceAll(RegExp(r'[^0-9]'), '');
+
+    // Konversi ke int
+    return int.tryParse(cleanedString) ?? 0;
+  }
+
   static String formatNumberPhone(String phoneNumber) {
     if (phoneNumber.startsWith('08')) {
       return '+62${phoneNumber.substring(1)}';
@@ -123,6 +133,22 @@ abstract class TextHelper {
     if (value == null) return '-';
     if (replaceValue == null) return '-';
     return replaceValue.replaceFirst(prefix, value);
+  }
+
+  static String splitMRCode(String? code) {
+    if (code == null) return '';
+
+    final prefix = code.replaceAll(RegExp(r'\d'), ''); // Mengambil teks
+    var number = int.parse(
+      code.replaceAll(
+        RegExp(r'\D'),
+        '',
+      ),
+    ); // Mengambil angka dan mengonversi ke int
+
+    number += 1;
+
+    return '$prefix$number';
   }
 
   static (String, String) extractCodeAndDescription({

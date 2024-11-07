@@ -32,6 +32,8 @@ abstract class Routes {
   static const PAYMENT_STATUS = _Paths.PAYMENT_STATUS;
   static const PAYMENT = _Paths.PAYMENT;
   static const PRINTER_SETTINGS = _Paths.PRINTER_SETTINGS;
+  static const PAYMENT_DETAILS = _Paths.PAYMENT_DETAILS;
+  static const PAYMENT_RECEIPT = _Paths.PAYMENT_RECEIPT;
 }
 
 abstract class _Paths {
@@ -65,4 +67,6 @@ abstract class _Paths {
   static const PAYMENT_STATUS = '/payment-status';
   static const PAYMENT = '/payment';
   static const PRINTER_SETTINGS = '/printer-settings';
+  static const PAYMENT_DETAILS = '/payment-details';
+  static const PAYMENT_RECEIPT = '/payment-receipt';
 }

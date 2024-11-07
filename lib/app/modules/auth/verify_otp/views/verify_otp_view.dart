@@ -17,49 +17,52 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final textTheme = context.textTheme;
+    return Scaffold(
+      appBar: _builderAppBar(),
+      body: _builderBody(context),
+    );
+  }
+
+  AppBar _builderAppBar() {
+    return AppBar(
+      actions: [
+        PopupMenuButton(
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: ConstantsStrings.logout,
+              child: const Text(ConstantsStrings.logout),
+              onTap: () {
+                Dialogs.logout(
+                  context: context,
+                  initC: controller.initC,
+                );
+              },
+            )
+          ],
+          position: PopupMenuPosition.under,
+          icon: const Icon(Icons.more_vert_rounded),
+        ),
+      ],
+    );
+  }
+
+  Widget _builderBody(BuildContext context) {
     final orientation = context.orientation;
 
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: ConstantsStrings.logout,
-                child: const Text(ConstantsStrings.logout),
-                onTap: () {
-                  Dialogs.logout(
-                    context: context,
-                    initC: controller.initC,
-                  );
-                },
-              )
-            ],
-            position: PopupMenuPosition.under,
-            icon: const Icon(Icons.more_vert_rounded),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-            vertical: 21,
-            horizontal: 16,
-          ),
-          child: Column(
-            children: [
-              builderHead(orientation),
-              const SizedBox(height: 16),
-              builderBody(
-                theme: theme,
-                textTheme: textTheme,
-              ),
-              const SizedBox(height: 16),
-              builderFooter(),
-            ],
-          ),
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          vertical: 21,
+          horizontal: 16,
+        ),
+        child: Column(
+          children: [
+            builderHead(orientation),
+            const SizedBox(height: 16),
+            builderBody(context),
+            const SizedBox(height: 16),
+            builderFooter(),
+          ],
         ),
       ),
     );
@@ -153,10 +156,10 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
     );
   }
 
-  Widget builderBody({
-    required ThemeData theme,
-    required TextTheme textTheme,
-  }) {
+  Widget builderBody(BuildContext context) {
+    final theme = context.theme;
+    final textTheme = context.textTheme;
+
     return Cards.elevated(
       inPadding: const EdgeInsets.all(16),
       child: SizedBox(

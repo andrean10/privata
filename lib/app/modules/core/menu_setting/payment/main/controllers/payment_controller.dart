@@ -7,7 +7,6 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../../../data/models/payment/billing_model.dart';
 import '../../../../../../routes/app_pages.dart';
 
 class PaymentController extends GetxController {
@@ -177,17 +176,17 @@ class PaymentController extends GetxController {
 
       final res = await _paymentCn.getToken(payload);
 
-      if (res.isOk) {
-        final billing = BillingModel.fromJson(res.body);
-        url = billing.url;
+      // if (res.isOk) {
+      //   final billing = BillingModel.fromJson(res.body);
+      //   url = billing.url;
 
-        if (url != null) {
-          webViewC.loadRequest(Uri.parse(url!));
-        }
+      //   if (url != null) {
+      //     webViewC.loadRequest(Uri.parse(url!));
+      //   }
 
-        // await _initC.localStorage.remove(ConstantsKeys.paymentToken);
-        // await _initC.localStorage.write(ConstantsKeys.paymentToken, token);
-      }
+      //   // await _initC.localStorage.remove(ConstantsKeys.paymentToken);
+      //   // await _initC.localStorage.write(ConstantsKeys.paymentToken, token);
+      // }
     } on GetHttpException catch (e) {
       _initC.logger.e('error: ${e.toString()}');
     }

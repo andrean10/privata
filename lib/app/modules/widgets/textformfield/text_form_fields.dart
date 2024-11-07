@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:privata/app/modules/widgets/textformfield/custom_dropdown_form_field.dart';
-import 'package:privata/app/modules/widgets/textformfield/custom_dropdown_type_form_field.dart';
 
 import 'package:privata/app/modules/widgets/textformfield/custom_textform_field.dart';
 

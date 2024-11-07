@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../shared/shared_enum.dart';
 import 'custom_button.dart';
-
-enum ButtonType {
-  elevated,
-  filled,
-  filledTonal,
-  outlined,
-  text,
-}
 
 abstract class Buttons {
   static Widget elevated({

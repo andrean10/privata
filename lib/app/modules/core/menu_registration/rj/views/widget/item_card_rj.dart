@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:privata/app/data/models/rj/item_rj/item_rj_model.dart';
 
+import '../../../../../../../shared/shared_enum.dart';
 import '../../../../../../../shared/shared_theme.dart';
 import '../../../../../../../utils/constants_assets.dart';
 import '../../../../../../../utils/constants_strings.dart';
@@ -228,6 +229,7 @@ class ItemCardRJ extends GetView<RJController> {
 
     menu = ConstantsStrings.dataActions;
 
+    //! SOON
     // if (item.status == 'succeed') {
     //   menu = ConstantsStrings.dataActions.take(3).toList();
     // } else {

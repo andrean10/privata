@@ -19,6 +19,7 @@ _$DoctorNotesModelImpl _$$DoctorNotesModelImplFromJson(
       assessment: (json['assessment'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      freeText: json['freeText'] as String?,
     );
 
 Map<String, dynamic> _$$DoctorNotesModelImplToJson(
@@ -28,4 +29,5 @@ Map<String, dynamic> _$$DoctorNotesModelImplToJson(
       'objective': instance.objective,
       'plan': instance.plan,
       'assessment': instance.assessment,
+      'freeText': instance.freeText,
     };
